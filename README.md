@@ -10,14 +10,9 @@ This is my personal task-authoring project. It adds task statements, extra regre
 
 ## What happens in a run
 
-```mermaid
-flowchart LR
-    A["Problem + pinned OSS source"] --> B["Agent edits a fresh workspace"]
-    B --> C["Harbor collects production source"]
-    C --> D["Separate offline verifier"]
-    E["Trusted baseline + preservation tests + hidden checks"] --> D
-    D --> F["Per-case results + reward 0 or 1"]
-```
+![Task flow from public problem through agent source changes to separate verification](docs/task-flow.svg)
+
+Problem and source → agent edits → submitted source → fresh verifier with trusted tests → named results and reward.
 
 The agent's workspace contains public instructions, the starting repository and installed dependencies. The hidden tests and reference patch are absent during solving. They are public in this repository so reviewers can inspect them now.
 

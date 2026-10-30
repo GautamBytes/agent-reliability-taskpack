@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="360" viewBox="0 0 1060 360" role="img" aria-labelledby="title description">
+  <title id="title">How a task is solved and checked</title>
+  <desc id="description">A public problem and pinned source go to an agent in a fresh workspace. Harbor collects its production source. A separate offline verifier combines that source with a clean baseline and trusted hidden and preservation tests, then writes per-case results and a reward.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="#426aa1"/></marker>
+  </defs>
+  <rect width="1060" height="360" rx="12" fill="#f6f8fb"/>
+  <g fill="#fff" stroke="#b9c7d8" stroke-width="1.5">
+    <rect x="24" y="24" width="280" height="92" rx="8"/>
+    <rect x="390" y="24" width="280" height="92" rx="8"/>
+    <rect x="756" y="24" width="280" height="92" rx="8"/>
+    <rect x="756" y="228" width="280" height="100" rx="8"/>
+    <rect x="390" y="228" width="280" height="100" rx="8" stroke="#426aa1"/>
+    <rect x="24" y="228" width="280" height="100" rx="8"/>
+  </g>
+  <g fill="none" stroke="#426aa1" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M304 70 H378"/>
+    <path d="M670 70 H744"/>
+    <path d="M896 116 V170 H530 V216"/>
+    <path d="M756 278 H682"/>
+    <path d="M390 278 H316"/>
+  </g>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#172c46">
+    <g font-size="19" font-weight="650">
+      <text x="164" y="63">Public problem</text>
+      <text x="530" y="63">Coding agent</text>
+      <text x="896" y="63">Production source</text>
+      <text x="896" y="262">Trusted tests</text>
+      <text x="530" y="262">Offline verifier</text>
+      <text x="164" y="262">Per-case results</text>
+    </g>
+    <g font-size="16">
+      <text x="164" y="88">Pinned upstream source</text>
+      <text x="530" y="88">Fresh workspace</text>
+      <text x="896" y="88">Collected by Harbor</text>
+      <text x="896" y="287">Hidden regression checks</text>
+      <text x="896" y="310">Preserved upstream checks</text>
+      <text x="530" y="287">Clean baseline + source overlay</text>
+      <text x="530" y="310">Separate container</text>
+      <text x="164" y="291">Reward 0 or 1</text>
+    </g>
+  </g>
+</svg>
