@@ -1,0 +1,10 @@
+test_corrected_verifier_run_keeps_its_native_failure (test_collect_trials.CollectorHistoryTests.test_corrected_verifier_run_keeps_its_native_failure) ... ok
+test_different_episode_cannot_overwrite_archive (test_collect_trials.CollectorHistoryTests.test_different_episode_cannot_overwrite_archive) ... ok
+test_final_corrected_verifier_runs_do_not_require_historical_rescores (test_collect_trials.CollectorHistoryTests.test_final_corrected_verifier_runs_do_not_require_historical_rescores) ... ok
+test_old_episode_requires_matching_rescore_patch (test_collect_trials.CollectorHistoryTests.test_old_episode_requires_matching_rescore_patch) ... ok
+test_original_episode_accepts_verified_same_patch_rescore (test_collect_trials.CollectorHistoryTests.test_original_episode_accepts_verified_same_patch_rescore) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.062s
+
+OK

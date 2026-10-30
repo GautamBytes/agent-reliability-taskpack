@@ -1,0 +1,52 @@
+test_corrected_verifier_run_keeps_its_native_failure (collector_regressions.CollectorHistoryTests.test_corrected_verifier_run_keeps_its_native_failure) ... FAIL
+test_different_episode_cannot_overwrite_archive (collector_regressions.CollectorHistoryTests.test_different_episode_cannot_overwrite_archive) ... FAIL
+test_final_corrected_verifier_runs_do_not_require_historical_rescores (collector_regressions.CollectorHistoryTests.test_final_corrected_verifier_runs_do_not_require_historical_rescores) ... FAIL
+test_old_episode_requires_matching_rescore_patch (collector_regressions.CollectorHistoryTests.test_old_episode_requires_matching_rescore_patch) ... FAIL
+test_original_episode_accepts_verified_same_patch_rescore (collector_regressions.CollectorHistoryTests.test_original_episode_accepts_verified_same_patch_rescore) ... ok
+
+======================================================================
+FAIL: test_corrected_verifier_run_keeps_its_native_failure (collector_regressions.CollectorHistoryTests.test_corrected_verifier_run_keeps_its_native_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/agent-reliability-github-20261030/tools/tests/test_collect_trials.py", line 62, in test_corrected_verifier_run_keeps_its_native_failure
+    self.assertEqual(summary["status"], "FAIL")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'PASS' != 'FAIL'
+- PASS
++ FAIL
+
+
+======================================================================
+FAIL: test_different_episode_cannot_overwrite_archive (collector_regressions.CollectorHistoryTests.test_different_episode_cannot_overwrite_archive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/agent-reliability-github-20261030/tools/tests/test_collect_trials.py", line 70, in test_different_episode_cannot_overwrite_archive
+    with self.assertRaisesRegex(ValueError, "[Ee]pisode|[Aa]rchive|[Oo]verwrite"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_final_corrected_verifier_runs_do_not_require_historical_rescores (collector_regressions.CollectorHistoryTests.test_final_corrected_verifier_runs_do_not_require_historical_rescores)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/agent-reliability-github-20261030/tools/tests/test_collect_trials.py", line 105, in test_final_corrected_verifier_runs_do_not_require_historical_rescores
+    collector.collect(True)
+    ~~~~~~~~~~~~~~~~~^^^^^^
+  File "/var/folders/22/w1y7jxm926g_k50fq9wt1j5m0000gn/T/tmp646nk6ia/collect_trials.py", line 150, in collect
+    assert all(record["fairness_rescored"] for record in records if record["task"] == "better-auth-indexes"), "Rescore both unchanged Better Auth submissions with the corrected verifier"
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Rescore both unchanged Better Auth submissions with the corrected verifier
+
+======================================================================
+FAIL: test_old_episode_requires_matching_rescore_patch (collector_regressions.CollectorHistoryTests.test_old_episode_requires_matching_rescore_patch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/agent-reliability-github-20261030/tools/tests/test_collect_trials.py", line 79, in test_old_episode_requires_matching_rescore_patch
+    with self.assertRaisesRegex((ValueError, AssertionError), "[Pp]atch|[Rr]escore"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'ValueError'>, <class 'AssertionError'>) not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.066s
+
+FAILED (failures=4)

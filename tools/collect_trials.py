@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import tomllib
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,6 +72,13 @@ def collect(final):
         trial = result_path.parent
         result = json.loads(result_path.read_text())
         output = target_base / name
+        if output.exists():
+            archived_episode = output / "episode.json"
+            if not archived_episode.is_file() or json.loads(archived_episode.read_text()) != specification:
+                raise ValueError(f"Episode {name} would overwrite a different archive; use a unique job name")
+            archived_result = output / "harbor-result.json"
+            if archived_result.is_file() and json.loads(archived_result.read_text()) != result:
+                raise ValueError(f"Episode {name} has a different native result; refusing archive overwrite")
         output.mkdir(exist_ok=True)
         shutil.copyfile(episode_path, output / "episode.json")
         shutil.copyfile(result_path, output / "harbor-result.json")
@@ -120,10 +128,25 @@ def collect(final):
         revision_path = ROOT / "FAIRNESS_REVISION.json"
         if specification["task"] == "better-auth-indexes" and revision_path.exists():
             revision = json.loads(revision_path.read_text())
-            revised = {item["path"]: item for item in revision["changes"]}
+            if any(checked.get(item["path"]) == item["original_sha256"] for item in revision["changes"]):
+                revised = {item["path"]: item for item in revision["changes"]}
+                assert all(checked.get(path) == item["original_sha256"] for path, item in revised.items()), (name, "Mixed verifier revision")
+        publication_path = ROOT / "PUBLICATION_METADATA.json"
+        publication = json.loads(publication_path.read_text()) if publication_path.exists() else {}
+        metadata_changes = {item["path"]: item for item in publication.get("task_configuration_changes", [])}
         for path, digest in checked.items():
             actual_digest = hashlib.sha256((task_folder / path).read_bytes()).hexdigest()
             if actual_digest != digest:
+                publication_name = "tasks/" + specification["task"] + "/" + path
+                if path == "task.toml" and publication_name in metadata_changes:
+                    item = metadata_changes[publication_name]
+                    assert item["original_sha256"] == digest and item["published_sha256"] == actual_digest
+                    assert set(item["changed_fields"]) <= {"source", "task.authors"}
+                    contract = tomllib.loads((task_folder / path).read_text())
+                    contract.pop("source", None)
+                    contract.get("task", {}).pop("authors", None)
+                    assert hashlib.sha256(json.dumps(contract, sort_keys=True).encode()).hexdigest() == item["execution_contract_sha256"]
+                    continue
                 assert path in revised and revised[path]["original_sha256"] == digest and revised[path]["corrected_sha256"] == actual_digest, (name, path)
         record["public_instruction_matches_trial"] = True
         record["verifier_fairness_revision"] = revision["id"] if revised else None
@@ -131,7 +154,11 @@ def collect(final):
         record["original_checks"] = dict(record["checks"])
         corrected = ROOT / "evidence" / "rescored" / name
         if revised and (corrected / "results.json").is_file():
+            replay = json.loads((corrected / "replay.json").read_text())
+            assert replay["trial"] == name and replay["fairness_revision"] == revision["id"], (name, "Rescore revision mismatch")
+            assert replay["patch_sha256"] == metadata["patch_sha256"] and replay["source_hashes_verified"], (name, "Rescore patch mismatch")
             corrected_metrics = json.loads((corrected / "results.json").read_text())
+            assert {case["name"] for case in metrics["cases"]} == {case["name"] for case in corrected_metrics["cases"]}, (name, "Rescore cases changed")
             record["reward"] = float((corrected / "reward.txt").read_text().strip())
             record["checks"] = {key: corrected_metrics.get(key) for key in ("tests_run", "passed", "failed", "skipped")}
             record["cutoff_artifact_passed"] = record["reward"] == 1
@@ -147,7 +174,7 @@ def collect(final):
         expected = {(task, profile) for task in SCOPES for profile in ("standard", "extended")}
         assert {(record["task"], record["profile"]) for record in records} == expected
         assert all(record["status"] != "EXCEPTION" for record in records), "Classify and resolve infrastructure exceptions before finalizing"
-        assert all(record["fairness_rescored"] for record in records if record["task"] == "better-auth-indexes"), "Rescore both unchanged Better Auth submissions with the corrected verifier"
+        assert all(record["fairness_rescored"] for record in records if record["verifier_fairness_revision"] is not None), "Rescore affected original-verifier submissions with the corrected verifier"
     report = {"trials": records, "completed": len(records), "passed": sum(row["status"] == "PASS" for row in records),
               "normally_finished": sum(row["exception"] is None for row in records),
               "passing_saved_artifacts": sum(row["cutoff_artifact_passed"] for row in records),

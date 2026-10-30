@@ -19,5 +19,7 @@ jobs:
           persist-credentials: false
       - name: Check published file hashes
         run: sha256sum --quiet -c SHA256SUMS
+      - name: Check collector archive and rescoring behaviour
+        run: python3 -m unittest discover -s tools/tests -v
       - name: Audit saved results and source provenance
         run: python3 tools/report.py

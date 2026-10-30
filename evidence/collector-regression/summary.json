@@ -1,0 +1,24 @@
+{
+  "scope": "Focused collector regression using synthetic files in isolated temporary directories. These are not new coding-agent or task-verifier runs.",
+  "before": {
+    "source": "HEAD:tools/collect_trials.py before this fix",
+    "tests": 5,
+    "failures": 4,
+    "errors": 0
+  },
+  "after": {
+    "command": "python3 -m unittest discover -s tools/tests -v",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0
+  },
+  "behaviors": [
+    "A corrected-verifier native failure cannot inherit a historical passing rescore",
+    "A different episode cannot overwrite a curated archive",
+    "Original affected episodes require a rescore of the same source patch and revision",
+    "Valid original same-patch rescoring remains supported",
+    "Finalizing new corrected-verifier episodes does not require historical rescoring"
+  ],
+  "historical_records_modified": false,
+  "saved_evidence_audit": "python3 tools/report.py passed"
+}
