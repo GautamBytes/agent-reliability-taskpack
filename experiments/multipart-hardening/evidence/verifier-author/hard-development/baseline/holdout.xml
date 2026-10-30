@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="44" skipped="0" tests="69" time="0.556" timestamp="2026-10-30T12:07:08.271853+00:00" hostname="44302fd817d4"><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[empty]" time="0.242" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r')&#10;  Use -v to get more diff">payload = b'\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:31: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf]" time="0.009" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[crlf]" time="0.008" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[double-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '....bin', b'\r')] == [('upload', '...in', b'\r\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r') != ('upload', 'data.bin', b'\r\r')&#10;  Use -v to get more diff">payload = b'\r\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '....bin', b'\r')] == [('upload', '...in', b'\r\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r') != ('upload', 'data.bin', b'\r\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:31: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '....bin', b'\n')] == [('upload', '...in', b'\n\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\n') != ('upload', 'data.bin', b'\n\r')&#10;  Use -v to get more diff">payload = b'\n\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '....bin', b'\n')] == [('upload', '...in', b'\n\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\n') != ('upload', 'data.bin', b'\n\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:31: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'a')] == [('upload', '...bin', b'a\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r')&#10;  Use -v to get more diff">payload = b'a\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', 'data.bin', b'a')] == [('upload', '...bin', b'a\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:31: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-crlf]" time="0.009" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[binary-newlines]" time="0.010" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[all-bytes]" time="0.025" /><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[1]" time="0.001"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 1
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[2]" time="0.001"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 2
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[3]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 3
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[7]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 7
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[13]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 13
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[64]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')&#10;  Use -v to get more diff">size = 64
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 1 diff: ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X') != ('file', 'binary.bin', b'\r\n\x00\xff\r\n--long-boundary-1423X\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:39: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[173]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')&#10;  Use -v to get more diff">seed = 173
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:56: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[691]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')&#10;  Use -v to get more diff">seed = 691
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:56: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[1187]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')&#10;  Use -v to get more diff">seed = 1187
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 1 diff: ('meta', None, b'tail') != ('meta', None, b'tail\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:56: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r]" time="0.003"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:63: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\r]" time="0.003"><failure message="AssertionError: assert b'\x00\x00\x0...x00\x00\x00\r' == b'\x00\x00\x0...0\x00\x00\r\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\r' == b'\x00\x00\x0...0\x00\x00\r\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:63: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n]" time="0.001" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\n\r]" time="0.003"><failure message="AssertionError: assert b'\x00\x00\x0...x00\x00\x00\n' == b'\x00\x00\x0...0\x00\x00\n\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\n\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\n' == b'\x00\x00\x0...0\x00\x00\n\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:63: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n]" time="0.001" /><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[1]" time="0.002" /><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[2]" time="0.001" /><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[11]" time="0.000" /><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[65536]" time="0.000" /><testcase classname="" name="test_preservation_part_limit_is_enforced" time="0.000" /><testcase classname="" name="test_preservation_memory_limit_is_enforced" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r\n--b]" time="0.000" /><testcase classname="" name="test_preservation_streaming_produces_data_before_eof" time="0.001" /><testcase classname="" name="test_hard_padding_every_single_split[opening]" time="0.000"><failure message="AssertionError: 1&#10;assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]&#10;  &#10;  At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')&#10;  Use -v to get more diff">pads = (b' ', b'', b'')
+
+    @pytest.mark.parametrize("pads", [(b" ", b"", b""), (b"", b"\t", b""), (b"", b"", b" \t"), (b" \t", b"\t ", b" \t \t")], ids=["opening", "intermediate", "closing", "all-lines"])
+    def test_hard_padding_every_single_split(pads):
+        boundary = b"pad.+?=()'_"
+        expected = [("tag", None, b"first\r\n"), ("upload", "f.bin", bytes(range(256)) + b"\r\n"), ("tag", None, b"last\r")]
+        body = padded_message(boundary, expected, *pads)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]
+E             
+E             At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:126: AssertionError</failure></testcase><testcase classname="" name="test_hard_padding_every_single_split[intermediate]" time="0.000"><failure message="AssertionError: 1&#10;assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]&#10;  &#10;  At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')&#10;  Use -v to get more diff">pads = (b'', b'\t', b'')
+
+    @pytest.mark.parametrize("pads", [(b" ", b"", b""), (b"", b"\t", b""), (b"", b"", b" \t"), (b" \t", b"\t ", b" \t \t")], ids=["opening", "intermediate", "closing", "all-lines"])
+    def test_hard_padding_every_single_split(pads):
+        boundary = b"pad.+?=()'_"
+        expected = [("tag", None, b"first\r\n"), ("upload", "f.bin", bytes(range(256)) + b"\r\n"), ("tag", None, b"last\r")]
+        body = padded_message(boundary, expected, *pads)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]
+E             
+E             At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:126: AssertionError</failure></testcase><testcase classname="" name="test_hard_padding_every_single_split[closing]" time="0.000"><failure message="AssertionError: 1&#10;assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]&#10;  &#10;  At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')&#10;  Use -v to get more diff">pads = (b'', b'', b' \t')
+
+    @pytest.mark.parametrize("pads", [(b" ", b"", b""), (b"", b"\t", b""), (b"", b"", b" \t"), (b" \t", b"\t ", b" \t \t")], ids=["opening", "intermediate", "closing", "all-lines"])
+    def test_hard_padding_every_single_split(pads):
+        boundary = b"pad.+?=()'_"
+        expected = [("tag", None, b"first\r\n"), ("upload", "f.bin", bytes(range(256)) + b"\r\n"), ("tag", None, b"last\r")]
+        body = padded_message(boundary, expected, *pads)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]
+E             
+E             At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:126: AssertionError</failure></testcase><testcase classname="" name="test_hard_padding_every_single_split[all-lines]" time="0.000"><failure message="AssertionError: 1&#10;assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]&#10;  &#10;  At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')&#10;  Use -v to get more diff">pads = (b' \t', b'\t ', b' \t \t')
+
+    @pytest.mark.parametrize("pads", [(b" ", b"", b""), (b"", b"\t", b""), (b"", b"", b" \t"), (b" \t", b"\t ", b" \t \t")], ids=["opening", "intermediate", "closing", "all-lines"])
+    def test_hard_padding_every_single_split(pads):
+        boundary = b"pad.+?=()'_"
+        expected = [("tag", None, b"first\r\n"), ("upload", "f.bin", bytes(range(256)) + b"\r\n"), ("tag", None, b"last\r")]
+        body = padded_message(boundary, expected, *pads)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('tag', None...one, b'last')] == [('tag', None...e, b'last\r')]
+E             
+E             At index 2 diff: ('tag', None, b'last') != ('tag', None, b'last\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:126: AssertionError</failure></testcase><testcase classname="" name="test_hard_eof_closing_every_single_split[plain]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')&#10;  Use -v to get more diff">padding = b''
+
+    @pytest.mark.parametrize("padding", [b"", b" ", b"\t \t"], ids=["plain", "space", "tabs"])
+    def test_hard_eof_closing_every_single_split(padding):
+        boundary = b"eof-boundary"
+        expected = [("upload", "f.bin", b"\x00\xff\r\nlast\r")]
+        body = padded_message(boundary, expected, closing=padding, ending=b"")
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:135: AssertionError</failure></testcase><testcase classname="" name="test_hard_eof_closing_every_single_split[space]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')&#10;  Use -v to get more diff">padding = b' '
+
+    @pytest.mark.parametrize("padding", [b"", b" ", b"\t \t"], ids=["plain", "space", "tabs"])
+    def test_hard_eof_closing_every_single_split(padding):
+        boundary = b"eof-boundary"
+        expected = [("upload", "f.bin", b"\x00\xff\r\nlast\r")]
+        body = padded_message(boundary, expected, closing=padding, ending=b"")
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:135: AssertionError</failure></testcase><testcase classname="" name="test_hard_eof_closing_every_single_split[tabs]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')&#10;  Use -v to get more diff">padding = b'\t \t'
+
+    @pytest.mark.parametrize("padding", [b"", b" ", b"\t \t"], ids=["plain", "space", "tabs"])
+    def test_hard_eof_closing_every_single_split(padding):
+        boundary = b"eof-boundary"
+        expected = [("upload", "f.bin", b"\x00\xff\r\nlast\r")]
+        body = padded_message(boundary, expected, closing=padding, ending=b"")
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...xff\r\nlast')] == [('upload', '...f\r\nlast\r')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'\x00\xff\r\nlast') != ('upload', 'f.bin', b'\x00\xff\r\nlast\r')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:135: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[letter]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--X\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b'X'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--X\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[bang]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--!\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b'!'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--!\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[extra-dash]" time="0.001"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close---\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b'-'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close---\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\x...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[two-extra-dashes]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close----\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b'--'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close----\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[space-tab-letter]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close-- \tX\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xb...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b' \tX'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close-- \tX\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xb...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_closing_is_payload_at_every_split[tab-bang]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]&#10;  &#10;  At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--\t!\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd...&#10;  &#10;  ...Full output truncated (3 lines hidden), use '-vv' to show">suffix = b'\t!'
+
+    @pytest.mark.parametrize("suffix", [b"X", b"!", b"-", b"--", b" \tX", b"\t!"], ids=["letter", "bang", "extra-dash", "two-extra-dashes", "space-tab-letter", "tab-bang"])
+    def test_hard_false_closing_is_payload_at_every_split(suffix):
+        boundary = b"false-close"
+        payload = b"prefix\r\n--" + boundary + b"--" + suffix + b"\r\n" + bytes(range(256)) + b"\r"
+        expected = [("upload", "f.bin", payload), ("tail", None, b"still here")]
+        body = padded_message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 1
+E           assert [('upload', '...', b'prefix')] == [('upload', '...'still here')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'prefix') != ('upload', 'f.bin', b'prefix\r\n--false-close--\t!\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:146: AssertionError</failure></testcase><testcase classname="" name="test_hard_false_padded_separator_is_payload[space-letter]" time="0.025" /><testcase classname="" name="test_hard_false_padded_separator_is_payload[tab-bang]" time="0.022" /><testcase classname="" name="test_hard_false_padded_separator_is_payload[mixed-dashes]" time="0.021" /><testcase classname="" name="test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts[plain]" time="0.001"><failure message="AssertionError: assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]&#10;  &#10;  At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b'\x00\xff\r\n--plain--X\r\n--plain \t!\r\nlast\r')&#10;  Right contains 2 more items, first extra item: ('tag', None, b'right\r')&#10;  Use -v to get more diff">boundary = b'plain'
+
+    @pytest.mark.parametrize("boundary", [b"plain", b"special.+?=()'_", b"Z" * 70], ids=["plain", "regex-special", "seventy-bytes"])
+    def test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts(boundary):
+        payload = b"\0\xff\r\n--" + boundary + b"--X\r\n--" + boundary + b" \t!\r\nlast\r"
+        expected = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, expected, b"\t ", b" \t", b"\t", ending=b"")
+&gt;       assert decoded(boundary, chunks_of(body, 1)) == expected
+E       AssertionError: assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]
+E         
+E         At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b'\x00\xff\r\n--plain--X\r\n--plain \t!\r\nlast\r')
+E         Right contains 2 more items, first extra item: ('tag', None, b'right\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:164: AssertionError</failure></testcase><testcase classname="" name="test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts[regex-special]" time="0.001"><failure message="assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]&#10;  &#10;  At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b&quot;\x00\xff\r\n--special.+?=()'_--X\r\n--special.+?=()'_ \t!\r\nlast\r&quot;)&#10;  Right contains 2 more items, first extra item: ('tag', None, b'right\r')&#10;  Use -v to get more diff">boundary = b"special.+?=()'_"
+
+    @pytest.mark.parametrize("boundary", [b"plain", b"special.+?=()'_", b"Z" * 70], ids=["plain", "regex-special", "seventy-bytes"])
+    def test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts(boundary):
+        payload = b"\0\xff\r\n--" + boundary + b"--X\r\n--" + boundary + b" \t!\r\nlast\r"
+        expected = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, expected, b"\t ", b" \t", b"\t", ending=b"")
+&gt;       assert decoded(boundary, chunks_of(body, 1)) == expected
+E       assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]
+E         
+E         At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b"\x00\xff\r\n--special.+?=()'_--X\r\n--special.+?=()'_ \t!\r\nlast\r")
+E         Right contains 2 more items, first extra item: ('tag', None, b'right\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:164: AssertionError</failure></testcase><testcase classname="" name="test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts[seventy-bytes]" time="0.001"><failure message="AssertionError: assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]&#10;  &#10;  At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b'\x00\xff\r\n--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ--X\r\n--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ \t!\r\nlast\r')&#10;  Right contains 2 more items, first extra item: ('tag', None, b'right\r')&#10;  Use -v to get more diff">boundary = b'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
+
+    @pytest.mark.parametrize("boundary", [b"plain", b"special.+?=()'_", b"Z" * 70], ids=["plain", "regex-special", "seventy-bytes"])
+    def test_hard_one_byte_and_seeded_partitions_preserve_mixed_parts(boundary):
+        payload = b"\0\xff\r\n--" + boundary + b"--X\r\n--" + boundary + b" \t!\r\nlast\r"
+        expected = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, expected, b"\t ", b" \t", b"\t", ending=b"")
+&gt;       assert decoded(boundary, chunks_of(body, 1)) == expected
+E       AssertionError: assert [('tag', None... b'\x00\xff')] == [('tag', None...ty.bin', b'')]
+E         
+E         At index 1 diff: ('upload', 'raw.bin', b'\x00\xff') != ('upload', 'raw.bin', b'\x00\xff\r\n--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ--X\r\n--ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ \t!\r\nlast\r')
+E         Right contains 2 more items, first extra item: ('tag', None, b'right\r')
+E         Use -v to get more diff
+
+/tests/test_holdout.py:164: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[one-byte-form-parser]" time="0.001"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'form-parts', maximum = 1
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[one-byte-request]" time="0.002"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'request-parts', maximum = 1
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[seven-bytes-form-parser]" time="0.000"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'form-parts', maximum = 7
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[seven-bytes-request]" time="0.001"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'request-parts', maximum = 7
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[whole-buffer-form-parser]" time="0.000"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'form-parts', maximum = 65536
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_public_parser_paths_with_short_reads[whole-buffer-request]" time="0.000"><failure message="AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]&#10;  &#10;  Right contains one more item: ['tag', 'right\r']&#10;  Use -v to get more diff">operation = 'request-parts', maximum = 65536
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+        result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+&gt;       assert result["fields"] == [["tag", "left\r\n"], ["tag", "right\r"]]
+E       AssertionError: assert [['tag', 'left\r\n']] == [['tag', 'lef...', 'right\r']]
+E         
+E         Right contains one more item: ['tag', 'right\r']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:185: AssertionError</failure></testcase><testcase classname="" name="test_hard_strict_parser_rejects_false_final_close[closing-letter]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">suffix = b'--X'
+
+    @pytest.mark.parametrize("suffix", [b"--X", b"---", b" \tX", b"-"], ids=["closing-letter", "closing-extra-dash", "padded-letter", "single-dash"])
+    def test_hard_strict_parser_rejects_false_final_close(suffix):
+        body = b'--strict\r\nContent-Disposition: form-data; name="value"\r\n\r\ndata\r\n--strict' + suffix
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+/tests/test_holdout.py:193: Failed</failure></testcase><testcase classname="" name="test_hard_strict_parser_rejects_false_final_close[closing-extra-dash]" time="0.000"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">suffix = b'---'
+
+    @pytest.mark.parametrize("suffix", [b"--X", b"---", b" \tX", b"-"], ids=["closing-letter", "closing-extra-dash", "padded-letter", "single-dash"])
+    def test_hard_strict_parser_rejects_false_final_close(suffix):
+        body = b'--strict\r\nContent-Disposition: form-data; name="value"\r\n\r\ndata\r\n--strict' + suffix
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+/tests/test_holdout.py:193: Failed</failure></testcase><testcase classname="" name="test_hard_strict_parser_rejects_false_final_close[padded-letter]" time="0.000" /><testcase classname="" name="test_hard_strict_parser_rejects_false_final_close[single-dash]" time="0.000" /><testcase classname="" name="test_hard_ambiguous_close_waits_for_more_input[bare-then-invalid]" time="0.000"><failure message="assert True is False">padding = b'', tail = b'X\r\nnot-close', valid = False
+
+    @pytest.mark.parametrize("padding,tail,valid", [(b"", b"X\r\nnot-close", False), (b"\t ", b"X\r\nstill-data", False), (b" \t", b"\r\n", True)], ids=["bare-then-invalid", "padding-then-invalid", "padding-then-newline"])
+    def test_hard_ambiguous_close_waits_for_more_input(padding, tail, valid):
+        boundary = b"pending"
+        prefix = b'--pending\r\nContent-Disposition: form-data; name="file"; filename="f.bin"\r\n\r\ndata\r\n--pending--' + padding
+        suffix = tail if valid else tail + b"\r\n--pending--\r\n"
+        result = call("probe-decode", boundary=pack(boundary), prefix=pack(prefix), suffix=pack(suffix))
+        assert result["ended_before_suffix"] is False
+&gt;       assert result["part_completed_before_suffix"] is False
+E       assert True is False
+
+/tests/test_holdout.py:204: AssertionError</failure></testcase><testcase classname="" name="test_hard_ambiguous_close_waits_for_more_input[padding-then-invalid]" time="0.000"><failure message="assert True is False">padding = b'\t ', tail = b'X\r\nstill-data', valid = False
+
+    @pytest.mark.parametrize("padding,tail,valid", [(b"", b"X\r\nnot-close", False), (b"\t ", b"X\r\nstill-data", False), (b" \t", b"\r\n", True)], ids=["bare-then-invalid", "padding-then-invalid", "padding-then-newline"])
+    def test_hard_ambiguous_close_waits_for_more_input(padding, tail, valid):
+        boundary = b"pending"
+        prefix = b'--pending\r\nContent-Disposition: form-data; name="file"; filename="f.bin"\r\n\r\ndata\r\n--pending--' + padding
+        suffix = tail if valid else tail + b"\r\n--pending--\r\n"
+        result = call("probe-decode", boundary=pack(boundary), prefix=pack(prefix), suffix=pack(suffix))
+        assert result["ended_before_suffix"] is False
+&gt;       assert result["part_completed_before_suffix"] is False
+E       assert True is False
+
+/tests/test_holdout.py:204: AssertionError</failure></testcase><testcase classname="" name="test_hard_ambiguous_close_waits_for_more_input[padding-then-newline]" time="0.000"><failure message="assert True is False">padding = b' \t', tail = b'\r\n', valid = True
+
+    @pytest.mark.parametrize("padding,tail,valid", [(b"", b"X\r\nnot-close", False), (b"\t ", b"X\r\nstill-data", False), (b" \t", b"\r\n", True)], ids=["bare-then-invalid", "padding-then-invalid", "padding-then-newline"])
+    def test_hard_ambiguous_close_waits_for_more_input(padding, tail, valid):
+        boundary = b"pending"
+        prefix = b'--pending\r\nContent-Disposition: form-data; name="file"; filename="f.bin"\r\n\r\ndata\r\n--pending--' + padding
+        suffix = tail if valid else tail + b"\r\n--pending--\r\n"
+        result = call("probe-decode", boundary=pack(boundary), prefix=pack(prefix), suffix=pack(suffix))
+        assert result["ended_before_suffix"] is False
+&gt;       assert result["part_completed_before_suffix"] is False
+E       assert True is False
+
+/tests/test_holdout.py:204: AssertionError</failure></testcase><testcase classname="" name="test_hard_streaming_padded_part_emits_before_eof" time="0.001"><failure message="AssertionError: assert 8 &gt;= 65536&#10; +  where 8 = len(b'binary\x00\xff')">def test_hard_streaming_padded_part_emits_before_eof():
+        boundary = b"progress"
+        header = b'--progress \t\r\nContent-Disposition: form-data; name="file"; filename="f.bin"\r\n\r\n'
+        payload = (b"binary\0\xff\r\n--progress--X\r\n" * 5000) + b"tail\r"
+        result = call("stream-fragments", boundary=pack(boundary), chunks=[pack(chunk) for chunk in chunks_of(header + payload, 4093)])
+        emitted = unpack(result["payload"])
+&gt;       assert len(emitted) &gt;= 65536
+E       AssertionError: assert 8 &gt;= 65536
+E        +  where 8 = len(b'binary\x00\xff')
+
+/tests/test_holdout.py:215: AssertionError</failure></testcase><testcase classname="" name="test_hard_epilogue_never_enters_file_payload[text]" time="0.001" /><testcase classname="" name="test_hard_epilogue_never_enters_file_payload[binary]" time="0.000" /></testsuite></testsuites>

@@ -97,6 +97,14 @@ Five attempts finished normally. One hit its solve deadline. All six saved patch
 
 Better Auth's original failures rejected valid schema syntax. The verifier was corrected after all attempts finished, then the unchanged patches were rescored. The original results, correction history and timeout remain available in [TRIALS.md](TRIALS.md) and [FAIRNESS_REVISION.json](FAIRNESS_REVISION.json).
 
+### Follow-up study with two frozen difficulty versions
+
+The [multipart hardening study](experiments/multipart-hardening/README.md) adds ten fresh attempts, separate from the six above. Five attempts used a narrow upload-byte repair task with 36 required checks. Five used an expanded streaming-parser contract with 100 required checks. Both versions used the same starting source, model, reasoning setting, solve budget and container limits.
+
+**The observed pass rate stayed at 5/5 to 5/5, or 100% to 100%.** Every run finished normally. The harder verifier rejects the previous full repair at 79/100, but the added cases did not reduce this model's solve rate in this small pilot.
+
+The study preserves its [frozen protocol](experiments/multipart-hardening/protocol.json), all ten patches and per-test results, clean offline replays, and a [review screenshot](experiments/multipart-hardening/proof/results.jpg). It makes no claim of broad model difficulty or external benchmark acceptance.
+
 ## How this relates to established benchmarks
 
 This is a **Harbor-format task pack**. It uses the same problem, environment, reference-solution and verifier structure described in [Harbor's task guide](https://docs.harborframework.com/tutorials/create-a-task), including [separate verification](https://docs.harborframework.com/tasks/separate-verifier).

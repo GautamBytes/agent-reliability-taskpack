@@ -1,0 +1,50 @@
+{
+  "description": "Fixed-source Docker controls, no model attempts",
+  "rows": [
+    {
+      "version": "basic",
+      "variant": "reference",
+      "reward": 1,
+      "tests_run": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "basic",
+      "variant": "hard-reference",
+      "reward": 1,
+      "tests_run": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "basic",
+      "variant": "baseline",
+      "reward": 0,
+      "tests_run": 36,
+      "passed": 33,
+      "failed": 3,
+      "skipped": 0
+    },
+    {
+      "version": "basic",
+      "variant": "upstream-3089-only",
+      "reward": 1,
+      "tests_run": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "basic",
+      "variant": "strip-payload-newlines",
+      "reward": 0,
+      "tests_run": 36,
+      "passed": 31,
+      "failed": 5,
+      "skipped": 0
+    }
+  ]
+}

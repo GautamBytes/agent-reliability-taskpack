@@ -1,0 +1,6 @@
+ts	phase	decision	why	evidence	result
+2026-10-30T11:59:22.714280+00:00	start	Design matched basic and harder task versions	Question8 requires observed before/after agent results	PLAN.md;CONTRACT.md	Reference and verifier work started
+2026-10-30T12:19:19.816540+00:00	fairness	Resolve pre-freeze observation and event-granularity defects	Equivalent valid parsers must not fail because of harness assumptions	evidence/verifier-author/hard-final/summary.json;evidence/prefreeze-review.json	References and alternative pass; incomplete controls fail
+2026-10-30T12:19:19.816543+00:00	protocol	Report normal-completion passes and collected-source verification separately	Native Harbor collection is not an atomic filesystem snapshot at the solve deadline	study.py	No counted run yet; model and budgets fixed before freezing
+2026-10-30T12:41:33.189252+00:00	results	Retain all ten successful attempts and report unchanged pass rate	Added cases did not reduce model solve rate in the matched pilot	runs/summary.json;AUDIT.json	Basic5of5;hard5of5;zero timeouts
+2026-10-30T12:41:33.189255+00:00	replay	Replay every saved patch against its frozen verifier	Source hashes and native case reports must agree with clean offline execution	runs/replays/;evidence/final-review.json	All10match;680required case outcomes pass again

@@ -1,0 +1,17 @@
+{
+  "attempt": "hard-02",
+  "submitted_version": "hard",
+  "verifier_version": "hard",
+  "cross_grade": false,
+  "source_hashes_verified": true,
+  "patch_sha256": "1d9aa08907eb763d367ff5628ff8559e3a7318dd68d2371fe8fc34ac9dfabeec",
+  "reward": 1.0,
+  "checks": {
+    "tests_run": 100,
+    "passed": 100,
+    "failed": 0,
+    "skipped": 0
+  },
+  "matches_native_reward": true,
+  "matches_native_case_statuses": true
+}

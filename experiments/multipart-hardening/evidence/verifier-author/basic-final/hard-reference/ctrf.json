@@ -1,0 +1,197 @@
+{
+  "results": {
+    "tool": {
+      "name": "werkzeug-oss-verifier"
+    },
+    "summary": {
+      "tests": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "pending": 0,
+      "other": 0
+    },
+    "tests": [
+      {
+        "name": "preservation:test_multipart.test_decoder_simple",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:test_multipart.test_chunked_boundaries",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:test_multipart.test_empty_field",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_limiting",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_urlencoded_no_max",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_urlencoded_silent_decode",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_missing_multipart_boundary",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_chunk_split_on_line_break_before_epilogue",
+        "status": "passed",
+        "duration": 2.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_parse_form_data_put_without_content",
+        "status": "passed",
+        "duration": 3.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_parse_form_data_get_without_content",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_default_stream_factory[False-100]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_default_stream_factory[False-3000]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_default_stream_factory[True-100]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_default_stream_factory[True-3000]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_parse_bad_content_type",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestFormParser.test_parse_from_environ",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_basic",
+        "status": "passed",
+        "duration": 3.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_ie7_unc_path",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_end_of_file",
+        "status": "passed",
+        "duration": 8.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_file_no_content_type",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_extra_newline",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_headers",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\n]",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\r]",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\r\\n]",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_failures",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPart.test_empty_multipart",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPartParser.test_constructor_not_pass_stream_factory_and_cls",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPartParser.test_constructor_pass_stream_factory_and_cls",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:TestMultiPartParser.test_file_rfc2231_filename_continuations",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "preservation:test_formparser.test_multipart_max_form_memory_size",
+        "status": "passed",
+        "duration": 0.0
+      },
+      {
+        "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r]",
+        "status": "passed",
+        "duration": 215.0
+      },
+      {
+        "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\r]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\n]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\n\\r]",
+        "status": "passed",
+        "duration": 1.0
+      },
+      {
+        "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\n\\r\\n]",
+        "status": "passed",
+        "duration": 1.0
+      }
+    ]
+  }
+}

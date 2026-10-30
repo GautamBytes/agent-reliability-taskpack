@@ -1,0 +1,49 @@
+FF.F.                                                                    [100%]
+=================================== FAILURES ===================================
+_________ test_regression_real_request_64k_boundary_keeps_payload[\r] __________
+
+trailing = b'\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+>       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError
+________ test_regression_real_request_64k_boundary_keeps_payload[\r\r] _________
+
+trailing = b'\r\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+>       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\r' == b'\x00\x00\x0...0\x00\x00\r\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError
+________ test_regression_real_request_64k_boundary_keeps_payload[\n\r] _________
+
+trailing = b'\n\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+>       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\n' == b'\x00\x00\x0...0\x00\x00\n\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r\r]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\n\r]
+3 failed, 2 passed in 0.23s

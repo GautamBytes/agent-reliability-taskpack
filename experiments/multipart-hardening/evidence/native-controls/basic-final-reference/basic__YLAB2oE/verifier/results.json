@@ -1,0 +1,273 @@
+{
+  "reward": 1,
+  "tests_run": 36,
+  "passed": 36,
+  "failed": 0,
+  "skipped": 0,
+  "stages": [
+    {
+      "exit_code": 0,
+      "timeout": false,
+      "seconds": 0.455,
+      "stage": "preservation",
+      "tests": 31,
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "exit_code": 0,
+      "timeout": false,
+      "seconds": 0.385,
+      "stage": "holdout",
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "cases": [
+    {
+      "name": "preservation:test_multipart.test_decoder_simple",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:test_multipart.test_chunked_boundaries",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:test_multipart.test_empty_field",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_limiting",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_urlencoded_no_max",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_urlencoded_silent_decode",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_missing_multipart_boundary",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_chunk_split_on_line_break_before_epilogue",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_parse_form_data_put_without_content",
+      "status": "passed",
+      "duration": 3.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_parse_form_data_get_without_content",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_default_stream_factory[False-100]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_default_stream_factory[False-3000]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_default_stream_factory[True-100]",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_default_stream_factory[True-3000]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_parse_bad_content_type",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestFormParser.test_parse_from_environ",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_basic",
+      "status": "passed",
+      "duration": 3.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_ie7_unc_path",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_end_of_file",
+      "status": "passed",
+      "duration": 14.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_file_no_content_type",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_extra_newline",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_headers",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\n]",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\r]",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_nonstandard_line_endings[\\r\\n]",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_failures",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPart.test_empty_multipart",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPartParser.test_constructor_not_pass_stream_factory_and_cls",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPartParser.test_constructor_pass_stream_factory_and_cls",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:TestMultiPartParser.test_file_rfc2231_filename_continuations",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "preservation:test_formparser.test_multipart_max_form_memory_size",
+      "status": "passed",
+      "duration": 0.0
+    },
+    {
+      "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r]",
+      "status": "passed",
+      "duration": 108.0
+    },
+    {
+      "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\r]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\n]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\n\\r]",
+      "status": "passed",
+      "duration": 1.0
+    },
+    {
+      "name": "holdout:.test_regression_real_request_64k_boundary_keeps_payload[\\r\\n\\r\\n]",
+      "status": "passed",
+      "duration": 1.0
+    }
+  ],
+  "source_hashes": {
+    "local.py": "a38673d5902e351067f2bfa568623109d2978f1c758b4b89ab778dc8a3f2e1c8",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "formparser.py": "bf4f85f4e726347b8f2ea5de3d6fdbd1ab16ce91fe67f6651a3f1aa3408c9aea",
+    "_internal.py": "411ca77d410e9e01009a6e2ace196e7db864d4afa7f74d50d4a4162b39ec68d5",
+    "exceptions.py": "ed736075d315dd4411e943ebee55a5cd21713bc52bf1b48980b76f26e6ae117d",
+    "user_agent.py": "95294b60a09c6f30944a46dd0283bcccf936511fbc31d9fa8aefe20369183c10",
+    "_reloader.py": "229a4ede45ff1b1430695ea1f123d67b49524d2c3a91dfc7257a8b894851ec05",
+    "testapp.py": "e7f212e4387f59f59f35c4cb99bc9d8f4d65a2681c280ff897d3cf08d66799d2",
+    "urls.py": "5f234ac07bcae480b7efec2e2033185a4882277c8b4cb1afef09f6185de776a2",
+    "http.py": "80e73f3fabbd026d99f1f428943fc99c18b6e45014529257b69d23b36d85c2d8",
+    "serving.py": "8d44b3cbda35899fcbc1d45e5d9bac7683893e330ad37c460b386c67f494b699",
+    "test.py": "5dff1b0989232892ed4d7593bf0e04e40958acaec26239e62289714879242ac7",
+    "utils.py": "41173251ee0951119a380a991a710272c6f02ac1242fb8140d98933652d5d16e",
+    "__init__.py": "09e8cd59f099283689fc59ac859170f1d1608cd025bbaab5e5e73b0f058994cf",
+    "wsgi.py": "4808f9de8a741ea6ba05dd741478257d1f3093b8cb1b0e7fbe7f6768f4839693",
+    "security.py": "68c2957e1ebb8133ad98133ab5ab27a21215331188f68a312d0d20924b5e3ed6",
+    "routing/exceptions.py": "c0d062526524e0eb453a96dd0d2afb28a2948c7ef29fce09ab0062714ba9f29f",
+    "routing/rules.py": "5c00df2b6e368c5febe3eabb9c1a36673eba453cdc08f3aa1b958d7d114da68a",
+    "routing/converters.py": "8aaa5e7bf9808ebd6819bab47adba3605f4f883bf953b0e03640111d79cc21dd",
+    "routing/matcher.py": "9df05b977ede180919d5d425ba6b2115c3eec9f8209858cfb92490384e86b98b",
+    "routing/map.py": "6a5219304640b0205e03ac57bc3ef8d743a70fdc4fc06a270ea973fd5693906b",
+    "routing/__init__.py": "77c4d1c6c936e085aed8176839851f2fef9d7a8947c2219508126a2e811edd83",
+    "debug/console.py": "b78859d10835a7a52ed8c5a29aaa0c0e2ed2dd6619bcb3239dcf2ffdd3dac40a",
+    "debug/tbtools.py": "2ff083d616b95a6c96aca559df3c68bc9e202350804ec73861cd599ace3512f1",
+    "debug/repr.py": "8873189f2f3086288c0dab2f52a8f49e6e3ed551d5bf07baf7b2a57a26552b5b",
+    "debug/__init__.py": "f10a0c27588603b346a77c31c3a49addf3c91e5ac2820ad11f7d1b420f5e8b6a",
+    "sansio/response.py": "d79f63dd30b601b0efaa9a5c7a0566a4b7eda2def4516b66e6a64ed24a90a459",
+    "sansio/http.py": "97e37592d73b59581f0c0f6dd4c87279514d246be74530bc9895626434185460",
+    "sansio/request.py": "8a3c1eb2d5904be7696fad6e2a5d0d467b7336d1fa0bbd8e5c23689b1f972b17",
+    "sansio/utils.py": "dfe1abd10b1afd1c78f26526ef374525934d28ccc77cf0249f2c2e8c79e484fb",
+    "sansio/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sansio/multipart.py": "82acf0a7a620c84fc37a94e59e88ae14def8dd0dd63daea9ee48b5c67e62c65a",
+    "wrappers/response.py": "551717255463698604d10f773d5bb46399e10dff532648e163c8ff46d31a957d",
+    "wrappers/request.py": "7fd2697bdceab3fbf49fe0d3663ec57ccc94ff2dcb8410415f860262caea194b",
+    "wrappers/__init__.py": "6fbf2308cf31f7a9095062d9e45605477ce52bede99c50263fd449206534b1eb",
+    "middleware/profiler.py": "d5900794379835d860a7c4c7397915e6582670b977d3ba6102bd947f2df4fa56",
+    "middleware/http_proxy.py": "b1d93e57a1a867a68c9f2f83d1034a35fe4c583d8e4cedc019b060eaea69e077",
+    "middleware/shared_data.py": "82c8e681e1052f30dd2ac81dd7da4c848ec17d4fd36cbe80c84c993c6db291f4",
+    "middleware/proxy_fix.py": "9fe1d6f8c45626ab822219aa8992a819d6db11e1ee589a8f447845a6e8f8a736",
+    "middleware/dispatcher.py": "cd6379fe5a89affb1cf540eff8f3e84a50c737fcd1df7cfa07be05ff80b1a68f",
+    "middleware/lint.py": "8d5772963471a64cf5f0c88c47c37b61d8849676bc0c956f3b80828d9b274902",
+    "middleware/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "datastructures/cache_control.py": "a26b529a6021dca810449633696d392ed12de47a0994b9094f18e297e43772e3",
+    "datastructures/accept.py": "c680c3e2ac197938dec3fd597b4832c8a5a46e1b68c30479b474d69e86cf7862",
+    "datastructures/mixins.py": "87c2bf0344b0e3bb3670ed993457fad0435b9950ec8b7ae01ebfdfefb545c091",
+    "datastructures/range.py": "28058b443c8bf1bcd20439bf3a2af1c00d7bc6414cfef75e75920d9b20df3542",
+    "datastructures/structures.py": "750de7f0a3f9507c9a7754ccb1699004adcaf6934f0722b935dd00574f68380a",
+    "datastructures/headers.py": "2775902a74069adf615039fe77f608eb63edae35bb53bb094c335316d8d68110",
+    "datastructures/csp.py": "8d69757718646dcebf784f6a1a74c60494a299635096328a6309a5cace1d14e0",
+    "datastructures/file_storage.py": "279ee9680406c419eadb28d8d327ec12e375c0f4640d72e4587df093fa50bd3b",
+    "datastructures/auth.py": "65ca9dafcfae529abafdcce0d7aef64b65ed846d146a48541cebae9a6ceacfae",
+    "datastructures/etag.py": "376745aa116c2d1d24e61823a25dd04c6a5c4a5b4986980b59ecb3e956bcd06f",
+    "datastructures/__init__.py": "d15b7c2edf0a5184a801ef000edd63204fb0dc86fdb64ae4d0712104e92da94c",
+    "debug/shared/style.css": "fb14b1cd41191b0fc8aa50d1e626718ad365f0b4148c133efd8e1402f5d51fc8",
+    "debug/shared/debugger.js": "4912fd619f454d59e06980fe20d40d8a770455d67e9011daffe549c7453bfab8",
+    "debug/shared/less.png": "fb8fa435169725238d54b6a1ad0294c4cc171a6f51e0e9d9f52c431a91e5211e",
+    "debug/shared/ICON_LICENSE.md": "0e103a6358149792707e0d0d14df518f8556213b7cb54c7422f7467f4bb1f7eb",
+    "debug/shared/console.png": "6f16b1e915d796f3a28ff29eaaf48d5f4a2325ff3761b9d9ee6cbedc6c7dc360",
+    "debug/shared/more.png": "1a780dec28a81d0a15e7cac7ea88e79188bc73fa840f60246b914ee545eb45e6"
+  },
+  "local_privilege_boundary": true
+}

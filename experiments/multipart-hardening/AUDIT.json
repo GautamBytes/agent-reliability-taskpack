@@ -1,0 +1,24 @@
+{
+  "audited_at": "2026-10-30T12:40:29.965757+00:00",
+  "all_gates_passed": true,
+  "protocol_sha256": "bf6c751d2597734adb609b0515ebc5f4269be708cf4f4d3ceba253a2bf9d05ed",
+  "counted_native_agent_attempts": 10,
+  "versions": {
+    "basic": {
+      "attempts": 5,
+      "normal_completion_passes": 5,
+      "collected_source_passes": 5,
+      "timeouts": 0
+    },
+    "hard": {
+      "attempts": 5,
+      "normal_completion_passes": 5,
+      "collected_source_passes": 5,
+      "timeouts": 0
+    }
+  },
+  "exact_source_replays_required": true,
+  "actual_model": "gpt-6.1-sol",
+  "interpretation": "Five attempts per condition from one model family. Descriptive pilot, not a general accuracy, significance or contamination-free claim.",
+  "atomic_deadline_snapshot_claimed": false
+}

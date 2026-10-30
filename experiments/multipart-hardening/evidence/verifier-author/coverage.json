@@ -1,0 +1,49 @@
+{
+  "basic": {
+    "preservation": 31,
+    "private": 5,
+    "total": 36,
+    "private_program_sha256": {
+      "Dockerfile": "194e8c35eb8ccdc1a6f6cc2c5fd0a50f9c5fc02ccddc8d69c95936f1c538dd44",
+      "docker-compose.yaml": "17ceef0a82e7dfb63d9f5ce974350f392dd8a323eac174ec69d28a90c7de8388",
+      "expected-cases.json": "1ccd1ca19e815a0b1065f61e9cd0e9773a939d60da3bc65b79378f446addfc77",
+      "requirements.lock": "37b5aae80963560dfdb9601fee793511c269b0469df0b4398cd21064517b3443",
+      "test.sh": "f49435e4112130a780e1d19a48f0d252be150c7c9f603afad028bb83f89f73f2",
+      "test_holdout.py": "f40370585dc283a2fa732c55d0a4856f1ff93bc11b90d3d2f9fa82b2e8156cd5",
+      "trusted_rpc.py": "f2d456a086ce978c1626154151166964ddad37a96817689d2936f627cad92702",
+      "verify.py": "07f0fc09805bfa97f996230555e32d8a465908040e3ab7ce5575225a4b803ab7",
+      "worker.py": "72f0368963736244e806132c8fc44f13f0f0ff69305e09e896e7bae330a52c9c"
+    }
+  },
+  "hard": {
+    "preservation": 31,
+    "existing_private": 34,
+    "added_private": 35,
+    "private": 69,
+    "total": 100,
+    "private_program_sha256": {
+      "Dockerfile": "194e8c35eb8ccdc1a6f6cc2c5fd0a50f9c5fc02ccddc8d69c95936f1c538dd44",
+      "docker-compose.yaml": "17ceef0a82e7dfb63d9f5ce974350f392dd8a323eac174ec69d28a90c7de8388",
+      "expected-cases.json": "fc3ea9061f8c8094f3dd04d02dd57f14901f17d00cc173513ab782d3edaabedd",
+      "requirements.lock": "37b5aae80963560dfdb9601fee793511c269b0469df0b4398cd21064517b3443",
+      "test.sh": "f49435e4112130a780e1d19a48f0d252be150c7c9f603afad028bb83f89f73f2",
+      "test_holdout.py": "8b2c89661e1d2c3621f35589011061dc7f1fb6543d73526644f278e601ef59e4",
+      "trusted_rpc.py": "f2d456a086ce978c1626154151166964ddad37a96817689d2936f627cad92702",
+      "verify.py": "932daeb741eeb6a3c4a0a5a29301b2b717ec3a5377c1ad4a3b0112fcdfc6f9ae",
+      "worker.py": "c3cd7965e0051114aa0aac992dde4970312f98f779d8faaad60c9c92030aa92f"
+    }
+  },
+  "case_collection": "Docker Python3.12.12 pytest actual collect-only output",
+  "unexpected_skips": 0,
+  "worker_query_seconds": 4,
+  "private_case_seconds": 5,
+  "stage_seconds": 90,
+  "final_control_paths": [
+    "basic-final/summary.json",
+    "hard-final/summary.json"
+  ],
+  "development_paths_superseded": true,
+  "candidate_import_uid": 1000,
+  "trusted_assertion_process": "root pytest, candidate code only in dropped worker",
+  "no_candidate_imports_in_trusted_pytest": true
+}

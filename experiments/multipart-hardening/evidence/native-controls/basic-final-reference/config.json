@@ -1,0 +1,16 @@
+{
+    "job_name": "basic-final-reference",
+    "jobs_dir": "experiments/multipart-hardening/evidence/native-preflight",
+    "n_concurrent_trials": 1,
+    "environment": {
+        "type": "docker",
+        "kwargs": {
+            "auto_mounting": false
+        }
+    },
+    "tasks": [
+        {
+            "path": "experiments/multipart-hardening/versions/basic"
+        }
+    ]
+}

@@ -1,0 +1,226 @@
+--- a/src/werkzeug/sansio/multipart.py
++++ b/src/werkzeug/sansio/multipart.py
+@@ -98,28 +98,18 @@
+         self.state = State.PREAMBLE
+         self.boundary = boundary
+ 
+-        # Note in the below \h i.e. horizontal whitespace is used
+-        # as [^\S\n\r] as \h isn't supported in python.
+-
+-        # The preamble must end with a boundary where the boundary is
+-        # prefixed by a line break, RFC2046. Except that many
+-        # implementations including Werkzeug's tests omit the line
+-        # break prefix. In addition the first boundary could be the
+-        # epilogue boundary (for empty form-data) hence the matching
+-        # group to understand if it is an epilogue boundary.
++        # Match the literal token first, then validate its suffix separately.
++        # A closing token at the end of a chunk is still ambiguous until EOF.
+         self.preamble_re = re.compile(
+-            rb"%s?--%s(--[^\S\n\r]*%s?|[^\S\n\r]*%s)"
+-            % (LINE_BREAK, re.escape(boundary), LINE_BREAK, LINE_BREAK),
+-            re.MULTILINE,
++            rb"%s?--%s" % (LINE_BREAK, re.escape(boundary)), re.MULTILINE
+         )
+-        # A boundary must include a line break prefix and suffix, and
+-        # may include trailing whitespace. In addition the boundary
+-        # could be the epilogue boundary hence the matching group to
+-        # understand if it is an epilogue boundary.
+         self.boundary_re = re.compile(
+-            rb"%s--%s(--[^\S\n\r]*%s?|[^\S\n\r]*%s)"
+-            % (LINE_BREAK, re.escape(boundary), LINE_BREAK, LINE_BREAK),
+-            re.MULTILINE,
++            rb"%s--%s" % (LINE_BREAK, re.escape(boundary)), re.MULTILINE
++        )
++        self._boundary_prefixes = (
++            b"\r\n--" + boundary,
++            b"\r--" + boundary,
++            b"\n--" + boundary,
+         )
+         self._search_position = 0
+         self._parts_decoded = 0
+@@ -153,33 +143,25 @@
+         event: Event = NEED_DATA
+ 
+         if self.state == State.PREAMBLE:
+-            match = self.preamble_re.search(self.buffer, self._search_position)
+-            if match is not None:
+-                if match.group(1).startswith(b"--"):
+-                    self.state = State.EPILOGUE
+-                else:
+-                    self.state = State.PART
+-                data = bytes(self.buffer[: match.start()])
+-                del self.buffer[: match.end()]
++            start, end, closing = self._find_boundary(preamble=True)
++            if end is not None:
++                self.state = State.EPILOGUE if closing else State.PART
++                data = bytes(self.buffer[:start])
++                del self.buffer[:end]
+                 event = Preamble(data=data)
+                 self._search_position = 0
+             else:
+-                # Update the search start position to be equal to the
+-                # current buffer length (already searched) minus a
+-                # safe buffer for part of the search target.
+-                self._search_position = max(
+-                    0, len(self.buffer) - len(self.boundary) - SEARCH_EXTRA_LENGTH
+-                )
++                self._search_position = start
+ 
+         elif self.state == State.PART:
+             match = BLANK_LINE_RE.search(self.buffer, self._search_position)
+             if match is not None:
+                 headers = self._parse_headers(self.buffer[: match.start()])
+-                # The final header ends with a single CRLF, however a
+-                # blank line indicates the start of the
+-                # body. Therefore the end is after the first CRLF.
+-                headers_end = (match.start() + match.end()) // 2
+-                del self.buffer[:headers_end]
++                # Leave the separator's final line break available as the
++                # prefix of a delimiter for an empty part. Remember its exact
++                # length so a payload LF cannot extend a CR-only separator.
++                self._data_start = (match.end() - match.start()) // 2
++                del self.buffer[: match.end() - self._data_start]
+ 
+                 if "content-disposition" not in headers:
+                     raise ValueError("Missing Content-Disposition header")
+@@ -212,18 +194,13 @@
+                 # safe buffer for part of the search target.
+                 self._search_position = max(0, len(self.buffer) - SEARCH_EXTRA_LENGTH)
+ 
+-        elif self.state == State.DATA_START:
+-            data, del_index, more_data = self._parse_data(self.buffer, start=True)
++        elif self.state in {State.DATA_START, State.DATA}:
++            data, del_index, more_data = self._parse_data()
+             del self.buffer[:del_index]
+-            event = Data(data=data, more_data=more_data)
+-            if more_data:
++            if data or not more_data or del_index:
++                event = Data(data=data, more_data=more_data)
++            if more_data and del_index:
+                 self.state = State.DATA
+-
+-        elif self.state == State.DATA:
+-            data, del_index, more_data = self._parse_data(self.buffer, start=False)
+-            del self.buffer[:del_index]
+-            if data or not more_data:
+-                event = Data(data=data, more_data=more_data)
+ 
+         elif self.state == State.EPILOGUE and self.complete:
+             event = Epilogue(data=bytes(self.buffer))
+@@ -248,50 +225,73 @@
+                 headers.append((name.strip(), value.strip()))
+         return Headers(headers)
+ 
+-    def _parse_data(
+-        self, data: bytes | bytearray, *, start: bool
+-    ) -> tuple[bytes, int, bool]:
+-        # Body parts must start with CRLF (or CR or LF)
+-        if start:
+-            match = LINE_BREAK_RE.match(data)
+-            data_start = t.cast(t.Match[bytes], match).end()
+-        else:
+-            data_start = 0
+-
+-        boundary = b"--" + self.boundary
+-
+-        if self.buffer.find(boundary) == -1:
+-            # No complete boundary in the buffer, but there may be
+-            # a partial boundary at the end. As the boundary
+-            # starts with either a nl or cr find the earliest and
+-            # return up to that as data.
+-            data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            # If amount of data after last newline is far from
+-            # possible length of partial boundary, we should
+-            # assume that there is no partial boundary in the buffer
+-            # and return all pending data.
+-            if (len(data) - data_end) > len(b"\n" + boundary):
+-                data_end = del_index = len(data)
+-            more_data = True
+-        else:
+-            match = self.boundary_re.search(data)
+-            if match is not None:
+-                if match.group(1).startswith(b"--"):
+-                    self.state = State.EPILOGUE
++    def _find_boundary(self, *, preamble: bool = False) -> tuple[int, int | None, bool]:
++        """Return the delimiter span, or the start of a possible partial one.
++
++        Only a complete line (or a closing token at EOF) is a delimiter.
++        An invalid suffix leaves the entire apparent delimiter in the payload.
++        """
++        data = self.buffer
++        pattern = self.preamble_re if preamble else self.boundary_re
++        position = self._search_position if preamble else 0
++
++        while (match := pattern.search(data, position)) is not None:
++            end = match.end()
++            closing = data[end : end + 2] == b"--"
++            if closing:
++                end += 2
++            elif (
++                len(data) == end + 1 and data[end] == 0x2D and not self.complete
++            ):
++                return match.start(), None, False
++
++            while end < len(data) and data[end] in (0x20, 0x09):
++                end += 1
++
++            if end == len(data):
++                if self.complete:
++                    if closing:
++                        return match.start(), end, True
+                 else:
+-                    self.state = State.PART
+-                data_end = match.start()
+-                del_index = match.end()
+-            else:
+-                data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            more_data = match is None
+-
+-        # Keep \r\n sequence intact rather than splitting across chunks.
+-        if data_end > data_start and data[data_end - 1] == 0x0D:
+-            data_end -= 1
+-            del_index -= 1
+-
+-        return bytes(data[data_start:data_end]), del_index, more_data
++                    return match.start(), None, False
++            elif data[end] == 0x0D:
++                # Wait to distinguish CRLF from the legacy CR-only ending.
++                if end + 1 == len(data) and not self.complete:
++                    return match.start(), None, False
++                end += 1
++                if data[end : end + 1] == b"\n":
++                    end += 1
++                return match.start(), end, closing
++            elif data[end] == 0x0A:
++                return match.start(), end + 1, closing
++
++            # This token has an invalid suffix. A later token can still be
++            # a delimiter, and every byte up to it belongs to the payload.
++            position = match.end()
++
++        # Keep only a suffix that could grow into a delimiter. In particular,
++        # a trailing CR may be the first byte of its CRLF prefix. Padding is
++        # unbounded, and is retained by the pending-match cases above.
++        prefixes = self._boundary_prefixes
++        if preamble:
++            prefixes = (*prefixes, b"--" + self.boundary)
++        retained = 0
++        for prefix in prefixes:
++            for length in range(min(len(data), len(prefix) - 1), retained, -1):
++                if data.endswith(prefix[:length]):
++                    retained = length
++                    break
++        return len(data) - retained, None, False
++
++    def _parse_data(self) -> tuple[bytes, int, bool]:
++        start, end, closing = self._find_boundary()
++        data_start = self._data_start if self.state == State.DATA_START else 0
++        if end is not None:
++            self.state = State.EPILOGUE if closing else State.PART
++            return bytes(self.buffer[data_start:start]), end, False
++        if start < data_start:
++            return b"", 0, True
++        return bytes(self.buffer[data_start:start]), start, True
+ 
+ 
+ class MultipartEncoder:

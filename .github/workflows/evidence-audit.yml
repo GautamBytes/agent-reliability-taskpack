@@ -23,3 +23,5 @@ jobs:
         run: python3 -m unittest discover -s tools/tests -v
       - name: Audit saved results and source provenance
         run: python3 tools/report.py
+      - name: Audit the frozen multipart hardening study
+        run: python3 experiments/multipart-hardening/verify_study.py

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="5" time="0.246" timestamp="2026-10-30T12:06:33.372937+00:00" hostname="8362ee484d41"><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r]" time="0.227"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\r]" time="0.003"><failure message="AssertionError: assert b'\x00\x00\x0...x00\x00\x00\r' == b'\x00\x00\x0...0\x00\x00\r\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\r' == b'\x00\x00\x0...0\x00\x00\r\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n]" time="0.001" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\n\r]" time="0.003"><failure message="AssertionError: assert b'\x00\x00\x0...x00\x00\x00\n' == b'\x00\x00\x0...0\x00\x00\n\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\n\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+        result = call("generated-request", payload=pack(payload))
+&gt;       assert unpack(result["file"]) == payload
+E       AssertionError: assert b'\x00\x00\x0...x00\x00\x00\n' == b'\x00\x00\x0...0\x00\x00\n\r'
+E         
+E         Use -v to get more diff
+
+/tests/test_holdout.py:14: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n]" time="0.001" /></testsuite></testsuites>

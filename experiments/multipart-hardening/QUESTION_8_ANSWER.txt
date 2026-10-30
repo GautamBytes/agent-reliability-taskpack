@@ -1,0 +1,11 @@
+The hardest task I authored was a streaming file-upload parser repair in my personal task pack, based on real Werkzeug bugs. The basic version asked the model to fix an upload losing its final byte around a 64 KiB read boundary.
+
+I expanded it to handle uploads arriving one byte at a time, boundaries split across reads, spaces and tabs after boundary markers, and closing markers at the end of input. Fake boundary markers inside a file had to stay untouched. The parser also had to reject incomplete uploads and keep processing data as it arrived. The required checks increased from 36 to 100, including 69 private cases.
+
+I tested gpt-6.1-sol through Codex in 10 fresh runs, five per version, using Harbor and Docker. Both versions used the same starting code, medium reasoning, resource limits and a 300-second solve budget. The basic version passed 5 of 5 runs; the harder version passed 5 of 5. The pass rate went from 100% to 100%. There were 0 timeouts.
+
+So the added cases caught more incomplete repairs, but they did not lower this model's pass rate in this small study. The previous full repair passed only 79/100 of the harder checks. The new reference and an alternative implementation passed all 100.
+
+I replayed all 10 saved patches in clean offline verifiers. The repo has the frozen setup, every patch, per-test results and screenshots.
+
+https://github.com/GautamBytes/agent-reliability-taskpack/tree/main/experiments/multipart-hardening

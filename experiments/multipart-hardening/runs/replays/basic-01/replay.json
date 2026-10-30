@@ -1,0 +1,17 @@
+{
+  "attempt": "basic-01",
+  "submitted_version": "basic",
+  "verifier_version": "basic",
+  "cross_grade": false,
+  "source_hashes_verified": true,
+  "patch_sha256": "f9658ecd0a0c6aa37ea1add77d27a07a580fb20714a2d5eb51c2f78467f4bd9c",
+  "reward": 1.0,
+  "checks": {
+    "tests_run": 36,
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0
+  },
+  "matches_native_reward": true,
+  "matches_native_case_statuses": true
+}

@@ -1,0 +1,36 @@
+{
+  "recorded_at": "2026-10-30T12:10:00.201060+00:00",
+  "runtime": "Existing pinned Docker image oss-replay-werkzeug-multipart:local, Python3.12.12, candidateUID1000, networknone",
+  "basic_public_preservation": {
+    "passed": 31,
+    "failed": 0,
+    "deselected": 18,
+    "log": "basic-public.log"
+  },
+  "hard_public_preservation": {
+    "passed": 31,
+    "failed": 0,
+    "deselected": 18,
+    "log": "hard-public.log"
+  },
+  "exploratory_subcases": {
+    "passed": 155,
+    "failed": 0,
+    "not_independent_benchmark_cases": true,
+    "script": "exploratory_probe.py",
+    "log": "hard-exploratory.log"
+  },
+  "development_correction": "An initial scanner version failed the original empty-field preservation case. It was corrected before any counted trial, then both public and exploratory checks were repeated.",
+  "historical_or_counted_agent_runs_changed": false,
+  "basic_reference_patch_sha256": "a550190a0eea42ce63a53bcbaad13cfe4c8cb1df349264fd5998782994d08fb1",
+  "hard_reference_patch_sha256": "ba46a5f32aa15e0e5a0305964f32cbfb4ef0deb5ea080cdcf045fb94812b1acf",
+  "independent_hard_grader": {
+    "reward": 1,
+    "tests_run": 100,
+    "passed": 100,
+    "failed": 0,
+    "skipped": 0,
+    "evidence": "evidence/verifier-author/hard-reviewed/reference/results.json",
+    "sha256": "aad44ebf422aac928fcae6438ca3fbf91864a4d836afdcdd0ecf0d6987c5b09f"
+  }
+}
