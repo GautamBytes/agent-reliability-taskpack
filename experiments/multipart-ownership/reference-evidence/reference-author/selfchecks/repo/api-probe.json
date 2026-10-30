@@ -1,0 +1,1 @@
+{"passed": 5, "checks": ["inclusive raw-byte aggregate and partial writes", "quota rolls back completed and active sinks", "BaseException identity survives cleanup errors", "Request duplicate files and shared identity", "invalid quota settings"]}

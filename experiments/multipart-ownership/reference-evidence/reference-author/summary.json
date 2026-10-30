@@ -1,0 +1,83 @@
+{
+  "description": "Reference and deliberately incomplete controls for transactional streaming ownership extension. No coding-agent attempts.",
+  "reference_patch_sha256": "736ac7f21084e4c858a1dd7f50d113eb04e39f91296464d245c04da4b9d077a0",
+  "alternative_patch_sha256": "202abc6777a4384b018d3f8932903738a7b5eb6de805302592b5420741e074e5",
+  "alternative_strategy": "ExitStack rollback callbacks with ownership transfer by pop_all, instead of explicit exception cleanup over owned identity dictionary.",
+  "reference_strategy": "Per-parse identity-owned sink dictionary, per-file and total byte counters, complete short-write loop, protected BaseException cleanup.",
+  "mutant_patch_sha256": {
+    "quota-only": "ec23aa386c6a81888ca4a53380d44134e46395e4a48d4e73fc41139bfec5e121",
+    "close-current-only": "f7d3ccd2ea47cd12bc1917b1893adf4e0bc89816207f69f20b024c2fb86ce4cf",
+    "one-write": "0641440a51a0836c1425c2127318eb0abe4c2694903ea3a03e97798eef020573",
+    "trust-content-length": "bfbdc0ba5dc9059f0ebe47c10d33ec64f1de16bf72f35b9c663b298e5e864cec",
+    "exception-only-cleanup": "049b0a09a856f3119450e56b74b0f7848116c71bf57c59f495c40f0959273178",
+    "omit-request-forwarding": "8565b77a04037929707b0a7ecc6a9e637ec20c68effb572bc657b32db908680f",
+    "close-first-duplicate": "cf6f0a7f3ff6e7827b92c332f2333718d2fb19b22b05e41138bb4b08243922d0"
+  },
+  "baseline_unchanged": true,
+  "upstream_cleanup_basis": "https://github.com/pallets/werkzeug/pull/3101",
+  "local_extension_not_upstream_accepted": true,
+  "retained_previous_contract_selfcheck": {
+    "reference": {
+      "passed": 100,
+      "required": 100,
+      "reward": 1
+    },
+    "exitstack_alternative": {
+      "passed": 100,
+      "required": 100,
+      "reward": 1
+    },
+    "evidence": "selfchecks/"
+  },
+  "additional_direct_api_journeys": {
+    "reference": 5,
+    "exitstack_alternative": 5,
+    "counts_are_not_benchmark_cases": true,
+    "script": "selfchecks/probe.py"
+  },
+  "selfcheck_source_bytes_verified": true,
+  "selfcheck_production_files_per_implementation": 59,
+  "final_fixed_source_control_evidence": "../../evidence/verifier-author/final-171/summary.json",
+  "final_reference_result": {
+    "version": "after",
+    "variant": "reference",
+    "source_hashes_verified": true,
+    "patch_sha256": "736ac7f21084e4c858a1dd7f50d113eb04e39f91296464d245c04da4b9d077a0",
+    "reward": 1,
+    "tests_run": 171,
+    "passed": 171,
+    "failed": 0,
+    "skipped": 0
+  },
+  "final_alternative_result": {
+    "version": "after",
+    "variant": "alternative-exitstack",
+    "source_hashes_verified": true,
+    "patch_sha256": "202abc6777a4384b018d3f8932903738a7b5eb6de805302592b5420741e074e5",
+    "reward": 1,
+    "tests_run": 171,
+    "passed": 171,
+    "failed": 0,
+    "skipped": 0
+  },
+  "separate_incremental_collection_alternative": {
+    "version": "after",
+    "variant": "early-collections",
+    "source_hashes_verified": true,
+    "patch_sha256": "642674a20a50c0ed3ba41e2acae01dd899f52a8584fde1da2be159eea602284f",
+    "reward": 1,
+    "tests_run": 171,
+    "passed": 171,
+    "failed": 0,
+    "skipped": 0
+  },
+  "new_targeted_controls_rejected": 7,
+  "final_case_counts": {
+    "upstream": 31,
+    "private": 140,
+    "retained_private": 69,
+    "new_private": 71,
+    "total": 171,
+    "skipped": 0
+  }
+}

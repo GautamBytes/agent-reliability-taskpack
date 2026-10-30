@@ -16,12 +16,11 @@ def include(relative):
         return False
     if relative.parts[:2] in {("evidence", "coding-agents"), ("evidence", "calibration")}:
         return False
-    if relative.parts[:3] in {("experiments", "multipart-hardening", "runs")} and len(relative.parts) > 3 and relative.parts[3] == "raw":
-        return False
-    if relative.parts[:4] == ("experiments", "multipart-hardening", "evidence", "native-preflight"):
-        return False
-    if relative.as_posix() == "experiments/multipart-hardening/STATE.md":
-        return False
+    if relative.parts[:1] == ("experiments",):
+        if relative.parts[2:4] in {("runs", "raw"), ("evidence", "native-preflight")}:
+            return False
+        if len(relative.parts) == 3 and relative.name == "STATE.md":
+            return False
     if relative.parts[:2] == ("evidence", "native-controls"):
         if len(relative.parts) < 4 or relative.parts[2] not in {"final-references", "final-baselines"}:
             return False
@@ -31,9 +30,10 @@ def include(relative):
 
 def main(destination, archive):
     subprocess.run([sys.executable, str(ROOT / "tools/report.py")], check=True, stdout=subprocess.DEVNULL)
-    study_audit = ROOT / "experiments/multipart-hardening/verify_study.py"
-    if study_audit.exists():
-        subprocess.run([sys.executable, str(study_audit)], check=True, stdout=subprocess.DEVNULL)
+    for study in ("multipart-hardening", "multipart-ownership"):
+        study_audit = ROOT / "experiments" / study / "verify_study.py"
+        if study_audit.exists():
+            subprocess.run([sys.executable, str(study_audit)], check=True, stdout=subprocess.DEVNULL)
     assert not destination.exists() and not archive.exists(), "Existing deliverables must not be overwritten"
     paths = [path for path in sorted(ROOT.rglob("*")) if path.is_file() and include(path.relative_to(ROOT))]
     assert not any(path.is_symlink() for path in paths), "Source symlinks need explicit review"

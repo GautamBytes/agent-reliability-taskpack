@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="31" time="0.343" timestamp="2026-10-30T13:05:35.132581+00:00" hostname="5c26923f472c"><testcase classname="tests.sansio.test_multipart" name="test_decoder_simple" time="0.001" /><testcase classname="tests.sansio.test_multipart" name="test_chunked_boundaries" time="0.000" /><testcase classname="tests.sansio.test_multipart" name="test_empty_field" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_limiting" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61cf980&gt;
+
+    def test_limiting(self):
+        data = b"foo=Hello+World&amp;bar=baz"
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="application/x-www-form-urlencoded",
+            method="POST",
+        )
+        req.max_content_length = 400
+        assert req.form["foo"] == "Hello World"
+    
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="application/x-www-form-urlencoded",
+            method="POST",
+        )
+        req.max_form_memory_size = 7
+        pytest.raises(RequestEntityTooLarge, lambda: req.form["foo"])
+    
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="application/x-www-form-urlencoded",
+            method="POST",
+        )
+        req.max_form_memory_size = 400
+        assert req.form["foo"] == "Hello World"
+    
+        input_stream = io.BytesIO(b"foo=123456")
+        req = Request.from_values(
+            input_stream=input_stream,
+            content_type="application/x-www-form-urlencoded",
+            method="POST",
+        )
+        req.max_content_length = 4
+        pytest.raises(RequestEntityTooLarge, lambda: req.form["foo"])
+        # content-length was set, so request could exit early without reading anything
+        assert input_stream.read() == b"foo=123456"
+    
+        data = (
+            b"--foo\r\nContent-Disposition: form-field; name=foo\r\n\r\n"
+            b"Hello World\r\n"
+            b"--foo\r\nContent-Disposition: form-field; name=bar\r\n\r\n"
+            b"bar=baz\r\n--foo--"
+        )
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        )
+        req.max_content_length = 400
+&gt;       assert req.form["foo"] == "Hello World"
+               ^^^^^^^^
+
+tests/test_formparser.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:460: in form
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_urlencoded_no_max" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_urlencoded_silent_decode" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_missing_multipart_boundary" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_chunk_split_on_line_break_before_epilogue" time="0.002"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61d1310&gt;
+
+    def test_chunk_split_on_line_break_before_epilogue(self):
+        data = b"".join(
+            (
+                # exactly 64 bytes of header
+                b"--thirteenbytes\r\n",
+                b"Content-Disposition: form-data; name=tx3065\r\n\r\n",
+                # payload that fills 65535 bytes together with the header
+                b"\n".join([b"\r" * 31] * 2045 + [b"y" * 31]),
+                # This newline is split by the first chunk
+                b"\r\n",
+                # extra payload that also has the final newline split exactly
+                # at the chunk size.
+                b"\n".join([b"\r" * 31] * 2047 + [b"x" * 30]),
+                b"\r\n--thirteenbytes--",
+            )
+        )
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=thirteenbytes",
+            method="POST",
+        )
+&gt;       assert len(req.form["tx3065"]) == (131072 - 64 - 1)
+                   ^^^^^^^^
+
+tests/test_formparser.py:177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:460: in form
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_parse_form_data_put_without_content" time="0.003" /><testcase classname="tests.test_formparser.TestFormParser" name="test_parse_form_data_get_without_content" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_default_stream_factory[False-100]" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61d29f0&gt;
+no_spooled = False, size = 100
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffffb6255700&gt;
+
+    @pytest.mark.parametrize(
+        ("no_spooled", "size"), ((False, 100), (False, 3000), (True, 100), (True, 3000))
+    )
+    def test_default_stream_factory(self, no_spooled, size, monkeypatch):
+        if no_spooled:
+            monkeypatch.setattr("werkzeug.formparser.SpooledTemporaryFile", None)
+    
+        data = b"a,b,c\n" * size
+        with Request.from_values(
+            data={"foo": (io.BytesIO(data), "test.txt")}, method="POST"
+        ) as req:
+&gt;           reader = csv.reader(io.TextIOWrapper(req.files["foo"]))
+                                                 ^^^^^^^^^
+
+tests/test_formparser.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_default_stream_factory[False-3000]" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61d2480&gt;
+no_spooled = False, size = 3000
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffffb6254d10&gt;
+
+    @pytest.mark.parametrize(
+        ("no_spooled", "size"), ((False, 100), (False, 3000), (True, 100), (True, 3000))
+    )
+    def test_default_stream_factory(self, no_spooled, size, monkeypatch):
+        if no_spooled:
+            monkeypatch.setattr("werkzeug.formparser.SpooledTemporaryFile", None)
+    
+        data = b"a,b,c\n" * size
+        with Request.from_values(
+            data={"foo": (io.BytesIO(data), "test.txt")}, method="POST"
+        ) as req:
+&gt;           reader = csv.reader(io.TextIOWrapper(req.files["foo"]))
+                                                 ^^^^^^^^^
+
+tests/test_formparser.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_default_stream_factory[True-100]" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61d2510&gt;
+no_spooled = True, size = 100
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffffb6254c20&gt;
+
+    @pytest.mark.parametrize(
+        ("no_spooled", "size"), ((False, 100), (False, 3000), (True, 100), (True, 3000))
+    )
+    def test_default_stream_factory(self, no_spooled, size, monkeypatch):
+        if no_spooled:
+            monkeypatch.setattr("werkzeug.formparser.SpooledTemporaryFile", None)
+    
+        data = b"a,b,c\n" * size
+        with Request.from_values(
+            data={"foo": (io.BytesIO(data), "test.txt")}, method="POST"
+        ) as req:
+&gt;           reader = csv.reader(io.TextIOWrapper(req.files["foo"]))
+                                                 ^^^^^^^^^
+
+tests/test_formparser.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_default_stream_factory[True-3000]" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestFormParser object at 0xffffb61d2120&gt;
+no_spooled = True, size = 3000
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffffb628c290&gt;
+
+    @pytest.mark.parametrize(
+        ("no_spooled", "size"), ((False, 100), (False, 3000), (True, 100), (True, 3000))
+    )
+    def test_default_stream_factory(self, no_spooled, size, monkeypatch):
+        if no_spooled:
+            monkeypatch.setattr("werkzeug.formparser.SpooledTemporaryFile", None)
+    
+        data = b"a,b,c\n" * size
+        with Request.from_values(
+            data={"foo": (io.BytesIO(data), "test.txt")}, method="POST"
+        ) as req:
+&gt;           reader = csv.reader(io.TextIOWrapper(req.files["foo"]))
+                                                 ^^^^^^^^^
+
+tests/test_formparser.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestFormParser" name="test_parse_bad_content_type" time="0.000" /><testcase classname="tests.test_formparser.TestFormParser" name="test_parse_from_environ" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPart" name="test_basic" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d0ad0&gt;
+
+    def test_basic(self):
+        resources = join(dirname(__file__), "multipart")
+        client = Client(form_data_consumer)
+    
+        repository = [
+            (
+                "firefox3-2png1txt",
+                "---------------------------186454651713519341951581030105",
+                [
+                    ("anchor.png", "file1", "image/png", "file1.png"),
+                    ("application_edit.png", "file2", "image/png", "file2.png"),
+                ],
+                "example text",
+            ),
+            (
+                "firefox3-2pnglongtext",
+                "---------------------------14904044739787191031754711748",
+                [
+                    ("accept.png", "file1", "image/png", "file1.png"),
+                    ("add.png", "file2", "image/png", "file2.png"),
+                ],
+                "--long text\r\n--with boundary\r\n--lookalikes--",
+            ),
+            (
+                "opera8-2png1txt",
+                "----------zEO9jQKmLc2Cq88c23Dx19",
+                [
+                    ("arrow_branch.png", "file1", "image/png", "file1.png"),
+                    ("award_star_bronze_1.png", "file2", "image/png", "file2.png"),
+                ],
+                "blafasel öäü",
+            ),
+            (
+                "webkit3-2png1txt",
+                "----WebKitFormBoundaryjdSFhcARk8fyGNy6",
+                [
+                    ("gtk-apply.png", "file1", "image/png", "file1.png"),
+                    ("gtk-no.png", "file2", "image/png", "file2.png"),
+                ],
+                "this is another text with ümläüts",
+            ),
+            (
+                "ie6-2png1txt",
+                "---------------------------7d91b03a20128",
+                [
+                    ("file1.png", "file1", "image/x-png", "file1.png"),
+                    ("file2.png", "file2", "image/x-png", "file2.png"),
+                ],
+                "ie6 sucks :-/",
+            ),
+        ]
+    
+        for name, boundary, files, text in repository:
+            folder = join(resources, name)
+            data = get_contents(join(folder, "request.http"))
+            for filename, field, content_type, fsname in files:
+&gt;               with client.post(
+                    f"/?object={field}",
+                    data=data,
+                    content_type=f'multipart/form-data; boundary="{boundary}"',
+                    content_length=len(data),
+                ) as response:
+
+tests/test_formparser.py:293: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:199: in application
+    resp = f(*args[:-2] + (request,))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_formparser.py:24: in form_data_consumer
+    f = request.files[result_object]
+        ^^^^^^^^^^^^^
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_ie7_unc_path" time="0.001"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d11c0&gt;
+
+    @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
+    def test_ie7_unc_path(self):
+        client = Client(form_data_consumer)
+        data_file = join(dirname(__file__), "multipart", "ie7_full_path_request.http")
+        data = get_contents(data_file)
+        boundary = "---------------------------7da36d1b4a0164"
+&gt;       with client.post(
+            "/?object=cb_file_upload_multiple",
+            data=data,
+            content_type=f'multipart/form-data; boundary="{boundary}"',
+            content_length=len(data),
+        ) as response:
+
+tests/test_formparser.py:319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/test.py:1167: in post
+    return self.open(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:1116: in open
+    response_parts = self.run_wsgi_app(request.environ, buffered=buffered)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:988: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/test.py:1264: in run_wsgi_app
+    app_rv = app(environ, start_response)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:199: in application
+    resp = f(*args[:-2] + (request,))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_formparser.py:24: in form_data_consumer
+    f = request.files[result_object]
+        ^^^^^^^^^^^^^
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_end_of_file" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPart" name="test_file_no_content_type" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb6d717c0&gt;
+
+    def test_file_no_content_type(self):
+        data = (
+            b"--foo\r\n"
+            b'Content-Disposition: form-data; name="test"; filename="test.txt"\r\n\r\n'
+            b"file contents\r\n--foo--"
+        )
+        with Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        ) as data:
+&gt;           assert data.files["test"].filename == "test.txt"
+                   ^^^^^^^^^^
+
+tests/test_formparser.py:358: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_extra_newline" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d1d00&gt;
+
+    def test_extra_newline(self):
+        # this test looks innocent but it was actually timing out in
+        # the Werkzeug 0.5 release version (#394)
+        data = (
+            b"\r\n\r\n--foo\r\n"
+            b'Content-Disposition: form-data; name="foo"\r\n\r\n'
+            b"a string\r\n"
+            b"--foo--"
+        )
+        data = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        )
+&gt;       assert not data.files
+                   ^^^^^^^^^^
+
+tests/test_formparser.py:376: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_headers" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d1f70&gt;
+
+    def test_headers(self):
+        data = (
+            b"--foo\r\n"
+            b'Content-Disposition: form-data; name="foo"; filename="foo.txt"\r\n'
+            b"X-Custom-Header: blah\r\n"
+            b"Content-Type: text/plain; charset=utf-8\r\n\r\n"
+            b"file contents, just the contents\r\n"
+            b"--foo--"
+        )
+        with Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        ) as req:
+&gt;           foo = req.files["foo"]
+                  ^^^^^^^^^
+
+tests/test_formparser.py:394: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_nonstandard_line_endings[\n]" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d2870&gt;, ending = b'\n'
+
+    @pytest.mark.parametrize("ending", [b"\n", b"\r", b"\r\n"])
+    def test_nonstandard_line_endings(self, ending: bytes):
+        data = ending.join(
+            (
+                b"--foo",
+                b"Content-Disposition: form-data; name=foo",
+                b"",
+                b"this is just bar",
+                b"--foo",
+                b"Content-Disposition: form-data; name=bar",
+                b"",
+                b"blafasel",
+                b"--foo--",
+            )
+        )
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        )
+&gt;       assert req.form["foo"] == "this is just bar"
+               ^^^^^^^^
+
+tests/test_formparser.py:422: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:460: in form
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_nonstandard_line_endings[\r]" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d3050&gt;, ending = b'\r'
+
+    @pytest.mark.parametrize("ending", [b"\n", b"\r", b"\r\n"])
+    def test_nonstandard_line_endings(self, ending: bytes):
+        data = ending.join(
+            (
+                b"--foo",
+                b"Content-Disposition: form-data; name=foo",
+                b"",
+                b"this is just bar",
+                b"--foo",
+                b"Content-Disposition: form-data; name=bar",
+                b"",
+                b"blafasel",
+                b"--foo--",
+            )
+        )
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        )
+&gt;       assert req.form["foo"] == "this is just bar"
+               ^^^^^^^^
+
+tests/test_formparser.py:422: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:460: in form
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_nonstandard_line_endings[\r\n]" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPart object at 0xffffb61d2fc0&gt;
+ending = b'\r\n'
+
+    @pytest.mark.parametrize("ending", [b"\n", b"\r", b"\r\n"])
+    def test_nonstandard_line_endings(self, ending: bytes):
+        data = ending.join(
+            (
+                b"--foo",
+                b"Content-Disposition: form-data; name=foo",
+                b"",
+                b"this is just bar",
+                b"--foo",
+                b"Content-Disposition: form-data; name=bar",
+                b"",
+                b"blafasel",
+                b"--foo--",
+            )
+        )
+        req = Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        )
+&gt;       assert req.form["foo"] == "this is just bar"
+               ^^^^^^^^
+
+tests/test_formparser.py:422: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:460: in form
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:490: in parse
+    field_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser.TestMultiPart" name="test_failures" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPart" name="test_empty_multipart" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPartParser" name="test_constructor_not_pass_stream_factory_and_cls" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPartParser" name="test_constructor_pass_stream_factory_and_cls" time="0.000" /><testcase classname="tests.test_formparser.TestMultiPartParser" name="test_file_rfc2231_filename_continuations" time="0.000"><failure message="TypeError: 'ImmutableMultiDict' objects are immutable">self = &lt;test_formparser.TestMultiPartParser object at 0xffffb6257d70&gt;
+
+    def test_file_rfc2231_filename_continuations(self):
+        data = (
+            b"--foo\r\n"
+            b"Content-Type: text/plain; charset=utf-8\r\n"
+            b"Content-Disposition: form-data; name=rfc2231;\r\n"
+            b"	filename*0*=ascii''a%20b%20;\r\n"
+            b"	filename*1*=c%20d%20;\r\n"
+            b'	filename*2="e f.txt"\r\n\r\n'
+            b"file contents\r\n--foo--"
+        )
+        with Request.from_values(
+            input_stream=io.BytesIO(data),
+            content_length=len(data),
+            content_type="multipart/form-data; boundary=foo",
+            method="POST",
+        ) as request:
+&gt;           assert request.files["rfc2231"].filename == "a b c d e f.txt"
+                   ^^^^^^^^^^^^^
+
+tests/test_formparser.py:484: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/werkzeug/utils.py:100: in __get__
+    value = self.fget(obj)  # type: ignore
+            ^^^^^^^^^^^^^^
+src/werkzeug/wrappers/request.py:512: in files
+    self._load_form_data()
+src/werkzeug/wrappers/request.py:279: in _load_form_data
+    data = parser.parse(
+src/werkzeug/formparser.py:284: in parse
+    return parse_func(stream, mimetype, content_length, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:311: in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/werkzeug/formparser.py:492: in parse
+    file_result.add(key, value)
+src/werkzeug/datastructures/mixins.py:157: in add
+    _immutable_error(self)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ImmutableMultiDict([])
+
+    def _immutable_error(self: t.Any) -&gt; t.NoReturn:
+&gt;       raise TypeError(f"{type(self).__name__!r} objects are immutable")
+E       TypeError: 'ImmutableMultiDict' objects are immutable
+
+src/werkzeug/datastructures/mixins.py:20: TypeError</failure></testcase><testcase classname="tests.test_formparser" name="test_multipart_max_form_memory_size" time="0.000" /></testsuite></testsuites>

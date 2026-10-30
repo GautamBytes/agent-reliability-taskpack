@@ -1,0 +1,14 @@
+{
+  "primary_sources": [
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3101",
+      "relation": "Upstream resource-lifecycle work includes closing multipart temporary files when parsing fails before request.files is populated. Credit remains with upstream maintainers."
+    },
+    {
+      "url": "https://github.com/pallets/werkzeug/issues/3065",
+      "relation": "Historical multipart byte-loss regression family reused from the previous pinned task."
+    }
+  ],
+  "local_extension": "Actual-payload quota API, partial-write progress and explicit transaction-like stream ownership are task requirements, not claimed to be accepted upstream features.",
+  "no_new_vulnerability_or_full_RFC_claim": true
+}

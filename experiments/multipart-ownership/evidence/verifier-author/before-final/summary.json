@@ -1,0 +1,60 @@
+{
+  "description": "Fixed-source offline controls, no model attempts",
+  "rows": [
+    {
+      "version": "before",
+      "variant": "baseline",
+      "source_hashes_verified": true,
+      "patch_sha256": null,
+      "reward": 0,
+      "tests_run": 100,
+      "passed": 56,
+      "failed": 44,
+      "skipped": 0
+    },
+    {
+      "version": "before",
+      "variant": "prior-hard-reference",
+      "source_hashes_verified": true,
+      "patch_sha256": "ba46a5f32aa15e0e5a0305964f32cbfb4ef0deb5ea080cdcf045fb94812b1acf",
+      "reward": 1,
+      "tests_run": 100,
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "before",
+      "variant": "reference",
+      "source_hashes_verified": true,
+      "patch_sha256": "736ac7f21084e4c858a1dd7f50d113eb04e39f91296464d245c04da4b9d077a0",
+      "reward": 1,
+      "tests_run": 100,
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "before",
+      "variant": "alternative-exitstack",
+      "source_hashes_verified": true,
+      "patch_sha256": "202abc6777a4384b018d3f8932903738a7b5eb6de805302592b5420741e074e5",
+      "reward": 1,
+      "tests_run": 100,
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "before",
+      "variant": "early-collections",
+      "source_hashes_verified": true,
+      "patch_sha256": "642674a20a50c0ed3ba41e2acae01dd899f52a8584fde1da2be159eea602284f",
+      "reward": 1,
+      "tests_run": 100,
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    }
+  ]
+}

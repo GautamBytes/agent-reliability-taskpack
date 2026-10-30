@@ -1,0 +1,765 @@
+...................FFFFFFFFF..........................F.F.F............. [ 52%]
+F...........................F....................................        [100%]
+=================================== FAILURES ===================================
+_________ test_regression_real_request_64k_boundary_keeps_payload[\r] __________
+
+trailing = b'\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+>       result = call("generated-request", payload=pack(payload))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'generated-request'
+arguments = {'payload': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ=='}
+request = b'{"operation": "generated-request", "payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ=="}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.776063035, remaining = 3.9999994999998307
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_real_request_64k_boundary_keeps_payload[\r\r] _________
+
+trailing = b'\r\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+>       result = call("generated-request", payload=pack(payload))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'generated-request'
+arguments = {'payload': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ0='}
+request = b'{"operation": "generated-request", "payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ0="}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.78695016, remaining = 3.9999993330002326
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_real_request_64k_boundary_keeps_payload[\r\n] _________
+
+trailing = b'\r\n'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+>       result = call("generated-request", payload=pack(payload))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'generated-request'
+arguments = {'payload': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQo='}
+request = b'{"operation": "generated-request", "payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQo="}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.794949494, remaining = 3.999999375000698
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_real_request_64k_boundary_keeps_payload[\n\r] _________
+
+trailing = b'\n\r'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+>       result = call("generated-request", payload=pack(payload))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'generated-request'
+arguments = {'payload': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACg0='}
+request = b'{"operation": "generated-request", "payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACg0="}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.802109369, remaining = 3.9999994170011632
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+______ test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n] _______
+
+trailing = b'\r\n\r\n'
+
+    @pytest.mark.parametrize("trailing", [b"\r", b"\r\r", b"\r\n", b"\n\r", b"\r\n\r\n"])
+    def test_regression_real_request_64k_boundary_keeps_payload(trailing):
+        payload = b"\0" * 65535 + trailing
+>       result = call("generated-request", payload=pack(payload))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'generated-request'
+arguments = {'payload': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQoNCg=='}
+request = b'{"operation": "generated-request", "payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQoNCg=="}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.809327994, remaining = 3.9999993340006768
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_wsgi_short_reads_preserve_fields_and_files[1] _________
+
+maximum = 1
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+>       result = call("fragmented-request", body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'fragmented-request'
+arguments = {'body': 'LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0idGl0bGUiDQpDb250ZW50LVR5cGU6IGFw...QoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=', 'maximum': 1}
+request = b'{"operation": "fragmented-request", "body": "LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmF.../w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=", "maximum": 1}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.816286452, remaining = 3.9999994999998307
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_wsgi_short_reads_preserve_fields_and_files[2] _________
+
+maximum = 2
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+>       result = call("fragmented-request", body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'fragmented-request'
+arguments = {'body': 'LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0idGl0bGUiDQpDb250ZW50LVR5cGU6IGFw...QoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=', 'maximum': 2}
+request = b'{"operation": "fragmented-request", "body": "LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmF.../w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=", "maximum": 2}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.823899785, remaining = 3.999999583000317
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+________ test_regression_wsgi_short_reads_preserve_fields_and_files[11] ________
+
+maximum = 11
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+>       result = call("fragmented-request", body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'fragmented-request'
+arguments = {'body': 'LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0idGl0bGUiDQpDb250ZW50LVR5cGU6IGFw...oA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=', 'maximum': 11}
+request = b'{"operation": "fragmented-request", "body": "LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmF...w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=", "maximum": 11}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.830751077, remaining = 3.999999541998477
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+______ test_regression_wsgi_short_reads_preserve_fields_and_files[65536] _______
+
+maximum = 65536
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+>       result = call("fragmented-request", body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'fragmented-request'
+arguments = {'body': 'LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmFtZT0idGl0bGUiDQpDb250ZW50LVR5cGU6IGFw...w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=', 'maximum': 65536}
+request = b'{"operation": "fragmented-request", "body": "LS1zZXBhcmF0ZS1zdHJlYW0NCkNvbnRlbnQtRGlzcG9zaXRpb246IGZvcm0tZGF0YTsgbmF...DQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQoA/w0KDQotLXNlcGFyYXRlLXN0cmVhbS0tDQo=", "maximum": 65536}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15929.837542035, remaining = 3.999999583000317
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+_______ test_hard_public_parser_paths_with_short_reads[one-byte-request] _______
+
+operation = 'request-parts', maximum = 1
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+>       result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'request-parts'
+arguments = {'body': 'LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InRhZyINCkNvbnRlbnQtVHlwZTogYXBwbGlj...C1UeXBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g', 'boundary': 'cHVibGljLXBhdGg=', 'maximum': 1}
+request = b'{"operation": "request-parts", "boundary": "cHVibGljLXBhdGg=", "body": "LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0...ZT0iZW1wdHkuYmluIg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g", "maximum": 1}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15930.394010786, remaining = 3.9999996249989636
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+_____ test_hard_public_parser_paths_with_short_reads[seven-bytes-request] ______
+
+operation = 'request-parts', maximum = 7
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+>       result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'request-parts'
+arguments = {'body': 'LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InRhZyINCkNvbnRlbnQtVHlwZTogYXBwbGlj...C1UeXBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g', 'boundary': 'cHVibGljLXBhdGg=', 'maximum': 7}
+request = b'{"operation": "request-parts", "boundary": "cHVibGljLXBhdGg=", "body": "LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0...ZT0iZW1wdHkuYmluIg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g", "maximum": 7}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15930.402940661, remaining = 3.999999667001248
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+_____ test_hard_public_parser_paths_with_short_reads[whole-buffer-request] _____
+
+operation = 'request-parts', maximum = 65536
+
+    @pytest.mark.parametrize("operation", ["form-parts", "request-parts"], ids=["form-parser", "request"])
+    @pytest.mark.parametrize("maximum", [1, 7, 65536], ids=["one-byte", "seven-bytes", "whole-buffer"])
+    def test_hard_public_parser_paths_with_short_reads(operation, maximum):
+        boundary = b"public-path"
+        payload = b"\0\xff\r\n--public-path--X\r\n--public-path \t!\r"
+        parts = [("tag", None, b"left\r\n"), ("upload", "raw.bin", payload), ("tag", None, b"right\r"), ("empty", "empty.bin", b"")]
+        body = padded_message(boundary, parts, b" \t", b"\t", b" ", ending=b"")
+>       result = call(operation, boundary=pack(boundary), body=pack(body), maximum=maximum)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_holdout.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'request-parts'
+arguments = {'body': 'LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InRhZyINCkNvbnRlbnQtVHlwZTogYXBwbGlj...XBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g', 'boundary': 'cHVibGljLXBhdGg=', 'maximum': 65536}
+request = b'{"operation": "request-parts", "boundary": "cHVibGljLXBhdGg=", "body": "LS1wdWJsaWMtcGF0aCAJDQpDb250ZW50LURpc3Bvc2l0...ZW1wdHkuYmluIg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0NCg0KDQotLXB1YmxpYy1wYXRoLS0g", "maximum": 65536}\n'
+response = bytearray(b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n')
+deadline = 15930.409907869, remaining = 3.9999996249989636
+chunk = b'{"error": {"type": "TypeError", "message": "\'ImmutableMultiDict\' objects are immutable"}}\n'
+result = {'error': {'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}}
+
+    def call(operation, **arguments):
+        global _worker, _errors
+        if _worker is None:
+            _errors = tempfile.TemporaryFile()
+            env = {"PATH": os.environ.get("PATH", "/usr/local/bin:/usr/bin:/bin"), "LANG": "C.UTF-8", "HOME": "/nonexistent", "TASK_REPO": os.environ["TASK_REPO"], "TASK_WORKER_UID": os.environ.get("TASK_WORKER_UID", str(os.getuid()))}
+            _worker = subprocess.Popen([sys.executable, "-I", str(Path(__file__).with_name("worker.py"))], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=_errors, env=env, start_new_session=True, bufsize=0)
+        request = json.dumps({"operation": operation, **arguments}).encode() + b"\n"
+        try:
+            _worker.stdin.write(request)
+            _worker.stdin.flush()
+            response = bytearray()
+            deadline = time.monotonic() + 4
+            while not response.endswith(b"\n"):
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or not select.select([_worker.stdout], [], [], max(0, remaining))[0]:
+                    raise TimeoutError("Candidate worker response deadline exceeded")
+                chunk = os.read(_worker.stdout.fileno(), 65536)
+                if not chunk:
+                    raise RuntimeError("Candidate worker exited without a response")
+                response.extend(chunk)
+                if len(response) > 2 * 1024 * 1024:
+                    raise RuntimeError("Candidate worker output exceeded its limit")
+            result = json.loads(response)
+        except BaseException:
+            close()
+            raise
+        if "error" in result:
+            error = result["error"]
+            if error["type"] == "RequestEntityTooLarge":
+                raise RequestEntityTooLarge(error["message"])
+            if error["type"] == "ValueError":
+                raise ValueError(error["message"])
+>           raise RuntimeError(error)
+E           RuntimeError: {'type': 'TypeError', 'message': "'ImmutableMultiDict' objects are immutable"}
+
+/tests/trusted_rpc.py:76: RuntimeError
+__ test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-request] ___
+
+path = 'request', scenario = 'inclusive'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "'ImmutableMultiDict' objects are immutable", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:275: AssertionError
+__________ test_ownership_new_quotas_do_not_apply_to_urlencoded[form] __________
+
+path = 'form'
+
+    @pytest.mark.parametrize("path", ["form", "convenience", "request"])
+    def test_ownership_new_quotas_do_not_apply_to_urlencoded(path):
+        body = b"tag=hello&tag=world"
+        result = owned(body, path=path, limits={"max_file_size": 0, "max_form_data_size": 0}, mimetype="application/x-www-form-urlencoded", content_type="application/x-www-form-urlencoded")
+        assert result["error"] is None, result
+>       assert result["fields"] == [["tag", "hello"], ["tag", "world"]]
+E       AssertionError: assert [['tag', 'hel']] == [['tag', 'hel...ag', 'world']]
+E         
+E         At index 0 diff: ['tag', 'hel'] != ['tag', 'hello']
+E         Right contains one more item: ['tag', 'world']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:356: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r\r]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r\n]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\n\r]
+FAILED ../../../dev::test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n]
+FAILED ../../../dev::test_regression_wsgi_short_reads_preserve_fields_and_files[1]
+FAILED ../../../dev::test_regression_wsgi_short_reads_preserve_fields_and_files[2]
+FAILED ../../../dev::test_regression_wsgi_short_reads_preserve_fields_and_files[11]
+FAILED ../../../dev::test_regression_wsgi_short_reads_preserve_fields_and_files[65536]
+FAILED ../../../dev::test_hard_public_parser_paths_with_short_reads[one-byte-request]
+FAILED ../../../dev::test_hard_public_parser_paths_with_short_reads[seven-bytes-request]
+FAILED ../../../dev::test_hard_public_parser_paths_with_short_reads[whole-buffer-request]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-request]
+FAILED ../../../dev::test_ownership_new_quotas_do_not_apply_to_urlencoded[form]
+14 failed, 123 passed in 1.06s

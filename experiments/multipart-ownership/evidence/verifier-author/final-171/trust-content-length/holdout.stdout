@@ -1,0 +1,365 @@
+........................................................................ [ 51%]
+.FFFF........FFFF.........................................FF........     [100%]
+=================================== FAILURES ===================================
+__ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-multipart] __
+
+path = 'multipart', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+____ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-form] _____
+
+path = 'form', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+_ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-convenience] _
+
+path = 'convenience', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+___ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request] ___
+
+path = 'request', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+___________ test_ownership_quota_accounting_boundaries[declared-low] ___________
+
+case = 'declared-low'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:329: TypeError
+________ test_ownership_quota_accounting_boundaries[declared-negative] _________
+
+case = 'declared-negative'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:329: TypeError
+__________ test_ownership_quota_accounting_boundaries[declared-huge] ___________
+
+case = 'declared-huge'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': '413 Request Entity Too Large: The data value transmitted exceeds the capacity limit.', 'type': 'RequestEntityTooLarge'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': '413 Request Entity Too Large: The data value transmitted exceeds the capacity limit.', 'type': 'RequestEntityTooLarge'} is None
+
+/tests/test_holdout.py:334: AssertionError
+_________ test_ownership_quota_accounting_boundaries[declared-invalid] _________
+
+case = 'declared-invalid'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': '', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'ValueError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + ValueError
+
+/tests/test_holdout.py:329: AssertionError
+________ test_ownership_quota_error_is_not_hidden_by_silent_mode[form] _________
+
+path = 'form'
+
+    @pytest.mark.parametrize("path", ["form", "convenience"])
+    def test_ownership_quota_error_is_not_hidden_by_silent_mode(path):
+        body = ownership_message([("upload", "f.bin", b"too large")])
+        result = owned(body, path=path, limits={"max_file_size": 1}, silent=True, maximum=1)
+>       assert result["error"]["type"] == "RequestEntityTooLarge", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:441: TypeError
+_____ test_ownership_quota_error_is_not_hidden_by_silent_mode[convenience] _____
+
+path = 'convenience'
+
+    @pytest.mark.parametrize("path", ["form", "convenience"])
+    def test_ownership_quota_error_is_not_hidden_by_silent_mode(path):
+        body = ownership_message([("upload", "f.bin", b"too large")])
+        result = owned(body, path=path, limits={"max_file_size": 1}, silent=True, maximum=1)
+>       assert result["error"]["type"] == "RequestEntityTooLarge", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:441: TypeError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-multipart]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-form]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-convenience]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-low]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-negative]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-huge]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-invalid]
+FAILED ../../../dev::test_ownership_quota_error_is_not_hidden_by_silent_mode[form]
+FAILED ../../../dev::test_ownership_quota_error_is_not_hidden_by_silent_mode[convenience]
+10 failed, 130 passed in 1.10s

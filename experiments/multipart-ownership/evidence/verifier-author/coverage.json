@@ -1,0 +1,27 @@
+{
+  "required_public_cases": 31,
+  "retained_private_cases": 69,
+  "new_private_parameter_cases": 71,
+  "required_total_cases": 171,
+  "groups": {
+    "holdout:.test_ownership_cleanup_failure_preserves_original_and_continues": 2,
+    "holdout:.test_ownership_every_failure_releases_completed_and_current_sinks": 14,
+    "holdout:.test_ownership_field_quota_failure_cleans_an_earlier_completed_file": 1,
+    "holdout:.test_ownership_invalid_configuration_is_not_silenced": 8,
+    "holdout:.test_ownership_invalid_write_result_fails_and_releases_stream": 6,
+    "holdout:.test_ownership_new_quotas_do_not_apply_to_urlencoded": 3,
+    "holdout:.test_ownership_positive_short_writes_preserve_complete_files": 3,
+    "holdout:.test_ownership_public_keyword_only_arguments_and_request_defaults": 1,
+    "holdout:.test_ownership_public_paths_enforce_actual_byte_quotas": 12,
+    "holdout:.test_ownership_quota_accounting_boundaries": 11,
+    "holdout:.test_ownership_quota_error_is_not_hidden_by_silent_mode": 2,
+    "holdout:.test_ownership_request_close_does_not_trigger_lazy_parsing": 1,
+    "holdout:.test_ownership_request_close_handles_duplicate_names_and_shared_streams": 2,
+    "holdout:.test_ownership_reused_parser_starts_fresh_quota_counters": 2,
+    "holdout:.test_ownership_shared_factory_stream_is_cleaned_once": 1,
+    "holdout:.test_ownership_silent_value_error_fallback_still_cleans_all_sinks": 1,
+    "holdout:.test_ownership_successful_transfer_survives_later_parse_failure": 1
+  },
+  "counting_note": "Parameterized public-interface and failure-point cases. Split positions and random partitions inside retained cases remain subcases, not extra independent bugs.",
+  "observation": "Assertions run in protected root pytest process; candidate imports occur only after UID drop in the worker. All new observations use public parser, factory, stream and Request interfaces."
+}

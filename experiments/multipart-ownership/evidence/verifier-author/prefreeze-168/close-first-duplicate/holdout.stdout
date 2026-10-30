@@ -1,0 +1,43 @@
+........................................................................ [ 52%]
+..............................................................FF.        [100%]
+=================================== FAILURES ===================================
+_ test_ownership_request_close_handles_duplicate_names_and_shared_streams[normal] _
+
+close_error = False
+
+    @pytest.mark.parametrize("close_error", [False, True], ids=["normal", "one-close-fails"])
+    def test_ownership_request_close_handles_duplicate_names_and_shared_streams(close_error):
+        result = call("request-close", settings={"close_error_sinks": [0] if close_error else []}, close_rounds=2)
+        assert result["errors"] == [None, None], result
+        assert result["input_closed"] is False
+        assert result["factory_calls"] == 0
+        for index, round_result in enumerate(result["rounds"], start=1):
+>           assert [sink["close_calls"] for sink in round_result] == [index, index, index]
+E           assert [1, 0, 1] == [1, 1, 1]
+E             
+E             At index 1 diff: 0 != 1
+E             Use -v to get more diff
+
+/tests/test_holdout.py:469: AssertionError
+_ test_ownership_request_close_handles_duplicate_names_and_shared_streams[one-close-fails] _
+
+close_error = True
+
+    @pytest.mark.parametrize("close_error", [False, True], ids=["normal", "one-close-fails"])
+    def test_ownership_request_close_handles_duplicate_names_and_shared_streams(close_error):
+        result = call("request-close", settings={"close_error_sinks": [0] if close_error else []}, close_rounds=2)
+        assert result["errors"] == [None, None], result
+        assert result["input_closed"] is False
+        assert result["factory_calls"] == 0
+        for index, round_result in enumerate(result["rounds"], start=1):
+>           assert [sink["close_calls"] for sink in round_result] == [index, index, index]
+E           assert [1, 0, 1] == [1, 1, 1]
+E             
+E             At index 1 diff: 0 != 1
+E             Use -v to get more diff
+
+/tests/test_holdout.py:469: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_request_close_handles_duplicate_names_and_shared_streams[normal]
+FAILED ../../../dev::test_ownership_request_close_handles_duplicate_names_and_shared_streams[one-close-fails]
+2 failed, 135 passed in 1.04s

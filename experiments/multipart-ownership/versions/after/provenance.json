@@ -1,0 +1,66 @@
+{
+  "repository": "https://github.com/pallets/werkzeug",
+  "license": "BSD-3-Clause",
+  "license_file": "environment/repo/LICENSE.txt",
+  "baseline_commit": "b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_url": "https://codeload.github.com/pallets/werkzeug/tar.gz/b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_sha256": "66cc34a8edfd631472e70166c8b5e2ab823be291bf05d53d648da9f476ddcff2",
+  "issues": [
+    "https://github.com/pallets/werkzeug/issues/3065",
+    "https://github.com/pallets/werkzeug/issues/3077",
+    "https://github.com/pallets/werkzeug/issues/3088"
+  ],
+  "upstream_fixes": [
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3081",
+      "merge_commit": "0f76c353b10afc2f8129aa3684ccc3262516a0c0"
+    },
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3089",
+      "merge_commit": "06f33b24182ad4e03ec35eb55b3daf358d12b11e"
+    }
+  ],
+  "upstream_reference_parser_sha256": "82acf0a7a620c84fc37a94e59e88ae14def8dd0dd63daea9ee48b5c67e62c65a",
+  "task_reference_parser_sha256": "e70a2d5cfa3f578cb81c2919159bf78e4fcc471e4409de2a6a62fc9301b8333d",
+  "allowed_candidate_tree": "src/werkzeug",
+  "reference_production_files": [
+    "src/werkzeug/formparser.py",
+    "src/werkzeug/sansio/multipart.py",
+    "src/werkzeug/wrappers/request.py"
+  ],
+  "authorship": "Upstream parser repair family attributed to Philip Jones and Pallets maintainers. Existing local delimiter scanner retained. This task adds a local quota API, complete short writes and transactional stream ownership.",
+  "task_reference_is_exact_upstream_patch": false,
+  "authored_extension": "Optional actual-payload byte quotas across public parser and Request paths, inclusive per-file and aggregate field/file limits, short-write completion, rollback on BaseException, and complete cached-file Request cleanup. Not submitted or accepted upstream; novelty not established.",
+  "environment": {
+    "python": "3.12.12",
+    "dependencies_file": "tests/requirements.lock"
+  },
+  "scope": {
+    "repair_contract": "Previous byte-preserving multipart contract plus transactional actual-payload quotas, short writes and exception-safe resource ownership.",
+    "details": "instruction.md",
+    "not_full_RFC_compliance": true,
+    "legacy_newlines": "Selected31 upstream tests retain existingCR-only/LF-only ordinary behavior."
+  },
+  "experiment_version": "after",
+  "task_id": "werkzeug-multipart-ownership-after",
+  "reference_patch_sha256": "736ac7f21084e4c858a1dd7f50d113eb04e39f91296464d245c04da4b9d077a0",
+  "reference_basis": "Previous local delimiter repair plus independently implemented quota and stream-ownership extension, with upstream cleanup problem credited to PR3101.",
+  "experiment_contract": "../../CONTRACT.md",
+  "source_unchanged_between_versions": true,
+  "verification": {
+    "required_public_cases": 31,
+    "required_private_cases": 140,
+    "retained_previous_private_cases": 69,
+    "added_ownership_private_cases": 71,
+    "total_required_checks": 171,
+    "known_skips": 0,
+    "counts_source": "Independent verifier author collected exact case manifest and ran fixed-source controls before protocol freeze.",
+    "control_evidence": "../../evidence/verifier-author/final-171/summary.json"
+  },
+  "upstream_resource_lifecycle_basis": {
+    "url": "https://github.com/pallets/werkzeug/pull/3101",
+    "credit": "David Lord (davidism) and Pallets maintainers",
+    "relationship": "Real upstream cleanup problem; local reference is independently implemented for this explicit broader contract, not an exact upstream patch."
+  },
+  "alternative_reference_patch_sha256": "202abc6777a4384b018d3f8932903738a7b5eb6de805302592b5420741e074e5"
+}

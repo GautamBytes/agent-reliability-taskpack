@@ -1,0 +1,17 @@
+{
+  "environment/repo": {
+    "files": 291,
+    "byte_equal_to_previous_pinned_baseline": true
+  },
+  "tests/baseline": {
+    "files": 290,
+    "byte_equal_to_previous_pinned_baseline": true
+  },
+  "case_counts": {
+    "retained_public": 31,
+    "retained_private": 69,
+    "new_private_parameter_cases": 71,
+    "total": 171,
+    "every_prior_case_retained": true
+  }
+}

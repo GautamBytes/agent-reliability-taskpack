@@ -1,0 +1,113 @@
+{
+  "description": "Fixed-source offline controls, no model attempts",
+  "rows": [
+    {
+      "version": "after",
+      "variant": "reference",
+      "reward": 1,
+      "tests_run": 168,
+      "passed": 168,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "alternative-exitstack",
+      "reward": 1,
+      "tests_run": 168,
+      "passed": 168,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "early-collections",
+      "reward": 1,
+      "tests_run": 168,
+      "passed": 168,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "baseline",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 59,
+      "failed": 109,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "prior-hard-reference",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 103,
+      "failed": 65,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "quota-only",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 126,
+      "failed": 42,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "close-current-only",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 153,
+      "failed": 15,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "one-write",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 158,
+      "failed": 10,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "trust-content-length",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 158,
+      "failed": 10,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "exception-only-cleanup",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 162,
+      "failed": 6,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "omit-request-forwarding",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 164,
+      "failed": 4,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "close-first-duplicate",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 166,
+      "failed": 2,
+      "skipped": 0
+    }
+  ]
+}

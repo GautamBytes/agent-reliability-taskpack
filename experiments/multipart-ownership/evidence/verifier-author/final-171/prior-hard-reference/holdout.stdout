@@ -1,0 +1,2206 @@
+.....................................................................FFF [ 51%]
+.FFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FFF     [100%]
+=================================== FAILURES ===================================
+_ test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-multipart] __
+
+path = 'multipart', scenario = 'inclusive'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:275: AssertionError
+____ test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-form] ____
+
+path = 'form', scenario = 'inclusive'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:275: AssertionError
+_ test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-convenience] _
+
+path = 'convenience', scenario = 'inclusive'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:275: AssertionError
+__ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-multipart] __
+
+path = 'multipart', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+____ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-form] _____
+
+path = 'form', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+_ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-convenience] _
+
+path = 'convenience', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+___ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request] ___
+
+path = 'request', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+_ test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-multipart] __
+
+path = 'multipart', scenario = 'aggregate'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+____ test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-form] ____
+
+path = 'form', scenario = 'aggregate'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+_ test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-convenience] _
+
+path = 'convenience', scenario = 'aggregate'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:283: AssertionError
+__ test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-request] ___
+
+path = 'request', scenario = 'aggregate'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+____________ test_ownership_quota_accounting_boundaries[empty-zero] ____________
+
+case = 'empty-zero'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+__________ test_ownership_quota_accounting_boundaries[per-file-reset] __________
+
+case = 'per-file-reset'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+__________ test_ownership_quota_accounting_boundaries[utf8-raw-bytes] __________
+
+case = 'utf8-raw-bytes'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:329: AssertionError
+_____ test_ownership_quota_accounting_boundaries[fields-ignore-file-limit] _____
+
+case = 'fields-ignore-file-limit'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+___________ test_ownership_quota_accounting_boundaries[declared-low] ___________
+
+case = 'declared-low'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:329: AssertionError
+________ test_ownership_quota_accounting_boundaries[declared-negative] _________
+
+case = 'declared-negative'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:329: AssertionError
+__________ test_ownership_quota_accounting_boundaries[declared-huge] ___________
+
+case = 'declared-huge'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+_________ test_ownership_quota_accounting_boundaries[declared-invalid] _________
+
+case = 'declared-invalid'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:329: AssertionError
+________ test_ownership_quota_accounting_boundaries[fields-only-total] _________
+
+case = 'fields-only-total'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert 'TypeError' == 'RequestEntityTooLarge'
+E             
+E             - RequestEntityTooLarge
+E             + TypeError
+
+/tests/test_holdout.py:329: AssertionError
+________ test_ownership_quota_accounting_boundaries[metadata-excluded] _________
+
+case = 'metadata-excluded'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+_____ test_ownership_quota_accounting_boundaries[retry-not-double-counted] _____
+
+case = 'retry-not-double-counted'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+>           assert result["error"] is None, result
+E           AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E           assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:334: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_file_size-multipart] _
+
+path = 'multipart', setting = 'max_file_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('multipart', 'max_file_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+___ test_ownership_invalid_configuration_is_not_silenced[max_file_size-form] ___
+
+path = 'form', setting = 'max_file_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('form', 'max_file_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_file_size-convenience] _
+
+path = 'convenience', setting = 'max_file_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('convenience', 'max_file_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_file_size-request] __
+
+path = 'request', setting = 'max_file_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('request', 'max_file_size', -1, {'error': None})
+E           assert {'error': None} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': None} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-multipart] _
+
+path = 'multipart', setting = 'max_form_data_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('multipart', 'max_form_data_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-form] _
+
+path = 'form', setting = 'max_form_data_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('form', 'max_form_data_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-convenience] _
+
+path = 'convenience', setting = 'max_form_data_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('convenience', 'max_form_data_size', -1, {'error': 'TypeError'})
+E           assert {'error': 'TypeError'} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': 'TypeError'} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-request] _
+
+path = 'request', setting = 'max_form_data_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('request', 'max_form_data_size', -1, {'error': None})
+E           assert {'error': None} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': None} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+__________ test_ownership_new_quotas_do_not_apply_to_urlencoded[form] __________
+
+path = 'form'
+
+    @pytest.mark.parametrize("path", ["form", "convenience", "request"])
+    def test_ownership_new_quotas_do_not_apply_to_urlencoded(path):
+        body = b"tag=hello&tag=world"
+        result = owned(body, path=path, limits={"max_file_size": 0, "max_form_data_size": 0}, mimetype="application/x-www-form-urlencoded", content_type="application/x-www-form-urlencoded", maximum=65536)
+>       assert result["error"] is None, result
+E       AssertionError: {'error': {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:355: AssertionError
+______ test_ownership_new_quotas_do_not_apply_to_urlencoded[convenience] _______
+
+path = 'convenience'
+
+    @pytest.mark.parametrize("path", ["form", "convenience", "request"])
+    def test_ownership_new_quotas_do_not_apply_to_urlencoded(path):
+        body = b"tag=hello&tag=world"
+        result = owned(body, path=path, limits={"max_file_size": 0, "max_form_data_size": 0}, mimetype="application/x-www-form-urlencoded", content_type="application/x-www-form-urlencoded", maximum=65536)
+>       assert result["error"] is None, result
+E       AssertionError: {'error': {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:355: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[1] ________
+
+maximum = 1
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...in', b'\x00')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\r 3FYl\x7f\x92\xa5\xb8\xcb\xde\xf1') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xb...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[3] ________
+
+maximum = 3
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...'\x00\xff\r')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\x01\x02\r\x0e\x0f !"345FGHYZ[lmn\x7f\x80\x81\x92\x93\x94\xa5\xa6\xa7\xb8\xb9\xba\xcb\xcc\xcd\xde\xdf\xe0\xf1\xf2\xf3') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[11] _______
+
+maximum = 11
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...r\nlast\r\n')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17 !"#$%&\'()*3456789:;<=FGHIJKLMNOPYZ[\\]^_`abclmnopqrstuv\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[zero] ______
+
+returned = 'zero'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[none] ______
+
+returned = 'none'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+___ test_ownership_invalid_write_result_fails_and_releases_stream[negative] ____
+
+returned = 'negative'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+___ test_ownership_invalid_write_result_fails_and_releases_stream[oversized] ___
+
+returned = 'oversized'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[float] _____
+
+returned = 'float'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[bool] ______
+
+returned = 'bool'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-reader] _
+
+failure = 'reader', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb100d40>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-writer] _
+
+failure = 'writer', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb100fb0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-seek] _
+
+failure = 'seek', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0693c0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-factory] _
+
+failure = 'factory', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 1
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb101ff0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-decoder] _
+
+failure = 'decoder', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb101220>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-fields-collection] _
+
+failure = 'fields-collection', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0e0040>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-files-collection] _
+
+failure = 'files-collection', base_exception = False
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0e0ee0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-reader] _
+
+failure = 'reader', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0e1b10>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-writer] _
+
+failure = 'writer', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb1086c0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-seek] _
+
+failure = 'seek', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbadacba0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-factory] _
+
+failure = 'factory', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 1
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb064ba0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-decoder] _
+
+failure = 'decoder', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0686c0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-fields-collection] _
+
+failure = 'fields-collection', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb052e90>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-files-collection] _
+
+failure = 'files-collection', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbaca1cb0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_cleanup_failure_preserves_original_and_continues[close-oserror] _
+
+close_base_exception = False
+
+    @pytest.mark.parametrize("close_base_exception", [False, True], ids=["close-oserror", "close-base-exception"])
+    def test_ownership_cleanup_failure_preserves_original_and_continues(close_base_exception):
+        body = ownership_message([("upload", "one.bin", b"one"), ("upload", "two.bin", b"two"), ("upload", "three.bin", b"three")])
+        result = owned(body, settings={"write_error_sink": 2, "close_error_sinks": [0], "close_base_exception": close_base_exception}, maximum=1)
+        assert result["error"]["is_original"] is True, result
+        assert result["error"]["type"] == "OSError"
+>       assert_rollback(result, 3)
+
+/tests/test_holdout.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 3
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0ec2b0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_cleanup_failure_preserves_original_and_continues[close-base-exception] _
+
+close_base_exception = True
+
+    @pytest.mark.parametrize("close_base_exception", [False, True], ids=["close-oserror", "close-base-exception"])
+    def test_ownership_cleanup_failure_preserves_original_and_continues(close_base_exception):
+        body = ownership_message([("upload", "one.bin", b"one"), ("upload", "two.bin", b"two"), ("upload", "three.bin", b"three")])
+        result = owned(body, settings={"write_error_sink": 2, "close_error_sinks": [0], "close_base_exception": close_base_exception}, maximum=1)
+        assert result["error"]["is_original"] is True, result
+        assert result["error"]["type"] == "OSError"
+>       assert_rollback(result, 3)
+
+/tests/test_holdout.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 3
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original I/O', 'type': 'OSError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0ec860>)
+
+/tests/test_holdout.py:260: AssertionError
+_____________ test_ownership_shared_factory_stream_is_cleaned_once _____________
+
+    def test_ownership_shared_factory_stream_is_cleaned_once():
+        body = ownership_message([("upload", "one.bin", b"first"), ("upload", "two.bin", b"second")]).rsplit(b"\r\n--ownership--", 1)[0]
+        result = owned(body, settings={"shared_sink": True}, maximum=1)
+        assert result["error"]["type"] == "ValueError", result
+        assert len(result["sinks"]) == 1
+>       assert_rollback(result, 1)
+
+/tests/test_holdout.py:426: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 1
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': False, 'message': 'Invalid form-data cannot parse beyond State.DATA', 'type': 'ValueError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0ed560>)
+
+/tests/test_holdout.py:260: AssertionError
+______ test_ownership_silent_value_error_fallback_still_cleans_all_sinks _______
+
+    def test_ownership_silent_value_error_fallback_still_cleans_all_sinks():
+        body = ownership_message([("upload", "one.bin", b"first"), ("upload", "two.bin", b"second")])
+        result = owned(body, path="form", settings={"write_error_sink": 1, "value_exception": True}, silent=True, maximum=1)
+        assert result["error"] is None, result
+        assert result["fields"] == result["files"] == []
+>       assert_rollback(result, 2)
+
+/tests/test_holdout.py:434: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': None, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': None, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffbb0e2670>)
+
+/tests/test_holdout.py:260: AssertionError
+________ test_ownership_quota_error_is_not_hidden_by_silent_mode[form] _________
+
+path = 'form'
+
+    @pytest.mark.parametrize("path", ["form", "convenience"])
+    def test_ownership_quota_error_is_not_hidden_by_silent_mode(path):
+        body = ownership_message([("upload", "f.bin", b"too large")])
+        result = owned(body, path=path, limits={"max_file_size": 1}, silent=True, maximum=1)
+>       assert result["error"]["type"] == "RequestEntityTooLarge", result
+E       AssertionError: {'error': {'is_original': False, 'message': "FormDataParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert 'TypeError' == 'RequestEntityTooLarge'
+E         
+E         - RequestEntityTooLarge
+E         + TypeError
+
+/tests/test_holdout.py:441: AssertionError
+_____ test_ownership_quota_error_is_not_hidden_by_silent_mode[convenience] _____
+
+path = 'convenience'
+
+    @pytest.mark.parametrize("path", ["form", "convenience"])
+    def test_ownership_quota_error_is_not_hidden_by_silent_mode(path):
+        body = ownership_message([("upload", "f.bin", b"too large")])
+        result = owned(body, path=path, limits={"max_file_size": 1}, silent=True, maximum=1)
+>       assert result["error"]["type"] == "RequestEntityTooLarge", result
+E       AssertionError: {'error': {'is_original': False, 'message': "parse_form_data() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert 'TypeError' == 'RequestEntityTooLarge'
+E         
+E         - RequestEntityTooLarge
+E         + TypeError
+
+/tests/test_holdout.py:441: AssertionError
+___ test_ownership_reused_parser_starts_fresh_quota_counters[after-success] ____
+
+first_fails = False
+
+    @pytest.mark.parametrize("first_fails", [False, True], ids=["after-success", "after-failure"])
+    def test_ownership_reused_parser_starts_fresh_quota_counters(first_fails):
+        first = ownership_message([("upload", "one.bin", b"abcde" if first_fails else b"abcd")])
+        second = ownership_message([("tag", None, b"x"), ("upload", "two.bin", b"abc")])
+        result = call("owned-parse", bodies=[pack(first), pack(second)], path="multipart", limits={"max_file_size": 4, "max_form_data_size": 4}, maximum=1)
+        assert "construction_error" not in result, result
+        rounds = result["rounds"]
+>       assert len(rounds) == 2
+E       assert 1 == 2
+E        +  where 1 = len([{'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}])
+
+/tests/test_holdout.py:452: AssertionError
+___ test_ownership_reused_parser_starts_fresh_quota_counters[after-failure] ____
+
+first_fails = True
+
+    @pytest.mark.parametrize("first_fails", [False, True], ids=["after-success", "after-failure"])
+    def test_ownership_reused_parser_starts_fresh_quota_counters(first_fails):
+        first = ownership_message([("upload", "one.bin", b"abcde" if first_fails else b"abcd")])
+        second = ownership_message([("tag", None, b"x"), ("upload", "two.bin", b"abc")])
+        result = call("owned-parse", bodies=[pack(first), pack(second)], path="multipart", limits={"max_file_size": 4, "max_form_data_size": 4}, maximum=1)
+        assert "construction_error" not in result, result
+        rounds = result["rounds"]
+>       assert len(rounds) == 2
+E       assert 1 == 2
+E        +  where 1 = len([{'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}])
+
+/tests/test_holdout.py:452: AssertionError
+_ test_ownership_request_close_handles_duplicate_names_and_shared_streams[normal] _
+
+close_error = False
+
+    @pytest.mark.parametrize("close_error", [False, True], ids=["normal", "one-close-fails"])
+    def test_ownership_request_close_handles_duplicate_names_and_shared_streams(close_error):
+        result = call("request-close", settings={"close_error_sinks": [0] if close_error else []}, close_rounds=2)
+        assert result["errors"] == [None, None], result
+        assert result["input_closed"] is False
+        assert result["factory_calls"] == 0
+        for index, round_result in enumerate(result["rounds"], start=1):
+>           assert [sink["close_calls"] for sink in round_result] == [index, index, index]
+E           assert [2, 1, 1] == [1, 1, 1]
+E             
+E             At index 0 diff: 2 != 1
+E             Use -v to get more diff
+
+/tests/test_holdout.py:469: AssertionError
+_ test_ownership_request_close_handles_duplicate_names_and_shared_streams[one-close-fails] _
+
+close_error = True
+
+    @pytest.mark.parametrize("close_error", [False, True], ids=["normal", "one-close-fails"])
+    def test_ownership_request_close_handles_duplicate_names_and_shared_streams(close_error):
+        result = call("request-close", settings={"close_error_sinks": [0] if close_error else []}, close_rounds=2)
+        assert result["errors"] == [None, None], result
+        assert result["input_closed"] is False
+        assert result["factory_calls"] == 0
+        for index, round_result in enumerate(result["rounds"], start=1):
+>           assert [sink["close_calls"] for sink in round_result] == [index, index, index]
+E           assert [2, 1, 1] == [1, 1, 1]
+E             
+E             At index 0 diff: 2 != 1
+E             Use -v to get more diff
+
+/tests/test_holdout.py:469: AssertionError
+_______ test_ownership_successful_transfer_survives_later_parse_failure ________
+
+    def test_ownership_successful_transfer_survives_later_parse_failure():
+        first = ownership_message([("upload", "first.bin", b"abc")])
+        second = ownership_message([("upload", "second.bin", b"12345")])
+        result = call("owned-parse", bodies=[pack(first), pack(second)], path="multipart", limits={"max_file_size": 4, "max_form_data_size": 4}, maximum=1)
+        rounds = result["rounds"]
+>       assert rounds[0]["error"] is None, result
+E       AssertionError: {'factory_calls': 0, 'rounds': [{'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}]}
+E       assert {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_file_size'", 'type': 'TypeError'} is None
+
+/tests/test_holdout.py:488: AssertionError
+_____ test_ownership_field_quota_failure_cleans_an_earlier_completed_file ______
+
+    def test_ownership_field_quota_failure_cleans_an_earlier_completed_file():
+        body = ownership_message([("upload", "first.bin", b"ab"), ("field", None, b"12345")])
+        result = owned(body, limits={"max_form_data_size": 4}, maximum=1)
+>       assert result["error"]["type"] == "RequestEntityTooLarge", result
+E       AssertionError: {'error': {'is_original': False, 'message': "MultiPartParser.__init__() got an unexpected keyword argument 'max_form_data_size'", 'type': 'TypeError'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert 'TypeError' == 'RequestEntityTooLarge'
+E         
+E         - RequestEntityTooLarge
+E         + TypeError
+
+/tests/test_holdout.py:504: AssertionError
+______ test_ownership_public_keyword_only_arguments_and_request_defaults _______
+
+    def test_ownership_public_keyword_only_arguments_and_request_defaults():
+        result = call("api-contract")
+>       assert result["request_defaults"] == {"max_file_size": None, "max_form_data_size": None}
+E       AssertionError: assert {'max_file_si...e': 'missing'} == {'max_file_si...a_size': None}
+E         
+E         Differing items:
+E         {'max_form_data_size': 'missing'} != {'max_form_data_size': None}
+E         {'max_file_size': 'missing'} != {'max_file_size': None}
+E         Use -v to get more diff
+
+/tests/test_holdout.py:513: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-multipart]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-form]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[inclusive-convenience]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-multipart]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-form]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-convenience]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-multipart]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-form]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-convenience]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-request]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[empty-zero]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[per-file-reset]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[utf8-raw-bytes]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[fields-ignore-file-limit]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-low]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-negative]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-huge]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[declared-invalid]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[fields-only-total]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[metadata-excluded]
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[retry-not-double-counted]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_file_size-multipart]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_file_size-form]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_file_size-convenience]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_file_size-request]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-multipart]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-form]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-convenience]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-request]
+FAILED ../../../dev::test_ownership_new_quotas_do_not_apply_to_urlencoded[form]
+FAILED ../../../dev::test_ownership_new_quotas_do_not_apply_to_urlencoded[convenience]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[1]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[3]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[11]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[zero]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[none]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[negative]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[oversized]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[float]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[bool]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-reader]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-writer]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-seek]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-factory]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-decoder]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-fields-collection]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[ordinary-exception-files-collection]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-reader]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-writer]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-seek]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-factory]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-decoder]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-fields-collection]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-files-collection]
+FAILED ../../../dev::test_ownership_cleanup_failure_preserves_original_and_continues[close-oserror]
+FAILED ../../../dev::test_ownership_cleanup_failure_preserves_original_and_continues[close-base-exception]
+FAILED ../../../dev::test_ownership_shared_factory_stream_is_cleaned_once - A...
+FAILED ../../../dev::test_ownership_silent_value_error_fallback_still_cleans_all_sinks
+FAILED ../../../dev::test_ownership_quota_error_is_not_hidden_by_silent_mode[form]
+FAILED ../../../dev::test_ownership_quota_error_is_not_hidden_by_silent_mode[convenience]
+FAILED ../../../dev::test_ownership_reused_parser_starts_fresh_quota_counters[after-success]
+FAILED ../../../dev::test_ownership_reused_parser_starts_fresh_quota_counters[after-failure]
+FAILED ../../../dev::test_ownership_request_close_handles_duplicate_names_and_shared_streams[normal]
+FAILED ../../../dev::test_ownership_request_close_handles_duplicate_names_and_shared_streams[one-close-fails]
+FAILED ../../../dev::test_ownership_successful_transfer_survives_later_parse_failure
+FAILED ../../../dev::test_ownership_field_quota_failure_cleans_an_earlier_completed_file
+FAILED ../../../dev::test_ownership_public_keyword_only_arguments_and_request_defaults
+68 failed, 72 passed in 1.44s

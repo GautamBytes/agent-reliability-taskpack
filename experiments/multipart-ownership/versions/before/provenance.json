@@ -1,0 +1,56 @@
+{
+  "repository": "https://github.com/pallets/werkzeug",
+  "license": "BSD-3-Clause",
+  "license_file": "environment/repo/LICENSE.txt",
+  "baseline_commit": "b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_url": "https://codeload.github.com/pallets/werkzeug/tar.gz/b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_sha256": "66cc34a8edfd631472e70166c8b5e2ab823be291bf05d53d648da9f476ddcff2",
+  "issues": [
+    "https://github.com/pallets/werkzeug/issues/3065",
+    "https://github.com/pallets/werkzeug/issues/3077",
+    "https://github.com/pallets/werkzeug/issues/3088"
+  ],
+  "upstream_fixes": [
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3081",
+      "merge_commit": "0f76c353b10afc2f8129aa3684ccc3262516a0c0"
+    },
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3089",
+      "merge_commit": "06f33b24182ad4e03ec35eb55b3daf358d12b11e"
+    }
+  ],
+  "upstream_reference_parser_sha256": "82acf0a7a620c84fc37a94e59e88ae14def8dd0dd63daea9ee48b5c67e62c65a",
+  "task_reference_parser_sha256": "e70a2d5cfa3f578cb81c2919159bf78e4fcc471e4409de2a6a62fc9301b8333d",
+  "allowed_candidate_tree": "src/werkzeug",
+  "reference_production_files": [
+    "src/werkzeug/sansio/multipart.py"
+  ],
+  "authorship": "Upstream repair family attributed to Philip Jones and Pallets maintainers. This hard-version reference adds an independently implemented delimiter scanner for the explicit experimental contract.",
+  "task_reference_is_exact_upstream_patch": false,
+  "authored_extension": "Exact delimiter suffix classification, transport-padding retention, trueEOF closing, invalid closing-lookalike preservation and fragmented CRLF handling. Not submitted or accepted upstream; novelty not established.",
+  "environment": {
+    "python": "3.12.12",
+    "dependencies_file": "tests/requirements.lock"
+  },
+  "scope": {
+    "repair_contract": "fragmentation-invariant byte preservation with optionalSP/HTAB delimiterpadding, trueEOFclosing and invalid closing-lookalikes as payload",
+    "details": "instruction.md",
+    "not_full_RFC_compliance": true,
+    "legacy_newlines": "Selected31 upstream tests retain existingCR-only/LF-only ordinary behavior."
+  },
+  "experiment_version": "before",
+  "task_id": "werkzeug-multipart-ownership-before",
+  "reference_patch_sha256": "ba46a5f32aa15e0e5a0305964f32cbfb4ef0deb5ea080cdcf045fb94812b1acf",
+  "reference_basis": "Local extension of the attributed upstream multipart repair family. Delimiter classification now waits for a valid ending or true EOF and retains incomplete padded candidates.",
+  "experiment_contract": "../../CONTRACT.md",
+  "source_unchanged_between_versions": true,
+  "verification": {
+    "required_public_cases": 31,
+    "required_private_cases": 69,
+    "total_required_checks": 100,
+    "known_skips": 0,
+    "counts_source": "Private verifier author collected exact manifests in pinned Docker runtime."
+  },
+  "comparison": "Previous frozen hard100 contract; same production baseline for both new conditions."
+}

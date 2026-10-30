@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-30T12:59:54.978777+00:00",
+  "logical_host_cpus": 10,
+  "uptime": "18:29  1 user, load averages: 1.79 2.72 2.88",
+  "counted_native_attempts_planned": 16,
+  "attempts_per_condition": 8,
+  "maximum_simultaneous_agent_containers": 2,
+  "runtime": "Same Python, CLI, native Harbor, model, reasoning, configured solve deadline and Docker limits in both conditions",
+  "no_timing_gate": true,
+  "conditions_order": "One before plus one after per round, eight rounds; no optional stopping"
+}

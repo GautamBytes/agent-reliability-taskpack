@@ -1,0 +1,137 @@
+{
+  "description": "Fixed-source offline controls, no model attempts",
+  "rows": [
+    {
+      "version": "after",
+      "variant": "reference",
+      "source_hashes_verified": true,
+      "patch_sha256": "736ac7f21084e4c858a1dd7f50d113eb04e39f91296464d245c04da4b9d077a0",
+      "reward": 1,
+      "tests_run": 171,
+      "passed": 171,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "alternative-exitstack",
+      "source_hashes_verified": true,
+      "patch_sha256": "202abc6777a4384b018d3f8932903738a7b5eb6de805302592b5420741e074e5",
+      "reward": 1,
+      "tests_run": 171,
+      "passed": 171,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "early-collections",
+      "source_hashes_verified": true,
+      "patch_sha256": "642674a20a50c0ed3ba41e2acae01dd899f52a8584fde1da2be159eea602284f",
+      "reward": 1,
+      "tests_run": 171,
+      "passed": 171,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "baseline",
+      "source_hashes_verified": true,
+      "patch_sha256": null,
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 59,
+      "failed": 112,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "prior-hard-reference",
+      "source_hashes_verified": true,
+      "patch_sha256": "ba46a5f32aa15e0e5a0305964f32cbfb4ef0deb5ea080cdcf045fb94812b1acf",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 103,
+      "failed": 68,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "quota-only",
+      "source_hashes_verified": true,
+      "patch_sha256": "ec23aa386c6a81888ca4a53380d44134e46395e4a48d4e73fc41139bfec5e121",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 127,
+      "failed": 44,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "close-current-only",
+      "source_hashes_verified": true,
+      "patch_sha256": "f7d3ccd2ea47cd12bc1917b1893adf4e0bc89816207f69f20b024c2fb86ce4cf",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 156,
+      "failed": 15,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "one-write",
+      "source_hashes_verified": true,
+      "patch_sha256": "0641440a51a0836c1425c2127318eb0abe4c2694903ea3a03e97798eef020573",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 161,
+      "failed": 10,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "trust-content-length",
+      "source_hashes_verified": true,
+      "patch_sha256": "bfbdc0ba5dc9059f0ebe47c10d33ec64f1de16bf72f35b9c663b298e5e864cec",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 161,
+      "failed": 10,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "exception-only-cleanup",
+      "source_hashes_verified": true,
+      "patch_sha256": "049b0a09a856f3119450e56b74b0f7848116c71bf57c59f495c40f0959273178",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 165,
+      "failed": 6,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "omit-request-forwarding",
+      "source_hashes_verified": true,
+      "patch_sha256": "8565b77a04037929707b0a7ecc6a9e637ec20c68effb572bc657b32db908680f",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 167,
+      "failed": 4,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "close-first-duplicate",
+      "source_hashes_verified": true,
+      "patch_sha256": "cf6f0a7f3ff6e7827b92c332f2333718d2fb19b22b05e41138bb4b08243922d0",
+      "reward": 0,
+      "tests_run": 171,
+      "passed": 169,
+      "failed": 2,
+      "skipped": 0
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "description": "Fixed-source offline controls, no model attempts",
+  "rows": [
+    {
+      "version": "after",
+      "variant": "reference",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 167,
+      "failed": 1,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "alternative-exitstack",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 167,
+      "failed": 1,
+      "skipped": 0
+    },
+    {
+      "version": "after",
+      "variant": "early-collections",
+      "reward": 0,
+      "tests_run": 168,
+      "passed": 139,
+      "failed": 29,
+      "skipped": 0
+    }
+  ]
+}

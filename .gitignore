@@ -9,3 +9,6 @@ evidence/coding-agents/
 experiments/multipart-hardening/runs/raw/
 experiments/multipart-hardening/evidence/native-preflight/
 experiments/multipart-hardening/STATE.md
+experiments/multipart-ownership/runs/raw/
+experiments/multipart-ownership/evidence/native-preflight/
+experiments/multipart-ownership/STATE.md

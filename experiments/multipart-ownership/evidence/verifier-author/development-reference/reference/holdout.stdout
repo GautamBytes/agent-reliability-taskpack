@@ -1,0 +1,23 @@
+........................................................................ [ 52%]
+............................F....................................        [100%]
+=================================== FAILURES ===================================
+__________ test_ownership_new_quotas_do_not_apply_to_urlencoded[form] __________
+
+path = 'form'
+
+    @pytest.mark.parametrize("path", ["form", "convenience", "request"])
+    def test_ownership_new_quotas_do_not_apply_to_urlencoded(path):
+        body = b"tag=hello&tag=world"
+        result = owned(body, path=path, limits={"max_file_size": 0, "max_form_data_size": 0}, mimetype="application/x-www-form-urlencoded", content_type="application/x-www-form-urlencoded")
+        assert result["error"] is None, result
+>       assert result["fields"] == [["tag", "hello"], ["tag", "world"]]
+E       AssertionError: assert [['tag', 'hel']] == [['tag', 'hel...ag', 'world']]
+E         
+E         At index 0 diff: ['tag', 'hel'] != ['tag', 'hello']
+E         Right contains one more item: ['tag', 'world']
+E         Use -v to get more diff
+
+/tests/test_holdout.py:356: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_new_quotas_do_not_apply_to_urlencoded[form]
+1 failed, 136 passed in 0.98s

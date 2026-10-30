@@ -1,0 +1,12 @@
+{
+  "review_scope": "Separate read-only same-model-family fairness review, not external validation",
+  "public_private_mapping": "All171cases map to explicit published contract. Constructor fault injection accepts early collection strategies. Higher-level streaming ordering made explicit before counted trials.",
+  "baseline_audit": {
+    "agent_files_byte_equal": 291,
+    "trusted_baseline_files_byte_equal": 290,
+    "before_tests_tree_byte_equal": 299
+  },
+  "control_audit": "All12 after variants independently reconstructed across59productionfiles; three valid implementations171/171, baseline/priorfullrepair/sevenpartialcontrols rejected; zero skips",
+  "no_counted_attempts_used_to_tune_tests": true,
+  "task_fairness_blocker": null
+}

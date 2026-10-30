@@ -1,0 +1,103 @@
+........................................................................ [ 51%]
+....F...F..............F...F........................................     [100%]
+=================================== FAILURES ===================================
+___ test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request] ___
+
+path = 'request', scenario = 'per-file'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+__ test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-request] ___
+
+path = 'request', scenario = 'aggregate'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("scenario", ["inclusive", "per-file", "aggregate"])
+    def test_ownership_public_paths_enforce_actual_byte_quotas(path, scenario):
+        parts = [("tag", None, b"abc"), ("upload", "f.bin", b"\0\xff\r\n")]
+        body = ownership_message(parts)
+        limits = {"max_file_size": 4, "max_form_data_size": 7}
+        if scenario == "per-file":
+            limits["max_file_size"] = 3
+        if scenario == "aggregate":
+            limits["max_form_data_size"] = 6
+        result = owned(body, path=path, limits=limits, maximum=1, content_length=None)
+        if scenario == "inclusive":
+            assert result["error"] is None, result
+            assert result["fields"] == [["tag", "abc"]]
+            assert [(key, filename, unpack(value)) for key, filename, value in result["files"]] == [("upload", "f.bin", b"\0\xff\r\n")]
+            assert len(result["sinks"]) == 1
+            assert result["sinks"][0]["close_calls"] == 0
+            assert result["sinks"][0]["closed"] is False
+            assert_borrowed_input(result)
+        else:
+>           assert result["error"]["type"] == "RequestEntityTooLarge", result
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:283: TypeError
+_ test_ownership_invalid_configuration_is_not_silenced[max_file_size-request] __
+
+path = 'request', setting = 'max_file_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('request', 'max_file_size', -1, {'error': None})
+E           assert {'error': None} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': None} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+_ test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-request] _
+
+path = 'request', setting = 'max_form_data_size'
+
+    @pytest.mark.parametrize("path", OWNERSHIP_PATHS)
+    @pytest.mark.parametrize("setting", ["max_file_size", "max_form_data_size"])
+    def test_ownership_invalid_configuration_is_not_silenced(path, setting):
+        for invalid in (-1, True, 1.5, "4"):
+            result = call("validate-limits", path=path, limits={setting: invalid})
+>           assert result == {"error": "ValueError"}, (path, setting, invalid, result)
+E           AssertionError: ('request', 'max_form_data_size', -1, {'error': None})
+E           assert {'error': None} == {'error': 'ValueError'}
+E             
+E             Differing items:
+E             {'error': None} != {'error': 'ValueError'}
+E             Use -v to get more diff
+
+/tests/test_holdout.py:346: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[per-file-request]
+FAILED ../../../dev::test_ownership_public_paths_enforce_actual_byte_quotas[aggregate-request]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_file_size-request]
+FAILED ../../../dev::test_ownership_invalid_configuration_is_not_silenced[max_form_data_size-request]
+4 failed, 136 passed in 1.06s

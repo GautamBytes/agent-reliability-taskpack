@@ -1,0 +1,478 @@
+diff --git a/src/werkzeug/formparser.py b/src/werkzeug/formparser.py
+index 0103414..54e9794 100644
+--- a/src/werkzeug/formparser.py
++++ b/src/werkzeug/formparser.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import typing as t
++from functools import partial
+ from io import BytesIO
+ from urllib.parse import parse_qsl
+ 
+@@ -66,6 +67,29 @@ def default_stream_factory(
+     return BytesIO()
+ 
+ 
++
++def _validate_payload_limit(name: str, value: int | None) -> None:
++    if value is not None and (
++        not isinstance(value, int) or isinstance(value, bool) or value < 0
++    ):
++        raise ValueError(f"{name} must be None or a nonnegative integer")
++
++
++def _write_all(stream: t.IO[bytes], data: bytes) -> None:
++    offset = 0
++    while offset < len(data):
++        remaining = data[offset:]
++        count = stream.write(remaining)
++        if (
++            not isinstance(count, int)
++            or isinstance(count, bool)
++            or count <= 0
++            or count > len(remaining)
++        ):
++            raise OSError("File stream write returned an invalid byte count")
++        offset += count
++
++
+ def parse_form_data(
+     environ: WSGIEnvironment,
+     stream_factory: TStreamFactory | None = None,
+@@ -75,6 +99,8 @@ def parse_form_data(
+     silent: bool = True,
+     *,
+     max_form_parts: int | None = None,
++    max_file_size: int | None = None,
++    max_form_data_size: int | None = None,
+ ) -> t_parse_result:
+     """Parse the form data in the environ and return it as tuple in the form
+     ``(stream, form, files)``.  You should only call this method if the
+@@ -105,6 +131,10 @@ def parse_form_data(
+     :param silent: If set to False parsing errors will not be caught.
+     :param max_form_parts: The maximum number of multipart parts to be parsed. If this
+         is exceeded, a :exc:`~exceptions.RequestEntityTooLarge` exception is raised.
++    :param max_file_size: Inclusive actual-payload byte limit for each multipart
++        file. None disables this limit.
++    :param max_form_data_size: Inclusive actual-payload byte limit across all
++        multipart fields and files. Headers and delimiters do not count.
+     :return: A tuple in the form ``(stream, form, files)``.
+ 
+     .. versionchanged:: 3.0
+@@ -125,6 +155,8 @@ def parse_form_data(
+         max_form_memory_size=max_form_memory_size,
+         max_content_length=max_content_length,
+         max_form_parts=max_form_parts,
++        max_file_size=max_file_size,
++        max_form_data_size=max_form_data_size,
+         silent=silent,
+         cls=cls,
+     ).parse_from_environ(environ)
+@@ -154,6 +186,10 @@ class FormDataParser:
+     :param silent: If set to False parsing errors will not be caught.
+     :param max_form_parts: The maximum number of multipart parts to be parsed. If this
+         is exceeded, a :exc:`~exceptions.RequestEntityTooLarge` exception is raised.
++    :param max_file_size: Inclusive actual-payload byte limit for each multipart
++        file. None disables this limit.
++    :param max_form_data_size: Inclusive actual-payload byte limit across all
++        multipart fields and files. Headers and delimiters do not count.
+ 
+     .. versionchanged:: 3.0
+         The ``charset`` and ``errors`` parameters were removed.
+@@ -176,7 +212,13 @@ class FormDataParser:
+         silent: bool = True,
+         *,
+         max_form_parts: int | None = None,
++        max_file_size: int | None = None,
++        max_form_data_size: int | None = None,
+     ) -> None:
++        _validate_payload_limit("max_file_size", max_file_size)
++        _validate_payload_limit("max_form_data_size", max_form_data_size)
++        self.max_file_size = max_file_size
++        self.max_form_data_size = max_form_data_size
+         if stream_factory is None:
+             stream_factory = default_stream_factory
+ 
+@@ -257,6 +299,8 @@ class FormDataParser:
+             stream_factory=self.stream_factory,
+             max_form_memory_size=self.max_form_memory_size,
+             max_form_parts=self.max_form_parts,
++            max_file_size=self.max_file_size,
++            max_form_data_size=self.max_form_data_size,
+             cls=self.cls,
+         )
+         boundary = options.get("boundary", "").encode("ascii")
+@@ -297,7 +341,14 @@ class MultiPartParser:
+         cls: type[MultiDict[str, t.Any]] | None = None,
+         buffer_size: int = 64 * 1024,
+         max_form_parts: int | None = None,
++        *,
++        max_file_size: int | None = None,
++        max_form_data_size: int | None = None,
+     ) -> None:
++        _validate_payload_limit("max_file_size", max_file_size)
++        _validate_payload_limit("max_form_data_size", max_form_data_size)
++        self.max_file_size = max_file_size
++        self.max_form_data_size = max_form_data_size
+         self.max_form_memory_size = max_form_memory_size
+         self.max_form_parts = max_form_parts
+ 
+@@ -365,54 +416,82 @@ class MultiPartParser:
+         fields = []
+         files = []
+ 
+-        for data in _chunk_iter(stream.read, self.buffer_size):
+-            parser.receive_data(data)
+-            event = parser.next_event()
+-            while not isinstance(event, (Epilogue, NeedData)):
+-                if isinstance(event, Field):
+-                    current_part = event
+-                    field_size = 0
+-                    container = []
+-                    _write = container.append
+-                elif isinstance(event, File):
+-                    current_part = event
+-                    field_size = None
+-                    container = self.start_file_streaming(event, content_length)
+-                    _write = container.write
+-                elif isinstance(event, Data):
+-                    if self.max_form_memory_size is not None and field_size is not None:
+-                        # Ensure that accumulated data events do not exceed limit.
+-                        # Also checked within single event in MultipartDecoder.
+-                        field_size += len(event.data)
+-
+-                        if field_size > self.max_form_memory_size:
++        owned: dict[int, t.IO[bytes]] = {}
++        total_size = 0
++        file_size = 0
++        try:
++            for data in _chunk_iter(stream.read, self.buffer_size):
++                parser.receive_data(data)
++                event = parser.next_event()
++                while not isinstance(event, (Epilogue, NeedData)):
++                    if isinstance(event, Field):
++                        current_part = event
++                        field_size = 0
++                        container = []
++                        _write = container.append
++                    elif isinstance(event, File):
++                        current_part = event
++                        field_size = None
++                        container = self.start_file_streaming(event, content_length)
++                        owned[id(container)] = container
++                        file_size = 0
++                        _write = partial(_write_all, container)
++                    elif isinstance(event, Data):
++                        next_total = total_size + len(event.data)
++                        if (
++                            self.max_form_data_size is not None
++                            and next_total > self.max_form_data_size
++                        ):
+                             raise RequestEntityTooLarge()
+-
+-                    _write(event.data)
+-                    if not event.more_data:
+-                        if isinstance(current_part, Field):
+-                            value = b"".join(container).decode(
+-                                self.get_part_charset(current_part.headers), "replace"
+-                            )
+-                            fields.append((current_part.name, value))
+-                        else:
+-                            container = t.cast(t.IO[bytes], container)
+-                            container.seek(0)
+-                            files.append(
+-                                (
+-                                    current_part.name,
+-                                    FileStorage(
+-                                        container,
+-                                        current_part.filename,
++                        if isinstance(current_part, File):
++                            next_file = file_size + len(event.data)
++                            if (
++                                self.max_file_size is not None
++                                and next_file > self.max_file_size
++                            ):
++                                raise RequestEntityTooLarge()
++                            file_size = next_file
++                        total_size = next_total
++                        if self.max_form_memory_size is not None and field_size is not None:
++                            # Ensure that accumulated data events do not exceed limit.
++                            # Also checked within single event in MultipartDecoder.
++                            field_size += len(event.data)
++
++                            if field_size > self.max_form_memory_size:
++                                raise RequestEntityTooLarge()
++
++                        _write(event.data)
++                        if not event.more_data:
++                            if isinstance(current_part, Field):
++                                value = b"".join(container).decode(
++                                    self.get_part_charset(current_part.headers), "replace"
++                                )
++                                fields.append((current_part.name, value))
++                            else:
++                                container = t.cast(t.IO[bytes], container)
++                                container.seek(0)
++                                files.append(
++                                    (
+                                         current_part.name,
+-                                        headers=current_part.headers,
+-                                    ),
++                                        FileStorage(
++                                            container,
++                                            current_part.filename,
++                                            current_part.name,
++                                            headers=current_part.headers,
++                                        ),
++                                    )
+                                 )
+-                            )
+ 
+-                event = parser.next_event()
++                    event = parser.next_event()
+ 
+-        return self.cls(fields), self.cls(files)
++            return self.cls(fields), self.cls(files)
++        except BaseException:
++            for sink in owned.values():
++                try:
++                    sink.close()
++                except BaseException:
++                    pass
++            raise
+ 
+ 
+ def _chunk_iter(read: t.Callable[[int], bytes], size: int) -> t.Iterator[bytes | None]:
+diff --git a/src/werkzeug/sansio/multipart.py b/src/werkzeug/sansio/multipart.py
+index 279b25e..699dc75 100644
+--- a/src/werkzeug/sansio/multipart.py
++++ b/src/werkzeug/sansio/multipart.py
+@@ -121,21 +121,18 @@ class MultipartDecoder:
+             % (LINE_BREAK, re.escape(boundary), LINE_BREAK, LINE_BREAK),
+             re.MULTILINE,
+         )
++        self._preamble_prefix_re = re.compile(
++            rb"%s?--%s" % (LINE_BREAK, re.escape(boundary))
++        )
++        self._data_prefix_re = re.compile(
++            rb"%s--%s" % (LINE_BREAK, re.escape(boundary))
++        )
++        self._partial_prefixes = tuple(
++            ending + b"--" + boundary for ending in (b"\r\n", b"\r", b"\n")
++        )
+         self._search_position = 0
+         self._parts_decoded = 0
+ 
+-    def last_newline(self, data: bytes | bytearray) -> int:
+-        try:
+-            last_nl = data.rindex(b"\n")
+-        except ValueError:
+-            last_nl = len(data)
+-        try:
+-            last_cr = data.rindex(b"\r")
+-        except ValueError:
+-            last_cr = len(data)
+-
+-        return min(last_nl, last_cr)
+-
+     def receive_data(self, data: bytes | None) -> None:
+         if data is None:
+             self.complete = True
+@@ -151,25 +148,15 @@ class MultipartDecoder:
+ 
+     def next_event(self) -> Event:
+         event: Event = NEED_DATA
+-
+         if self.state == State.PREAMBLE:
+-            match = self.preamble_re.search(self.buffer, self._search_position)
++            match, _ = self._find_boundary(self.buffer, preamble=True)
+             if match is not None:
+-                if match.group(1).startswith(b"--"):
+-                    self.state = State.EPILOGUE
+-                else:
+-                    self.state = State.PART
+-                data = bytes(self.buffer[: match.start()])
+-                del self.buffer[: match.end()]
++                begin, end, closing = match
++                self.state = State.EPILOGUE if closing else State.PART
++                data = bytes(self.buffer[:begin])
++                del self.buffer[:end]
+                 event = Preamble(data=data)
+                 self._search_position = 0
+-            else:
+-                # Update the search start position to be equal to the
+-                # current buffer length (already searched) minus a
+-                # safe buffer for part of the search target.
+-                self._search_position = max(
+-                    0, len(self.buffer) - len(self.boundary) - SEARCH_EXTRA_LENGTH
+-                )
+ 
+         elif self.state == State.PART:
+             match = BLANK_LINE_RE.search(self.buffer, self._search_position)
+@@ -214,10 +201,11 @@ class MultipartDecoder:
+ 
+         elif self.state == State.DATA_START:
+             data, del_index, more_data = self._parse_data(self.buffer, start=True)
+-            del self.buffer[:del_index]
+-            event = Data(data=data, more_data=more_data)
+-            if more_data:
+-                self.state = State.DATA
++            if del_index or not more_data:
++                del self.buffer[:del_index]
++                event = Data(data=data, more_data=more_data)
++                if more_data:
++                    self.state = State.DATA
+ 
+         elif self.state == State.DATA:
+             data, del_index, more_data = self._parse_data(self.buffer, start=False)
+@@ -248,50 +236,66 @@ class MultipartDecoder:
+                 headers.append((name.strip(), value.strip()))
+         return Headers(headers)
+ 
++    def _find_boundary(
++        self, data: bytes | bytearray, *, preamble: bool = False
++    ) -> tuple[tuple[int, int, bool] | None, int]:
++        expression = self._preamble_prefix_re if preamble else self._data_prefix_re
++        pending = len(data)
++        position = 0
++        while (match := expression.search(data, position)) is not None:
++            position = match.start() + 1
++            end = match.end()
++            closing = data[end : end + 2] == b"--"
++            if closing:
++                end += 2
++            elif data[end : end + 1] == b"-":
++                if end + 1 == len(data) and not self.complete:
++                    pending = min(pending, match.start())
++                continue
++            while end < len(data) and data[end] in (0x20, 0x09):
++                end += 1
++            if end == len(data):
++                if closing and self.complete:
++                    return (match.start(), end, True), pending
++                if not self.complete:
++                    pending = min(pending, match.start())
++                continue
++            if data[end] == 0x0D:
++                if end + 1 == len(data) and not self.complete:
++                    pending = min(pending, match.start())
++                    continue
++                end += 2 if data[end : end + 2] == b"\r\n" else 1
++            elif data[end] == 0x0A:
++                end += 1
++            else:
++                continue
++            return (match.start(), end, closing), pending
++
++        if not self.complete:
++            prefixes = self._partial_prefixes
++            if preamble:
++                prefixes += (b"--" + self.boundary,)
++            for prefix in prefixes:
++                for size in range(min(len(data), len(prefix) - 1), 0, -1):
++                    if data[-size:] == prefix[:size]:
++                        pending = min(pending, len(data) - size)
++                        break
++        return None, pending
++
+     def _parse_data(
+         self, data: bytes | bytearray, *, start: bool
+     ) -> tuple[bytes, int, bool]:
+-        # Body parts must start with CRLF (or CR or LF)
+         if start:
+-            match = LINE_BREAK_RE.match(data)
+-            data_start = t.cast(t.Match[bytes], match).end()
++            newline = LINE_BREAK_RE.match(data)
++            data_start = t.cast(t.Match[bytes], newline).end()
+         else:
+             data_start = 0
+-
+-        boundary = b"--" + self.boundary
+-
+-        if self.buffer.find(boundary) == -1:
+-            # No complete boundary in the buffer, but there may be
+-            # a partial boundary at the end. As the boundary
+-            # starts with either a nl or cr find the earliest and
+-            # return up to that as data.
+-            data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            # If amount of data after last newline is far from
+-            # possible length of partial boundary, we should
+-            # assume that there is no partial boundary in the buffer
+-            # and return all pending data.
+-            if (len(data) - data_end) > len(b"\n" + boundary):
+-                data_end = del_index = len(data)
+-            more_data = True
+-        else:
+-            match = self.boundary_re.search(data)
+-            if match is not None:
+-                if match.group(1).startswith(b"--"):
+-                    self.state = State.EPILOGUE
+-                else:
+-                    self.state = State.PART
+-                data_end = match.start()
+-                del_index = match.end()
+-            else:
+-                data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            more_data = match is None
+-
+-        # Keep \r\n sequence intact rather than splitting across chunks.
+-        if data_end > data_start and data[data_end - 1] == 0x0D:
+-            data_end -= 1
+-            del_index -= 1
+-
+-        return bytes(data[data_start:data_end]), del_index, more_data
++        match, pending = self._find_boundary(data)
++        if match is not None:
++            begin, end, closing = match
++            self.state = State.EPILOGUE if closing else State.PART
++            return bytes(data[data_start:begin]), end, False
++        return bytes(data[data_start:pending]), pending, True
+ 
+ 
+ class MultipartEncoder:
+diff --git a/src/werkzeug/wrappers/request.py b/src/werkzeug/wrappers/request.py
+index 9f1eee1..415621b 100644
+--- a/src/werkzeug/wrappers/request.py
++++ b/src/werkzeug/wrappers/request.py
+@@ -90,6 +90,12 @@ class Request(_SansIORequest):
+     #: .. versionadded:: 0.5
+     max_form_memory_size: int | None = 500_000
+ 
++    #: Inclusive actual-payload byte limit for each multipart file.
++    max_file_size: int | None = None
++
++    #: Inclusive raw payload byte limit across multipart fields and files.
++    max_form_data_size: int | None = None
++
+     #: The maximum number of multipart parts to parse, passed to
+     #: :attr:`form_data_parser_class`. Parsing form data with more than this
+     #: many parts will raise :exc:`~.RequestEntityTooLarge`.
+@@ -250,6 +256,8 @@ class Request(_SansIORequest):
+             max_form_memory_size=self.max_form_memory_size,
+             max_content_length=self.max_content_length,
+             max_form_parts=self.max_form_parts,
++            max_file_size=self.max_file_size,
++            max_form_data_size=self.max_form_data_size,
+             cls=self.parameter_storage_class,
+         )
+ 
+@@ -305,9 +313,16 @@ class Request(_SansIORequest):
+ 
+         .. versionadded:: 0.9
+         """
++        seen = set()
+         files = self.__dict__.get("files")
+-        for _key, value in iter_multi_items(files or ()):
+-            value.close()
++        for _key, value in (files or {}).items():
++            stream = value.stream
++            if id(stream) not in seen:
++                seen.add(id(stream))
++                try:
++                    stream.close()
++                except Exception:
++                    pass
+ 
+     def __enter__(self) -> Request:
+         return self

@@ -1,0 +1,305 @@
+........................................................................ [ 51%]
+...............................................FFFF.FF..............     [100%]
+=================================== FAILURES ===================================
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-reader] _
+
+failure = 'reader', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5f686c0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-writer] _
+
+failure = 'writer', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5b22810>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-seek] _
+
+failure = 'seek', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 2
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5f581e0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-factory] _
+
+failure = 'factory', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 1
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5f582b0>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-fields-collection] _
+
+failure = 'fields-collection', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5b23b90>)
+
+/tests/test_holdout.py:260: AssertionError
+_ test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-files-collection] _
+
+failure = 'files-collection', base_exception = True
+
+    @pytest.mark.parametrize("failure", ["reader", "writer", "seek", "factory", "decoder", "fields-collection", "files-collection"])
+    @pytest.mark.parametrize("base_exception", [False, True], ids=["ordinary-exception", "base-exception"])
+    def test_ownership_every_failure_releases_completed_and_current_sinks(failure, base_exception):
+        parts = [("upload", "first.bin", b"first"), ("upload", "second.bin", b"Q" * 31), ("last", None, b"done")]
+        body = ownership_message(parts)
+        settings = {"base_exception": base_exception}
+        minimum = 2
+        if failure == "reader":
+            settings["read_error_at"] = body.index(b"Q" * 31) + 7
+        elif failure == "writer":
+            settings["write_error_sink"] = 1
+        elif failure == "seek":
+            settings["seek_error_sink"] = 1
+        elif failure == "factory":
+            settings["factory_error_call"] = 2
+            minimum = 1
+        elif failure == "decoder":
+            body = ownership_message(parts[:2]).rsplit(b"\r\n--ownership--", 1)[0]
+        else:
+            settings["collection_error_call"] = 1 if failure == "fields-collection" else 2
+            minimum = 0
+        result = owned(body, settings=settings, maximum=1)
+        assert result["error"] is not None, result
+        if failure != "decoder":
+            assert result["error"]["is_original"] is True, result
+            assert result["error"]["type"] == ("ProbeAbort" if base_exception else "OSError")
+        else:
+            assert result["error"]["type"] == "ValueError"
+>       assert_rollback(result, minimum)
+
+/tests/test_holdout.py:407: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+round_result = {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+minimum = 0
+
+    def assert_rollback(round_result, minimum=0):
+        assert_borrowed_input(round_result)
+        assert len(round_result["sinks"]) >= minimum
+>       assert all(sink["close_calls"] == 1 for sink in round_result["sinks"]), round_result
+E       AssertionError: {'error': {'is_original': True, 'message': 'original abort', 'type': 'ProbeAbort'}, 'fields': [], 'files': [], 'input_close_calls': 0, ...}
+E       assert False
+E        +  where False = all(<generator object assert_rollback.<locals>.<genexpr> at 0xffffa5f5a0c0>)
+
+/tests/test_holdout.py:260: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-reader]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-writer]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-seek]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-factory]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-fields-collection]
+FAILED ../../../dev::test_ownership_every_failure_releases_completed_and_current_sinks[base-exception-files-collection]
+6 failed, 134 passed in 1.09s

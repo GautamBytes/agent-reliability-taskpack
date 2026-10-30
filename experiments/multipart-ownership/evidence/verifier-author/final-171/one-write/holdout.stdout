@@ -1,0 +1,204 @@
+........................................................................ [ 51%]
+...................F...........FFFFFFFFF............................     [100%]
+=================================== FAILURES ===================================
+_____ test_ownership_quota_accounting_boundaries[retry-not-double-counted] _____
+
+case = 'retry-not-double-counted'
+
+    @pytest.mark.parametrize("case", ["empty-zero", "per-file-reset", "utf8-raw-bytes", "fields-ignore-file-limit", "declared-low", "declared-negative", "declared-huge", "declared-invalid", "fields-only-total", "metadata-excluded", "retry-not-double-counted"], ids=str)
+    def test_ownership_quota_accounting_boundaries(case):
+        settings = {}
+        lengths = {}
+        padded = False
+        epilogue = b""
+        fail = False
+        if case == "empty-zero":
+            parts = [("empty", None, b""), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": 0}
+        elif case == "per-file-reset":
+            parts = [("upload", "one.bin", b"abc"), ("upload", "two.bin", b"def")]
+            limits = {"max_file_size": 3, "max_form_data_size": 6}
+        elif case == "utf8-raw-bytes":
+            parts = [("tag", None, "é".encode()), ("upload", "f.bin", b"x")]
+            limits = {"max_file_size": 1, "max_form_data_size": 2}
+            fail = True
+        elif case == "fields-ignore-file-limit":
+            parts = [("field", None, b"abcdefgh"), ("upload", "empty.bin", b"")]
+            limits = {"max_file_size": 0, "max_form_data_size": None}
+        elif case.startswith("declared-"):
+            parts = [("upload", "f.bin", b"abcde")]
+            declared = {"declared-low": "0", "declared-negative": "-9", "declared-huge": "99999", "declared-invalid": "not-a-number"}[case]
+            lengths = {0: declared}
+            limits = {"max_file_size": 4 if case != "declared-huge" else 5, "max_form_data_size": None}
+            fail = case != "declared-huge"
+        elif case == "fields-only-total":
+            parts = [("tag", None, b"ab"), ("tag", None, b"cde")]
+            limits = {"max_file_size": None, "max_form_data_size": 4}
+            fail = True
+        elif case == "metadata-excluded":
+            parts = [("name" * 20, None, b"ab"), ("upload", "filename" * 20, b"cd")]
+            limits = {"max_file_size": 2, "max_form_data_size": 4}
+            padded = True
+            epilogue = b"epilogue" * 20
+        else:
+            parts = [("tag", None, b"x"), ("upload", "f.bin", b"abcd")]
+            limits = {"max_file_size": 4, "max_form_data_size": 5}
+            settings = {"short_write": 1}
+        result = owned(ownership_message(parts, lengths, padded, epilogue), limits=limits, settings=settings, maximum=13)
+        if fail:
+            assert result["error"]["type"] == "RequestEntityTooLarge", result
+            assert_rollback(result)
+            if limits["max_file_size"] is not None:
+                assert all(len(unpack(sink["payload"])) <= limits["max_file_size"] for sink in result["sinks"])
+        else:
+            assert result["error"] is None, result
+            assert_borrowed_input(result)
+            assert result["fields"] == [[name, payload.decode()] for name, filename, payload in parts if filename is None]
+>           assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E           AssertionError: assert [('upload', 'f.bin', b'a')] == [('upload', 'f.bin', b'abcd')]
+E             
+E             At index 0 diff: ('upload', 'f.bin', b'a') != ('upload', 'f.bin', b'abcd')
+E             Use -v to get more diff
+
+/tests/test_holdout.py:337: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[1] ________
+
+maximum = 1
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...in', b'\x00')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\r 3FYl\x7f\x92\xa5\xb8\xcb\xde\xf1') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xb...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[3] ________
+
+maximum = 3
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...'\x00\xff\r')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\x01\x02\r\x0e\x0f !"345FGHYZ[lmn\x7f\x80\x81\x92\x93\x94\xa5\xa6\xa7\xb8\xb9\xba\xcb\xcc\xcd\xde\xdf\xe0\xf1\xf2\xf3') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_______ test_ownership_positive_short_writes_preserve_complete_files[11] _______
+
+maximum = 11
+
+    @pytest.mark.parametrize("maximum", [1, 3, 11])
+    def test_ownership_positive_short_writes_preserve_complete_files(maximum):
+        parts = [("upload", "a.bin", bytes(range(256)) + b"\r"), ("upload", "b.bin", b"\0\xff\r\nlast\r\n"), ("last", None, b"done")]
+        result = owned(ownership_message(parts), settings={"short_write": maximum}, maximum=19)
+        assert result["error"] is None, result
+>       assert [(name, filename, unpack(value)) for name, filename, value in result["files"]] == [(name, filename, payload) for name, filename, payload in parts if filename is not None]
+E       assert [('upload', '...r\nlast\r\n')] == [('upload', '...r\nlast\r\n')]
+E         
+E         At index 0 diff: ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17 !"#$%&\'()*3456789:;<=FGHIJKLMNOPYZ[\\]^_`abclmnopqrstuv\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb') != ('upload', 'a.bin', b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/tests/test_holdout.py:366: AssertionError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[zero] ______
+
+returned = 'zero'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[none] ______
+
+returned = 'none'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+___ test_ownership_invalid_write_result_fails_and_releases_stream[negative] ____
+
+returned = 'negative'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+___ test_ownership_invalid_write_result_fails_and_releases_stream[oversized] ___
+
+returned = 'oversized'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[float] _____
+
+returned = 'float'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+_____ test_ownership_invalid_write_result_fails_and_releases_stream[bool] ______
+
+returned = 'bool'
+
+    @pytest.mark.parametrize("returned", ["zero", "none", "negative", "oversized", "float", "bool"])
+    def test_ownership_invalid_write_result_fails_and_releases_stream(returned):
+        body = ownership_message([("upload", "f.bin", b"some bytes")])
+        result = owned(body, settings={"invalid_write": returned})
+>       assert result["error"]["type"] == "OSError", result
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+/tests/test_holdout.py:375: TypeError
+=========================== short test summary info ============================
+FAILED ../../../dev::test_ownership_quota_accounting_boundaries[retry-not-double-counted]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[1]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[3]
+FAILED ../../../dev::test_ownership_positive_short_writes_preserve_complete_files[11]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[zero]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[none]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[negative]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[oversized]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[float]
+FAILED ../../../dev::test_ownership_invalid_write_result_fails_and_releases_stream[bool]
+10 failed, 130 passed in 1.09s
