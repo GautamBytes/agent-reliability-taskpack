@@ -31,7 +31,7 @@
       "ac0714e1743f8e1fbd07cccd9ea54028c3558162",
       "c537ea0e897568553ba30af879f8512c60fccbce"
     ],
-    "evaluation_task": "Gautam Manchandani with Codex assistance. This benchmark packaging is not an accepted upstream contribution."
+    "evaluation_task": "Gautam Manchandani. This benchmark packaging is not an accepted upstream contribution."
   },
   "allowed_candidate_source_trees": [
     "packages/better-auth/src",

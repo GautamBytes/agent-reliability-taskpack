@@ -1,6 +1,6 @@
 # Review without running
 
-This is a personal task-pack project built with AI assistance. The recorded tests were hidden from the coding agents. Their source is public now for review.
+This is a personal task-pack project built. The recorded tests were hidden from the coding agents. Their source is public now for review.
 
 ## Start with these records
 

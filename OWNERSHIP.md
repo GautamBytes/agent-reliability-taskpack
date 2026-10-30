@@ -1,6 +1,6 @@
 # Attribution and ownership
 
-This is a personal evaluation project created by Gautam Manchandani with Codex assistance. It was not commissioned by an employer. The benchmark tasks have not been accepted by Terminal-Bench, Harbor's registry, SWE-bench or the upstream projects.
+This is a personal evaluation project created by Gautam Manchandani. It was not commissioned by an employer. The benchmark tasks have not been accepted by Terminal-Bench, Harbor's registry, SWE-bench or the upstream projects.
 
 ## Upstream work
 

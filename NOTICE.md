@@ -1,6 +1,6 @@
 # Source and license notice
 
-Gautam Manchandani created this personal evaluation task pack with AI assistance. Its original task specifications, additional tests, tooling and review material use the root MIT license.
+Gautam Manchandani created this personal evaluation task pack. Its original task specifications, additional tests, tooling and review material use the root MIT license.
 
 Vendored source, original tests and upstream-derived patches keep their original notices and licenses. The root license does not replace those terms.
 

@@ -15,8 +15,9 @@
     },
     {
       "file": "docs/proof/audit.jpg",
-      "sha256": "181467a20148eb53eeff9ce61e229137036d92bb9ebce65780c5453e453e6919",
+      "sha256": "a940d8e7e3c2688b07eaeeb36d6af4ef5a8a44250e2bde19da829fb893a47518",
       "viewer": "docs/proof/audit.html"
     }
-  ]
+  ],
+  "updated_at": "2026-10-30T11:16:33.013433+00:00"
 }

@@ -1,4 +1,4 @@
-Yes. I recently built a personal project called Agent Reliability Task Pack, with AI help. It has three coding tasks based on real issues in AnyIO, Better Auth and Werkzeug. One builds on a merged Better Auth PR I contributed to. I credit the original fixes and other authors in the repo.
+Yes. I recently built a personal project called Agent Reliability Task Pack. It has three coding tasks based on real issues in AnyIO, Better Auth and Werkzeug. One builds on a merged Better Auth PR I contributed to. I credit the original fixes and other authors in the repo.
 
 Each task gives the agent a real codebase and a clear problem to fix. It includes a pinned starting version, a Docker setup, a reference fix and a separate verifier. The tests were hidden from the agents during the runs. They are public now so people can review the work.
 

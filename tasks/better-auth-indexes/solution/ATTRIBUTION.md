@@ -8,4 +8,4 @@ The reference patch selects the 11 production TypeScript files relevant to this 
 
 Gautam Manchandani authored the first three commits. Gustavo Valverde authored subsequent portability and custom-code validation changes. The final accepted design is their collective work. This task does not claim Gautam independently designed every part of it.
 
-The repository's MIT license remains in the complete baseline source. Test selection, additional holdout cases, incomplete-fix controls and Harbor packaging were created with Codex assistance for this personal evaluation project. They have not been accepted into an upstream benchmark.
+The repository's MIT license remains in the complete baseline source. Test selection, additional holdout cases, incomplete-fix controls and Harbor packaging were created for this personal evaluation project. They have not been accepted into an upstream benchmark.

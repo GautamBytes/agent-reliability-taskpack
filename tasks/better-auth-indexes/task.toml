@@ -5,7 +5,7 @@ source = "Derived evaluation task from Better Auth issue 10025 and collective up
 [task]
 name = "gautambytes/better-auth-portable-indexes"
 description = "Repair portable device lookup indexing and generated-code boundaries across a real TypeScript monorepo."
-authors = [{ "name" = "Gautam Manchandani, with Codex assistance; upstream fix coauthored with Gustavo Valverde" }]
+authors = [{ "name" = "Gautam Manchandani; upstream fix coauthored with Gustavo Valverde" }]
 keywords = ["typescript", "sqlite", "schema-migration", "code-generation", "unicode"]
 
 [metadata]

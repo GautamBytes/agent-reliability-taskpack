@@ -1,6 +1,6 @@
 # Agent Reliability Task Pack
 
-Three coding-agent repair tasks based on real bugs in AnyIO, Better Auth and Werkzeug. I built this personal project with AI assistance. The original source and fixes keep their authorship and licenses.
+Three coding-agent repair tasks based on real bugs in AnyIO, Better Auth and Werkzeug. I built this personal project. The original source and fixes keep their authorship and licenses.
 
 **[Review the proof without running anything →](REVIEW.md)**
 

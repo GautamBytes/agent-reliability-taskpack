@@ -26,7 +26,7 @@
   "reference_production_files": [
     "src/werkzeug/sansio/multipart.py"
   ],
-  "authorship": "Upstream fixes are by Philip Jones and the Pallets maintainers. This personal AI-assisted task adds a verifier and an additional closing-delimiter suffix-retention correction. Gautam does not claim authorship of the original upstream fixes.",
+  "authorship": "Upstream fixes are by Philip Jones and the Pallets maintainers. This personal task adds a verifier and an additional closing-delimiter suffix-retention correction. Gautam does not claim authorship of the original upstream fixes.",
   "task_reference_is_exact_upstream_patch": false,
   "authored_extension": "Retain the possible terminal dashes of an incomplete closing boundary. Not submitted to or accepted by upstream.",
   "additional_upstream_snapshot_checked": "45444750e693d3cdff977482904bb15ce37a0768",

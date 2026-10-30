@@ -1,11 +1,11 @@
 schema_version = "1.4"
 artifacts = [{ "source" = "/app/repo", "exclude" = [".git", "node_modules", "**/node_modules", "__pycache__", "**/__pycache__", ".pytest_cache", ".hypothesis", ".pnpm-store"] }, { "source" = "/logs/proxy", "service" = "model-egress", "destination" = "network-proxy" }]
-source = "Personal AI-assisted OSS regression task, based on attributed Werkzeug issues and fixes with an authored closing-boundary extension."
+source = "Personal OSS regression task, based on attributed Werkzeug issues and fixes with an authored closing-boundary extension."
 
 [task]
 name = "gautambytes/werkzeug-multipart"
 description = "Repair streaming multipart byte preservation across fragmented delimiters and real WSGI reads"
-authors = [{ "name" = "Gautam Manchandani, with AI assistance" }]
+authors = [{ "name" = "Gautam Manchandani" }]
 keywords = ["python", "werkzeug", "multipart", "streaming", "regression"]
 
 [metadata]

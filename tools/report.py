@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import tarfile
+import tomllib
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +98,8 @@ def audit(write):
     assert len(alternatives) == 3 and all(int(record["reward"]) == 1 for record in alternatives)
     revision = read("FAIRNESS_REVISION.json")
     revised = {item["path"]: item for item in revision["changes"]}
+    publication = read("PUBLICATION_METADATA.json") if (ROOT / "PUBLICATION_METADATA.json").exists() else {}
+    metadata_changes = {item["path"]: item for item in publication.get("task_configuration_changes", [])}
     for path, item in revised.items():
         assert digest(ROOT / "tasks/better-auth-indexes" / path) == item["corrected_sha256"]
     trials = read("evidence/trial-summary.json")
@@ -114,6 +117,16 @@ def audit(write):
                 continue
             current = digest(ROOT / "tasks" / trial["task"] / relative)
             if current != recorded:
+                publication_path = "tasks/" + trial["task"] + "/" + relative
+                if relative == "task.toml" and publication_path in metadata_changes:
+                    item = metadata_changes[publication_path]
+                    assert item["original_sha256"] == recorded and item["published_sha256"] == current
+                    assert set(item["changed_fields"]) <= {"source", "task.authors"}
+                    contract = tomllib.loads((ROOT / publication_path).read_text())
+                    contract.pop("source", None)
+                    contract.get("task", {}).pop("authors", None)
+                    assert hashlib.sha256(json.dumps(contract, sort_keys=True).encode()).hexdigest() == item["execution_contract_sha256"]
+                    continue
                 assert trial["task"] == "better-auth-indexes" and relative in revised
                 assert revised[relative]["original_sha256"] == recorded and revised[relative]["corrected_sha256"] == current
         replay = read("evidence/replays/" + trial["id"] + "/replay.json")

@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-10-30T11:16:00.905757+00:00",
+  "reason": "Update author display and project-description wording. Instructions, verifier source, runtime settings, submitted patches and recorded outcomes are unchanged.",
+  "task_configuration_changes": [
+    {
+      "path": "tasks/better-auth-indexes/task.toml",
+      "original_sha256": "04219b24b7cf38b7279caec04d254609886aabaf8ee11229f711398c35a02ff7",
+      "published_sha256": "4ff0c62c66d7315c4f162d102e6b607509dede36531458a4993c48700658f4da",
+      "changed_fields": [
+        "source",
+        "task.authors"
+      ],
+      "execution_contract_sha256": "0827d45877166d25c32a5bf1c4d13e8d32c0f818291f77237b90f09ac34f3572"
+    },
+    {
+      "path": "tasks/werkzeug-multipart/task.toml",
+      "original_sha256": "eab48480ee4d48e677cdec13af3f8d920ea7f5d7fa3a906de3dd39517cbfc786",
+      "published_sha256": "b6be662f2ecc41c25b2353abfea4740d0a2b1209a1600ffaf3b96dd7910694b2",
+      "changed_fields": [
+        "source",
+        "task.authors"
+      ],
+      "execution_contract_sha256": "95becc186f92881b1490a8ecf4ebd6a0b0c806e1e64da760dc446d51a3fb80ab"
+    },
+    {
+      "path": "tasks/anyio-cancel-scope/task.toml",
+      "original_sha256": "581fba6b6144af4025d16ea48a1fb173c4ea2228908d08111a74fc3f31cd0768",
+      "published_sha256": "87d96927babf5fd361a744463dae3bc32d17ecb87a1859b4af3f02a8e1cbaceb",
+      "changed_fields": [
+        "source",
+        "task.authors"
+      ],
+      "execution_contract_sha256": "d3c1be4249bf426f8d5eb326164e6343a6166e87623059a0b2b5c03a855bcfcd"
+    }
+  ],
+  "other_text_files_updated": [
+    "APPLICATION_ANSWER.txt",
+    "NOTICE.md",
+    "OWNERSHIP.md",
+    "PUBLISHING.md",
+    "README.md",
+    "REVIEW.md",
+    "STATE.md",
+    "VERIFICATION.md",
+    "docs/proof/audit.html",
+    "docs/proof/audit.jpg",
+    "evidence/release-task-fingerprints.json",
+    "tasks/better-auth-indexes/evidence/fairness-revision/provenance-before-metadata-update.json",
+    "tasks/better-auth-indexes/provenance.json",
+    "tasks/better-auth-indexes/solution/ATTRIBUTION.md",
+    "tasks/werkzeug-multipart/provenance.json",
+    "tools/build_review.py",
+    "tools/report.py"
+  ]
+}

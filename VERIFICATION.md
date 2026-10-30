@@ -1,6 +1,6 @@
 # Verified scope and results
 
-This report describes three personal, AI-assisted evaluation tasks. The source issues and fixes are attributed in SOURCES.md and each task's provenance record. They are full-repository repair tasks with separate private verifiers, packaged in Harbor format.
+This report describes three personal, evaluation tasks. The source issues and fixes are attributed in SOURCES.md and each task's provenance record. They are full-repository repair tasks with separate private verifiers, packaged in Harbor format.
 
 ## Required checks
 
