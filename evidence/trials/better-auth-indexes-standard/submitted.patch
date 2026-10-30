@@ -1,0 +1,545 @@
+--- a/docs/lib/copy-schema/adapter/drizzle.ts
++++ b/docs/lib/copy-schema/adapter/drizzle.ts
+@@ -1,5 +1,5 @@
+ import type { Resolver } from "../types";
+-import { getTypeFactory } from "../utils";
++import { getIndexName, getTypeFactory } from "../utils";
+ 
+ export type DrizzleResolverOptions = {
+ 	/**
+@@ -49,11 +49,13 @@
+ 					string:
+ 						provider === "sqlite"
+ 							? `t.text("${fieldName}")`
+-							: field.unique
+-								? `t.varchar("${fieldName}", { length: 255 })`
+-								: field.references
+-									? `t.varchar("${fieldName}", { length: 36 })`
+-									: `t.text("${fieldName}")`,
++							: provider === "mysql" && field.index && !field.unique
++								? `t.varchar("${fieldName}", { length: 191 })`
++								: field.unique
++									? `t.varchar("${fieldName}", { length: 255 })`
++									: field.references
++										? `t.varchar("${fieldName}", { length: 36 })`
++										: `t.text("${fieldName}")`,
+ 					boolean:
+ 						provider === "sqlite"
+ 							? `t.integer("${fieldName}")`
+@@ -80,7 +82,9 @@
+ 							: `t.text("${fieldName}").primaryKey()`,
+ 					foreignKeyId: ctx.useNumberId
+ 						? `t.integer("${fieldName}")`
+-						: `t.text("${fieldName}")`,
++						: provider === "mysql" && field.index && !field.unique
++							? `t.varchar("${fieldName}", { length: 191 })`
++							: `t.text("${fieldName}")`,
+ 					"number[]": `${number}.array()`,
+ 					"string[]": `t.text("${fieldName}").array()`,
+ 				};
+@@ -108,7 +112,25 @@
+ 				table.push(`\t${field.fieldName}: ${value},`);
+ 			}
+ 
+-			table.push("});");
++			const indexedFields = ctx.schema.fields.filter(
++				(field) => field.index && !field.unique,
++			);
++			if (indexedFields.length) {
++				table.push("}, (table) => [");
++				const tableName = `${convertToSnakeCase(ctx.schema.modelName, options.camelCase)}${options.usePlural ? "s" : ""}`;
++				for (const field of indexedFields) {
++					const columnName = convertToSnakeCase(
++						field.fieldName,
++						options.camelCase,
++					);
++					table.push(
++						`\tt.index(${JSON.stringify(getIndexName(tableName, columnName))}).on(table[${JSON.stringify(field.fieldName)}]),`,
++					);
++				}
++				table.push("]);");
++			} else {
++				table.push("});");
++			}
+ 
+ 			return [...imports, "", ...table].join("\n");
+ 		},
+--- a/docs/lib/copy-schema/adapter/prisma.ts
++++ b/docs/lib/copy-schema/adapter/prisma.ts
+@@ -1,5 +1,5 @@
+ import type { Resolver } from "../types";
+-import { capitalize, getTypeFactory } from "../utils";
++import { capitalize, getIndexName, getTypeFactory } from "../utils";
+ 
+ export type PrismaResolverOptions = {
+ 	/**
+@@ -29,6 +29,13 @@
+ 					string += "?";
+ 					id += "?";
+ 					foreignKeyId += "?";
++				}
++
++				if (field.index && !field.unique && provider === "mysql") {
++					string += " @db.VarChar(191)";
++				}
++				if (field.index && !field.unique && provider === "sqlserver") {
++					string += " @db.VarChar(255)";
+ 				}
+ 
+ 				id += ` @id${ctx.useNumberId || provider === "mongodb" ? ` @default(${provider === "mongodb" ? "auto()" : "autoincrement()"})` : ""}`;
+@@ -98,6 +105,13 @@
+ 				}
+ 				lines.push(`\t${newLine}`);
+ 			}
++			for (const field of ctx.schema.fields) {
++				if (!field.index || field.unique) continue;
++				const tableName = `${ctx.schema.modelName}${options.usePlural ? "s" : ""}`;
++				lines.push(
++					`\t@@index([${field.fieldName}], map: ${JSON.stringify(getIndexName(tableName, field.fieldName))})`,
++				);
++			}
+ 			lines.push(
+ 				`\t@@map("${ctx.schema.modelName}${options.usePlural ? "s" : ""}")`,
+ 			);
+--- a/docs/lib/copy-schema/dialects/mssql.ts
++++ b/docs/lib/copy-schema/dialects/mssql.ts
+@@ -3,7 +3,12 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import {
++	filterForeignKeys,
++	getSQLIndexes,
++	getTypeFactory,
++	sqlString,
++} from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+@@ -43,7 +48,7 @@
+ 	handler: (ctx) => {
+ 		const getType = getTypeFactory((field) => ({
+ 			string:
+-				field.unique || field.sortable
++				field.unique || field.sortable || field.index
+ 					? "varchar(255)"
+ 					: field.references
+ 						? "varchar(36)"
+@@ -56,7 +61,7 @@
+ 			foreignKeyId: ctx.useNumberId ? "integer" : "varchar(36)",
+ 		}));
+ 		const lines = [
+-			`IF OBJECT_ID('${ctx.schema.modelName}') IS ${ctx.mode === "create" ? "NULL" : "NOT NULL"}`,
++			`IF OBJECT_ID(${sqlString(ctx.schema.modelName)}) IS ${ctx.mode === "create" ? "NULL" : "NOT NULL"}`,
+ 			"BEGIN",
+ 			ctx.mode === "create"
+ 				? `\tCREATE TABLE [${ctx.schema.modelName}] (`
+@@ -77,8 +82,9 @@
+ 			);
+ 		}
+ 		const lastLineIdx = fields.length - 1;
+-		if (fields[lastLineIdx].endsWith(",")) {
+-			const str = fields[lastLineIdx].slice(0, -1);
++		const lastLine = fields[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			fields[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		lines.push(...fields);
+@@ -86,6 +92,7 @@
+ 			lines.push(`\t);`);
+ 		}
+ 		lines.push("END;");
++		lines.push(...getSQLIndexes(ctx.schema, "mssql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/mysql.ts
++++ b/docs/lib/copy-schema/dialects/mysql.ts
+@@ -3,7 +3,7 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import { filterForeignKeys, getSQLIndexes, getTypeFactory } from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+@@ -45,17 +45,24 @@
+ export const mysqlResolver = {
+ 	handler: (ctx) => {
+ 		const getType = getTypeFactory((field) => ({
+-			string: field.unique
+-				? "varchar(255)"
+-				: field.references
+-					? "varchar(36)"
+-					: "text",
++			string:
++				field.index && !field.unique
++					? "varchar(191)"
++					: field.unique
++						? "varchar(255)"
++						: field.references
++							? "varchar(36)"
++							: "text",
+ 			boolean: "boolean",
+ 			number: field.bigint ? "bigint" : "integer",
+ 			date: "timestamp(3)",
+ 			json: "json",
+ 			id: ctx.useNumberId ? "integer" : "varchar(36)",
+-			foreignKeyId: ctx.useNumberId ? "integer" : "text",
++			foreignKeyId: ctx.useNumberId
++				? "integer"
++				: field.index && !field.unique
++					? "varchar(191)"
++					: "text",
+ 		}));
+ 
+ 		const lines = [
+@@ -80,13 +87,15 @@
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		if (ctx.mode === "create") {
+ 			lines.push(`);`);
+ 		}
++		lines.push(...getSQLIndexes(ctx.schema, "mysql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/postgresql.ts
++++ b/docs/lib/copy-schema/dialects/postgresql.ts
+@@ -3,7 +3,7 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import { filterForeignKeys, getSQLIndexes, getTypeFactory } from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+@@ -71,13 +71,15 @@
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		if (ctx.mode === "create") {
+ 			lines.push(`);`);
+ 		}
++		lines.push(...getSQLIndexes(ctx.schema, "postgresql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/sqlite.ts
++++ b/docs/lib/copy-schema/dialects/sqlite.ts
+@@ -3,7 +3,7 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import { filterForeignKeys, getSQLIndexes, getTypeFactory } from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+@@ -74,13 +74,15 @@
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		if (ctx.mode === "create") {
+ 			lines.push(`);`);
+ 		}
++		lines.push(...getSQLIndexes(ctx.schema, "sqlite"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/types.ts
++++ b/docs/lib/copy-schema/types.ts
+@@ -69,6 +69,8 @@
+ 			| "set default";
+ 	};
+ 	unique?: boolean;
++	/** Whether to create a non-unique lookup index. */
++	index?: boolean;
+ 	/**
+ 	 * If the field should be a bigint on the database instead of integer.
+ 	 */
+--- a/docs/lib/copy-schema/utils.ts
++++ b/docs/lib/copy-schema/utils.ts
+@@ -1,4 +1,5 @@
+-import type { DBFieldAttribute } from "./types";
++import { getGeneratedDatabaseIndexName } from "../../../packages/core/src/db/database-index-name";
++import type { DBFieldAttribute, DBSchema, DefaultDialects } from "./types";
+ 
+ export function getTypeFactory(
+ 	getTypeMap: (
+@@ -32,7 +33,7 @@
+ 			return config?.arrayDataType ?? "jsonb";
+ 		}
+ 		if (Array.isArray(type)) {
+-			return "text";
++			return field.index && !field.unique ? typeMap.string : "text";
+ 		}
+ 		return typeMap[type as keyof typeof typeMap]!;
+ 	};
+@@ -45,3 +46,47 @@
+ export function capitalize(str: string) {
+ 	return str.charAt(0).toUpperCase() + str.slice(1);
+ }
++
++/** Returns a portable index name using physical table and column names. */
++export function getIndexName(tableName: string, fieldName: string) {
++	return getGeneratedDatabaseIndexName(tableName, [fieldName]);
++}
++
++/** Quotes a string literal used in SQL catalog lookups or dynamic SQL. */
++export function sqlString(value: string) {
++	return `'${value.replaceAll("'", "''")}'`;
++}
++
++/** Generates non-unique indexes after the table's columns have been declared. */
++export function getSQLIndexes(
++	schema: DBSchema<false>,
++	dialect: DefaultDialects,
++) {
++	const quote = (value: string) => {
++		if (dialect === "mysql") return `\`${value.replaceAll("`", "``")}\``;
++		if (dialect === "mssql") return `[${value.replaceAll("]", "]]")}]`;
++		return `"${value.replaceAll('"', '""')}"`;
++	};
++	return schema.fields
++		.filter((field) => field.index && !field.unique)
++		.map((field) => {
++			const name = getIndexName(schema.modelName, field.fieldName);
++			const create = `CREATE INDEX ${quote(name)} ON ${quote(schema.modelName)} (${quote(field.fieldName)});`;
++			if (dialect === "mysql") {
++				return [
++					`SET @better_auth_index_sql = (SELECT IF(`,
++					`  EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = ${sqlString(schema.modelName)})`,
++					`  AND NOT EXISTS (SELECT 1 FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = ${sqlString(schema.modelName)} AND index_name = ${sqlString(name)}),`,
++					`  ${sqlString(create)}, 'SELECT 1'));`,
++					`PREPARE better_auth_index_stmt FROM @better_auth_index_sql;`,
++					`EXECUTE better_auth_index_stmt;`,
++					`DEALLOCATE PREPARE better_auth_index_stmt;`,
++				].join("\n");
++			}
++			if (dialect === "mssql") {
++				const object = `OBJECT_ID(${sqlString(quote(schema.modelName))}, 'U')`;
++				return `IF ${object} IS NOT NULL AND NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = ${object} AND name = ${sqlString(name)})\nBEGIN\n\t${create}\nEND;`;
++			}
++			return `CREATE INDEX IF NOT EXISTS ${quote(name)} ON ${quote(schema.modelName)} (${quote(field.fieldName)});`;
++		});
++}
+--- a/packages/better-auth/src/db/get-migration.ts
++++ b/packages/better-auth/src/db/get-migration.ts
+@@ -649,7 +649,23 @@
+ 			continue;
+ 		}
+ 		const table = tableMetadata.find((table) => table.name === key);
+-		for (const index of value.indexes ?? []) {
++		// Existing columns can gain field-level index hints after their creation.
++		// New tables and new columns already schedule these indexes below.
++		const existingFieldIndexes: ResolvedDBTableIndex[] = table
++			? Object.entries(value.fields)
++					.filter(
++						([fieldName, field]) =>
++							field.index &&
++							!field.unique &&
++							table.columns.some((column) => column.name === fieldName),
++					)
++					.map(([fieldName]) => ({
++						columns: [fieldName],
++						name: getDatabaseFieldIndexName(key, fieldName, false),
++						unique: false,
++					}))
++			: [];
++		for (const index of [...(value.indexes ?? []), ...existingFieldIndexes]) {
+ 			const name = index.name;
+ 			const indexKey = createDatabaseIndexKey(key, name);
+ 			const existingIndex = databaseIndexes.get(indexKey);
+--- a/packages/better-auth/src/plugins/device-authorization/index.ts
++++ b/packages/better-auth/src/plugins/device-authorization/index.ts
+@@ -54,6 +54,7 @@
+ 		.number()
+ 		.int()
+ 		.positive()
++		.max(191)
+ 		.default(40)
+ 		.describe(
+ 			"Length of the device code to be generated. Default is 40 characters.",
+@@ -62,6 +63,7 @@
+ 		.number()
+ 		.int()
+ 		.positive()
++		.max(191)
+ 		.default(8)
+ 		.describe(
+ 			"Length of the user code to be generated. Default is 8 characters.",
+--- a/packages/better-auth/src/plugins/device-authorization/routes.ts
++++ b/packages/better-auth/src/plugins/device-authorization/routes.ts
+@@ -145,6 +145,15 @@
+ 
+ 			const deviceCode = await generateDeviceCode();
+ 			const userCode = await generateUserCode();
++			for (const code of [deviceCode, userCode]) {
++				if (typeof code !== "string" || [...code].length > 191) {
++					throw new APIError("BAD_REQUEST", {
++						error: "invalid_request",
++						error_description:
++							"Device and user code generators must return strings of at most 191 characters.",
++					});
++				}
++			}
+ 			const expiresIn = ms(opts.expiresIn);
+ 			const expiresAt = new Date(Date.now() + expiresIn);
+ 
+--- a/packages/better-auth/src/plugins/device-authorization/schema.ts
++++ b/packages/better-auth/src/plugins/device-authorization/schema.ts
+@@ -5,10 +5,12 @@
+ 	deviceCode: {
+ 		fields: {
+ 			deviceCode: {
++				index: true,
+ 				type: "string",
+ 				required: true,
+ 			},
+ 			userCode: {
++				index: true,
+ 				type: "string",
+ 				required: true,
+ 			},
+--- /dev/null
++++ b/packages/core/src/db/database-index-name.ts
+@@ -0,0 +1,46 @@
++const MAX_DATABASE_INDEX_NAME_BYTES = 63;
++
++/** Measures a database identifier in UTF-8 bytes. */
++export function getUtf8ByteLength(value: string) {
++	return new TextEncoder().encode(value).length;
++}
++
++function truncateUtf8(value: string, maxBytes: number) {
++	let result = "";
++	let byteLength = 0;
++	for (const character of value) {
++		const characterByteLength = getUtf8ByteLength(character);
++		if (byteLength + characterByteLength > maxBytes) break;
++		result += character;
++		byteLength += characterByteLength;
++	}
++	return result;
++}
++
++function getStableIndexNameHash(value: string) {
++	let hash = 0x811c9dc5;
++	for (let index = 0; index < value.length; index++) {
++		hash ^= value.charCodeAt(index);
++		hash = Math.imul(hash, 0x01000193);
++	}
++	return (hash >>> 0).toString(16).padStart(8, "0");
++}
++
++/** Generates a deterministic index name within the portable UTF-8 byte limit. */
++export function getGeneratedDatabaseIndexName(
++	tableName: string,
++	fields: readonly string[],
++	unique = false,
++) {
++	const indexKind = unique ? "uidx" : "idx";
++	const generatedName = `${tableName}_${fields.join("_")}_${indexKind}`;
++	if (getUtf8ByteLength(generatedName) <= MAX_DATABASE_INDEX_NAME_BYTES) {
++		return generatedName;
++	}
++
++	const suffix = `_${getStableIndexNameHash(generatedName)}_${indexKind}`;
++	return `${truncateUtf8(
++		generatedName.slice(0, -indexKind.length - 1),
++		MAX_DATABASE_INDEX_NAME_BYTES - getUtf8ByteLength(suffix),
++	)}${suffix}`;
++}
+--- a/packages/core/src/db/database-index.ts
++++ b/packages/core/src/db/database-index.ts
+@@ -1,4 +1,8 @@
+ import { BetterAuthError } from "../error";
++import {
++	getGeneratedDatabaseIndexName,
++	getUtf8ByteLength,
++} from "./database-index-name";
+ import type { DBFieldAttribute, DBTableIndex } from "./type";
+ 
+ const MAX_DATABASE_INDEX_NAME_BYTES = 63;
+@@ -6,31 +10,6 @@
+ 
+ export function getPortableDatabaseIdentifierKey(identifier: string) {
+ 	return identifier.toLowerCase();
+-}
+-
+-function getUtf8ByteLength(value: string) {
+-	return new TextEncoder().encode(value).length;
+-}
+-
+-function truncateUtf8(value: string, maxBytes: number) {
+-	let result = "";
+-	let byteLength = 0;
+-	for (const character of value) {
+-		const characterByteLength = getUtf8ByteLength(character);
+-		if (byteLength + characterByteLength > maxBytes) break;
+-		result += character;
+-		byteLength += characterByteLength;
+-	}
+-	return result;
+-}
+-
+-function getStableIndexNameHash(value: string) {
+-	let hash = 0x811c9dc5;
+-	for (let index = 0; index < value.length; index++) {
+-		hash ^= value.charCodeAt(index);
+-		hash = Math.imul(hash, 0x01000193);
+-	}
+-	return (hash >>> 0).toString(16).padStart(8, "0");
+ }
+ 
+ /** A table-level index resolved to physical database columns. */
+@@ -72,17 +51,11 @@
+ 		return index.name;
+ 	}
+ 
+-	const indexKind = index.unique ? "uidx" : "idx";
+-	const generatedName = `${tableName}_${index.fields.join("_")}_${indexKind}`;
+-	if (getUtf8ByteLength(generatedName) <= MAX_DATABASE_INDEX_NAME_BYTES) {
+-		return generatedName;
+-	}
+-
+-	const suffix = `_${getStableIndexNameHash(generatedName)}_${indexKind}`;
+-	return `${truncateUtf8(
+-		generatedName.slice(0, -indexKind.length - 1),
+-		MAX_DATABASE_INDEX_NAME_BYTES - getUtf8ByteLength(suffix),
+-	)}${suffix}`;
++	return getGeneratedDatabaseIndexName(
++		tableName,
++		index.fields,
++		index.unique ?? false,
++	);
+ }
+ 
+ /** Returns the database name used by legacy field-level index metadata. */

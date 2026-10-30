@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="20" time="26.633" timestamp="2026-10-30T15:04:03.632904" hostname="Gautams-MacBook-Air.local"><testcase classname="" name="test_cancellation_behavior[host_shield-asyncio]" time="5.005"><failure message="Failed: host_shield on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield', 'asyncio']' timed out after 5 seconds">case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+&gt;           result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+../../tests/test_regressions.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Popen: returncode: -9 args: ['/private/tmp/anyio-v2-work/venv/bin/python', ...&gt;
+endtime = 8366.38183225, orig_timeout = 5, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() &gt; endtime:
+&gt;           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield', 'asyncio']' timed out after 5 seconds
+
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1253: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+&gt;           pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+E           Failed: host_shield on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield', 'asyncio']' timed out after 5 seconds
+
+../../tests/test_regressions.py:26: Failed</failure></testcase><testcase classname="" name="test_cancellation_behavior[host_shield-trio]" time="0.096" /><testcase classname="" name="test_cancellation_behavior[host_shield_nested-asyncio]" time="5.003"><failure message="Failed: host_shield_nested on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield_nested', 'asyncio']' timed out after 5 seconds">case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+&gt;           result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+../../tests/test_regressions.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Popen: returncode: -9 args: ['/private/tmp/anyio-v2-work/venv/bin/python', ...&gt;
+endtime = 8371.518608291, orig_timeout = 5, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() &gt; endtime:
+&gt;           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield_nested', 'asyncio']' timed out after 5 seconds
+
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1253: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+&gt;           pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+E           Failed: host_shield_nested on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'host_shield_nested', 'asyncio']' timed out after 5 seconds
+
+../../tests/test_regressions.py:26: Failed</failure></testcase><testcase classname="" name="test_cancellation_behavior[host_shield_nested-trio]" time="0.081" /><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-asyncio]" time="5.007"><failure message="Failed: independent_sibling_shield on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'independent_sibling_shield', 'asyncio']' timed out after 5 seconds">case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+&gt;           result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+../../tests/test_regressions.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Popen: returncode: -9 args: ['/private/tmp/anyio-v2-work/venv/bin/python', ...&gt;
+endtime = 8376.625437833, orig_timeout = 5, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() &gt; endtime:
+&gt;           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'independent_sibling_shield', 'asyncio']' timed out after 5 seconds
+
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1253: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+&gt;           pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+E           Failed: independent_sibling_shield on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'independent_sibling_shield', 'asyncio']' timed out after 5 seconds
+
+../../tests/test_regressions.py:26: Failed</failure></testcase><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-trio]" time="0.089" /><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-asyncio]" time="5.004"><failure message="Failed: repeated_sibling_cancellation on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'repeated_sibling_cancellation', 'asyncio']' timed out after 5 seconds">case = 'repeated_sibling_cancellation', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+&gt;           result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+../../tests/test_regressions.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Popen: returncode: -9 args: ['/private/tmp/anyio-v2-work/venv/bin/python', ...&gt;
+endtime = 8381.763486916, orig_timeout = 5, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() &gt; endtime:
+&gt;           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'repeated_sibling_cancellation', 'asyncio']' timed out after 5 seconds
+
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1253: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+case = 'repeated_sibling_cancellation', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+&gt;           pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+E           Failed: repeated_sibling_cancellation on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'repeated_sibling_cancellation', 'asyncio']' timed out after 5 seconds
+
+../../tests/test_regressions.py:26: Failed</failure></testcase><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-trio]" time="0.119" /><testcase classname="" name="test_cancellation_behavior[nested_groups-asyncio]" time="5.007"><failure message="Failed: nested_groups on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'nested_groups', 'asyncio']' timed out after 5 seconds">case = 'nested_groups', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+&gt;           result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+../../tests/test_regressions.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:2116: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Popen: returncode: -9 args: ['/private/tmp/anyio-v2-work/venv/bin/python', ...&gt;
+endtime = 8386.915946833, orig_timeout = 5, stdout_seq = [], stderr_seq = []
+skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() &gt; endtime:
+&gt;           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'nested_groups', 'asyncio']' timed out after 5 seconds
+
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/subprocess.py:1253: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+case = 'nested_groups', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+&gt;           pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+E           Failed: nested_groups on asyncio did not complete within 5 seconds: Command '['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py', 'nested_groups', 'asyncio']' timed out after 5 seconds
+
+../../tests/test_regressions.py:26: Failed</failure></testcase><testcase classname="" name="test_cancellation_behavior[nested_groups-trio]" time="0.113" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-asyncio]" time="0.090" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-trio]" time="0.103" /><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-asyncio]" time="0.065" /><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-trio]" time="0.175" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-asyncio]" time="0.067" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-trio]" time="0.130" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]" time="0.069" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-trio]" time="0.095" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-asyncio]" time="0.061" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-trio]" time="0.087" /></testsuite></testsuites>

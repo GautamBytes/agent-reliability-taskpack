@@ -1,0 +1,50 @@
+{
+  "runtime": "Docker Python3.12.12 Node24.11.1",
+  "all_expected_outcomes": true,
+  "runs": [
+    {
+      "tests_run": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "variant": "reference",
+      "reward": "1",
+      "expected_reward": "1",
+      "valid": true,
+      "patch_sha256": "14139a10af51acfc1e0b5dfcc22550e4190f58616b84aa594527d237d9e134fc"
+    },
+    {
+      "tests_run": 83,
+      "passed": 51,
+      "failed": 32,
+      "skipped": 0,
+      "variant": "baseline",
+      "reward": "0",
+      "expected_reward": "0",
+      "valid": true,
+      "patch_sha256": null
+    },
+    {
+      "tests_run": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "variant": "equivalent-mysql-variable",
+      "reward": "1",
+      "expected_reward": "1",
+      "valid": true,
+      "patch_sha256": "35d1b55bf14b7bad9cce2e13395ee057b76458d752f8ff525f937c716e262f1b"
+    },
+    {
+      "tests_run": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "variant": "equivalent-mssql-bound",
+      "reward": "1",
+      "expected_reward": "1",
+      "valid": true,
+      "patch_sha256": "0efb95eb60dec65c2bef454cc9508e5dcbd8c7be4f240e3fa3c59a9fcc59fd60"
+    }
+  ]
+}

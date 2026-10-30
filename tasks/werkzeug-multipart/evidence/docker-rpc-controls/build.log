@@ -1,0 +1,51 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 449B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/oss-agent-base:20261030
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/oss-agent-base:20261030@sha256:7604ff32dea367c4c72a06393cc63fd848381737f2b804da44ff5ffe05509817
+#4 resolve docker.io/library/oss-agent-base:20261030@sha256:7604ff32dea367c4c72a06393cc63fd848381737f2b804da44ff5ffe05509817 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.34MB 0.0s done
+#5 DONE 0.0s
+
+#6 [4/8] RUN id agent >/dev/null 2>&1 || useradd --uid 1000 --create-home agent
+#6 CACHED
+
+#7 [3/8] RUN pip install --no-cache-dir -r /tmp/requirements.lock
+#7 CACHED
+
+#8 [2/8] COPY requirements.lock /tmp/requirements.lock
+#8 CACHED
+
+#9 [5/8] COPY baseline/ /opt/baseline/
+#9 CACHED
+
+#10 [6/8] COPY . /tests/
+#10 DONE 0.0s
+
+#11 [7/8] RUN mkdir -p /app/repo /logs/verifier && chmod 700 /logs/verifier /tests && chmod -R a+rX /opt/baseline
+#11 DONE 0.3s
+
+#12 [8/8] WORKDIR /app/repo
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers 0.1s done
+#13 exporting manifest sha256:3a707699af07d7a7ececa57399e520b1c140f64bdcbe2271b397c575fc67a4f3 done
+#13 exporting config sha256:5c913530c3ef42c5247c593e0be3c4ef5883c56a473a9415fc9f04acf6c6c514 done
+#13 exporting attestation manifest sha256:478dcd60eb6fad8c1e2bfd6f3d3acb88644238473015024378ca10f310c21e63 done
+#13 exporting manifest list sha256:e8d7fb962c3a61539204966f0804abd74afc305524597dab3880235bdcd22f4c done
+#13 naming to docker.io/library/oss-werkzeug-v2-verifier:author done
+#13 unpacking to docker.io/library/oss-werkzeug-v2-verifier:author 0.0s done
+#13 DONE 0.1s

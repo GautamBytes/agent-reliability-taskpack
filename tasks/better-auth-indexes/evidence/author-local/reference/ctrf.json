@@ -1,0 +1,516 @@
+{
+  "results": {
+    "tool": {
+      "name": "better-auth-oss-verifier"
+    },
+    "summary": {
+      "tests": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "pending": 0,
+      "other": 0,
+      "start": 1793353618288,
+      "stop": 1793353624040
+    },
+    "tests": [
+      {
+        "name": "focused TypeScript schema contract",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "holdout portable lookup indexes creates non-unique lookup indexes through the real plugin migration",
+        "status": "passed",
+        "duration": 72.13799999999992,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in sqlite",
+        "status": "passed",
+        "duration": 1.804208000000017,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in postgresql",
+        "status": "passed",
+        "duration": 0.9025830000000497,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in mysql",
+        "status": "passed",
+        "duration": 1.1974170000000868,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in mssql",
+        "status": "passed",
+        "duration": 0.728249999999889,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for sqlite",
+        "status": "passed",
+        "duration": 0.49366600000007566,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for postgresql",
+        "status": "passed",
+        "duration": 0.9324160000001029,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for mysql",
+        "status": "passed",
+        "duration": 0.37095899999985704,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for mssql",
+        "status": "passed",
+        "duration": 0.23829200000000128,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes executes generated SQLite DDL twice and still permits repeated indexed values",
+        "status": "passed",
+        "duration": 1.8344589999999243,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes upgrades existing populated SQLite device storage and has no second migration",
+        "status": "passed",
+        "duration": 12.081625000000031,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes keeps filtered fields out of the generated index set",
+        "status": "passed",
+        "duration": 0.21662500000002183,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes uses bounded string columns in mysql",
+        "status": "passed",
+        "duration": 0.1289999999999054,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes uses bounded string columns in mssql",
+        "status": "passed",
+        "duration": 0.078125,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes guards MySQL index creation with table and index existence predicates",
+        "status": "passed",
+        "duration": 0.14258299999983137,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes guards SQL Server index creation for the target object",
+        "status": "passed",
+        "duration": 0.09525000000007822,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma mysql output",
+        "status": "passed",
+        "duration": 0.259708000000046,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma postgresql output",
+        "status": "passed",
+        "duration": 0.07541700000001583,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma sqlite output",
+        "status": "passed",
+        "duration": 0.07425000000012005,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle mysql output",
+        "status": "passed",
+        "duration": 0.2708749999999327,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle pg output",
+        "status": "passed",
+        "duration": 0.076041000000032,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle sqlite output",
+        "status": "passed",
+        "duration": 0.198207999999795,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family tabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletable portable and distinct",
+        "status": "passed",
+        "duration": 2.021624999999858,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family \u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93 portable and distinct",
+        "status": "passed",
+        "duration": 1.7386670000000777,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family \ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b portable and distinct",
+        "status": "passed",
+        "duration": 0.5118340000001353,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized configured deviceCodeLength",
+        "status": "passed",
+        "duration": 0.7270409999998719,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized configured userCodeLength",
+        "status": "passed",
+        "duration": 0.1447920000000522,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized custom device code before persistence",
+        "status": "passed",
+        "duration": 137.00858400000016,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized custom user code before persistence",
+        "status": "passed",
+        "duration": 79.49516699999981,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects non-string custom device code before persistence",
+        "status": "passed",
+        "duration": 56.35466700000006,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary rejects non-string custom user code before persistence",
+        "status": "passed",
+        "duration": 59.25995899999998,
+        "message": ""
+      },
+      {
+        "name": "holdout generated-code boundary accepts exactly 191 Unicode code points rather than counting UTF-16 units",
+        "status": "passed",
+        "duration": 45.53104099999996,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should use CREATE INDEX when adding indexed columns to existing SQLite tables",
+        "status": "passed",
+        "duration": 8.045999999999992,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should enforce unique indexed fields on new tables without a duplicate index",
+        "status": "passed",
+        "duration": 1.3525000000000205,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations without error when adding indexed columns to existing tables",
+        "status": "passed",
+        "duration": 4.196750000000009,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations when adding a new table with indexed columns to an existing database",
+        "status": "passed",
+        "duration": 1.5647919999999829,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations when upgrading an existing table with new indexed columns (simulates 1.4.x -> latest)",
+        "status": "passed",
+        "duration": 2.2882079999999974,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should not detect migration changes for SQLite bigint fields on subsequent runs",
+        "status": "passed",
+        "duration": 1.343166999999994,
+        "message": ""
+      },
+      {
+        "name": "device authorization plugin input validation basic validation",
+        "status": "passed",
+        "duration": 4.144500000000107,
+        "message": ""
+      },
+      {
+        "name": "device authorization plugin input validation should validate custom options",
+        "status": "passed",
+        "duration": 0.491416000000072,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject invalid client in device code request",
+        "status": "passed",
+        "duration": 1.9204580000000533,
+        "message": ""
+      },
+      {
+        "name": "client validation should accept valid client in device code request",
+        "status": "passed",
+        "duration": 1.7565829999998641,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject invalid client in token request",
+        "status": "passed",
+        "duration": 1.3170000000000073,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject mismatched client_id in token request",
+        "status": "passed",
+        "duration": 1.0652079999999842,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device code request should generate device and user codes",
+        "status": "passed",
+        "duration": 0.4860000000001037,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device code request should support custom client ID and scope",
+        "status": "passed",
+        "duration": 0.2729580000000169,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return authorization_pending when not approved",
+        "status": "passed",
+        "duration": 1.1588329999999587,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return expired_token for expired device codes",
+        "status": "passed",
+        "duration": 4.116999999999962,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return error for invalid device code",
+        "status": "passed",
+        "duration": 0.5839160000000447,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device verification should verify valid user code",
+        "status": "passed",
+        "duration": 1.2582079999999678,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device verification should handle invalid user code",
+        "status": "passed",
+        "duration": 0.41433299999994233,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow sends no-store on the device code response",
+        "status": "passed",
+        "duration": 1.9352499999999964,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow sends no-store on the device token response",
+        "status": "passed",
+        "duration": 61.40300000000002,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should approve device and create session",
+        "status": "passed",
+        "duration": 57.434708,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should deny device authorization",
+        "status": "passed",
+        "duration": 51.332666999999674,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should require authentication for approval",
+        "status": "passed",
+        "duration": 0.6984170000000631,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should enforce rate limiting with slow_down error",
+        "status": "passed",
+        "duration": 0.8662500000000364,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should not allow approving already processed device code",
+        "status": "passed",
+        "duration": 48.86762499999986,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should handle user code without dashes",
+        "status": "passed",
+        "duration": 0.6203330000003007,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should store and use scope from device code request",
+        "status": "passed",
+        "duration": 47.319582999999966,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should require authentication for deny",
+        "status": "passed",
+        "duration": 0.5215410000000702,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should allow first user to approve but prevent re-approval",
+        "status": "passed",
+        "duration": 47.14908299999979,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow concurrent token redemption should redeem an approved device code at most once under concurrent polling",
+        "status": "passed",
+        "duration": 47.86333400000012,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow concurrent token redemption should burn an expired approved device code instead of issuing a token",
+        "status": "passed",
+        "duration": 44.523375000000215,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a session that did not claim the pending code",
+        "status": "passed",
+        "duration": 129.24566600000026,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects deny from a session that did not claim the pending code",
+        "status": "passed",
+        "duration": 127.23470799999996,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows approve when the same session called verify first",
+        "status": "passed",
+        "duration": 85.83295899999985,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a different user after another claimed the code",
+        "status": "passed",
+        "duration": 182.3597090000003,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a different user if the code was generated for a different user_id",
+        "status": "passed",
+        "duration": 173.1444160000001,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows approve when the pre-bound user matches the current user",
+        "status": "passed",
+        "duration": 85.93295800000033,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows deny when the pre-bound user matches the current user",
+        "status": "passed",
+        "duration": 85.32249999999976,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate treats an empty user_id as omitted and leaves the code unbound",
+        "status": "passed",
+        "duration": 85.7047090000001,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate does not overwrite a device code claimed after verify reads it",
+        "status": "passed",
+        "duration": 214.3217920000002,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should correctly store interval as milliseconds in database",
+        "status": "passed",
+        "duration": 44.43237500000032,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should use custom code generators",
+        "status": "passed",
+        "duration": 43.801874999999654,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should respect custom expiration time",
+        "status": "passed",
+        "duration": 44.3215839999998,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should validate verificationUri option at plugin initialization",
+        "status": "passed",
+        "duration": 0.5924589999999625,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should return default /device verification URIs when not configured",
+        "status": "passed",
+        "duration": 43.816125000000284,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should use custom relative path for verificationUri",
+        "status": "passed",
+        "duration": 44.743499999999585,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should use absolute URL for verificationUri",
+        "status": "passed",
+        "duration": 44.52995800000008,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should properly encode user_code in verification_uri_complete",
+        "status": "passed",
+        "duration": 43.788916999999856,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should support verificationUri with existing query parameters",
+        "status": "passed",
+        "duration": 51.13829200000009,
+        "message": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "all_expected_outcomes": true,
+  "runtime": "Docker, candidate UID 1000",
+  "variants": [
+    {
+      "variant": "baseline",
+      "expected_reward": 0,
+      "reward": 0,
+      "tests_run": 65,
+      "passed": 49,
+      "failed": 16,
+      "skipped": 0
+    },
+    {
+      "variant": "reference",
+      "expected_reward": 1,
+      "reward": 1,
+      "tests_run": 65,
+      "passed": 65,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "variant": "strip-payload-newlines",
+      "expected_reward": 0,
+      "reward": 0,
+      "tests_run": 65,
+      "passed": 39,
+      "failed": 26,
+      "skipped": 0
+    },
+    {
+      "variant": "upstream-3081-only",
+      "expected_reward": 0,
+      "reward": 0,
+      "tests_run": 65,
+      "passed": 44,
+      "failed": 21,
+      "skipped": 0
+    },
+    {
+      "variant": "upstream-3089-only",
+      "expected_reward": 0,
+      "reward": 0,
+      "tests_run": 65,
+      "passed": 48,
+      "failed": 17,
+      "skipped": 0
+    }
+  ]
+}

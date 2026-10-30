@@ -1,0 +1,19 @@
+schema_version = "1.4"
+artifacts = ["/app/repo/result.txt", "/app/repo/.network-boundary.json", { source = "/logs/proxy", service = "model-egress", destination = "network-proxy" }]
+[task]
+name = "gautambytes/native-connectivity-smoke"
+[agent]
+timeout_sec = 120.0
+user = "agent"
+[verifier]
+timeout_sec = 30.0
+environment_mode = "separate"
+user = "root"
+[environment]
+cpus = 1
+memory_mb = 1024
+storage_mb = 2048
+[verifier.environment]
+cpus = 1
+memory_mb = 256
+storage_mb = 512

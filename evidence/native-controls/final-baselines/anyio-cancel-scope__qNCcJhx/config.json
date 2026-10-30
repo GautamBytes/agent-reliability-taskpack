@@ -1,0 +1,18 @@
+{
+    "task": {
+        "path": "tasks/anyio-cancel-scope",
+        "source": "tasks"
+    },
+    "trial_name": "anyio-cancel-scope__qNCcJhx",
+    "trials_dir": "evidence/native-controls/final-baselines",
+    "agent": {
+        "name": "nop"
+    },
+    "environment": {
+        "type": "docker",
+        "kwargs": {
+            "auto_mounting": false
+        }
+    },
+    "job_id": "f3640f3a-8685-4d38-9d31-a875c2811eb3"
+}

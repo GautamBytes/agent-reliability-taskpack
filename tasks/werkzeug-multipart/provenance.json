@@ -1,0 +1,98 @@
+{
+  "repository": "https://github.com/pallets/werkzeug",
+  "license": "BSD-3-Clause",
+  "license_file": "environment/repo/LICENSE.txt",
+  "baseline_commit": "b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_url": "https://codeload.github.com/pallets/werkzeug/tar.gz/b48878cf16dfca3c89ac58aca47ab1ecfcb71354",
+  "baseline_archive_sha256": "66cc34a8edfd631472e70166c8b5e2ab823be291bf05d53d648da9f476ddcff2",
+  "issues": [
+    "https://github.com/pallets/werkzeug/issues/3065",
+    "https://github.com/pallets/werkzeug/issues/3077",
+    "https://github.com/pallets/werkzeug/issues/3088"
+  ],
+  "upstream_fixes": [
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3081",
+      "merge_commit": "0f76c353b10afc2f8129aa3684ccc3262516a0c0"
+    },
+    {
+      "url": "https://github.com/pallets/werkzeug/pull/3089",
+      "merge_commit": "06f33b24182ad4e03ec35eb55b3daf358d12b11e"
+    }
+  ],
+  "upstream_reference_parser_sha256": "82acf0a7a620c84fc37a94e59e88ae14def8dd0dd63daea9ee48b5c67e62c65a",
+  "task_reference_parser_sha256": "217fdd899fc978c39244e14e43bb3bb0e6febddf2f10b34076c3670bc22af311",
+  "allowed_candidate_tree": "src/werkzeug",
+  "reference_production_files": [
+    "src/werkzeug/sansio/multipart.py"
+  ],
+  "authorship": "Upstream fixes are by Philip Jones and the Pallets maintainers. This personal AI-assisted task adds a verifier and an additional closing-delimiter suffix-retention correction. Gautam does not claim authorship of the original upstream fixes.",
+  "task_reference_is_exact_upstream_patch": false,
+  "authored_extension": "Retain the possible terminal dashes of an incomplete closing boundary. Not submitted to or accepted by upstream.",
+  "additional_upstream_snapshot_checked": "45444750e693d3cdff977482904bb15ce37a0768",
+  "additional_snapshot_holdout_result": {
+    "passed": 17,
+    "failed": 17,
+    "total": 34
+  },
+  "preservation": {
+    "command": "python -m pytest tests/sansio/test_multipart.py tests/test_formparser.py -k \"not test_decoder_data_start_with_different_newline_positions\"",
+    "passed_reference": 31,
+    "excluded_parameter_cases": 18,
+    "excluded_family": "test_decoder_data_start_with_different_newline_positions",
+    "exclusion_reason": "The initial upstream regression test locks an incorrect intermediate Data fragment; PR3081 changes that expectation. The task promises concatenated payload bytes, not exact intermediate event boundaries."
+  },
+  "holdout": {
+    "named_parameter_cases": 34,
+    "families": 9,
+    "single_split_payload_fixtures": 10,
+    "random_partition_seeds": [
+      173,
+      691,
+      1187
+    ],
+    "random_partition_repetitions_per_seed": 25,
+    "partition_arrangements_are_not_counted_as_independent_cases": true,
+    "execution": "Trusted assertions query a separate unprivileged JSON worker. No candidate code is imported by the trusted grader."
+  },
+  "environment": {
+    "python": "3.12.12",
+    "dependencies_file": "tests/requirements.lock"
+  },
+  "controls": [
+    {
+      "id": "upstream-3081-only",
+      "patch": "mutants/upstream-3081-only.patch",
+      "expected_reward": 0
+    },
+    {
+      "id": "upstream-3089-only",
+      "patch": "mutants/upstream-3089-only.patch",
+      "expected_reward": 0
+    },
+    {
+      "id": "strip-payload-newlines",
+      "patch": "mutants/strip-payload-newlines.patch",
+      "expected_reward": 0
+    }
+  ],
+  "scope": {
+    "new_delimiter_grammar": "unpadded CRLF opening/intermediate/closing delimiters",
+    "outside_scope": [
+      "optional transport padding",
+      "malformed closing-boundary lookalikes such as --b--X"
+    ],
+    "details": "LIMITS.md"
+  },
+  "verification": {
+    "latest_control_summary": "evidence/docker-adversarial-controls/summary.json",
+    "reference_reward": 1,
+    "baseline_reward": 0,
+    "partial_fix_controls": 3,
+    "adversarial_report_forgery_rejected": true,
+    "skip_count": 0,
+    "private_assertion_process": "trusted root",
+    "candidate_import_process": "unprivileged UID1000 worker",
+    "public_preservation_result_is_not_sufficient_for_reward": true
+  }
+}

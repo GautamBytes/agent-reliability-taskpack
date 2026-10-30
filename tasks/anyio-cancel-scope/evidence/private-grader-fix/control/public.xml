@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="public" tests="1" failures="0" errors="1"><testcase classname="runner" name="bounded_run"><error message="pytest exited without a JUnit report">pytest exited without a JUnit report</error></testcase></testsuite>

@@ -1,0 +1,50 @@
+{
+  "id": "werkzeug-multipart-extended",
+  "task": "werkzeug-multipart",
+  "profile": "extended",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "agent_timeout_seconds": 600,
+  "reward": 1.0,
+  "status": "PASS",
+  "exception": null,
+  "task_unchanged_during_trial": true,
+  "budget_exhausted": false,
+  "cutoff_artifact_passed": true,
+  "checks": {
+    "tests_run": 65,
+    "passed": 65,
+    "failed": 0,
+    "skipped": 0
+  },
+  "allowed_network_hosts": [
+    "ab.chatgpt.com",
+    "chatgpt.com"
+  ],
+  "denied_network_hosts": [
+    "github.com",
+    "sdmntprbrazilsouth.oaiusercontent.com",
+    "sdmntprcentralus.oaiusercontent.com",
+    "sdmntprnortheu.oaiusercontent.com",
+    "sdmntprsouthcentralus.oaiusercontent.com"
+  ],
+  "network_boundary": {
+    "github_proxy_denied": true,
+    "direct_internet_blocked": true
+  },
+  "changed_production_files": [
+    "src/werkzeug/sansio/multipart.py"
+  ],
+  "patch_sha256": "cb5708526acd374e24a0c4f35eb44b2f57a0ad38c1e471b2f14c3725c2f89580",
+  "source_files": 59,
+  "public_instruction_matches_trial": true,
+  "verifier_fairness_revision": null,
+  "original_reward": 1.0,
+  "original_checks": {
+    "tests_run": 65,
+    "passed": 65,
+    "failed": 0,
+    "skipped": 0
+  },
+  "fairness_rescored": false
+}

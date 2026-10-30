@@ -1,0 +1,61 @@
+{
+  "id": "better-auth-indexes-extended",
+  "task": "better-auth-indexes",
+  "profile": "extended",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "agent_timeout_seconds": 600,
+  "reward": 1.0,
+  "status": "PASS",
+  "exception": null,
+  "task_unchanged_during_trial": true,
+  "budget_exhausted": false,
+  "cutoff_artifact_passed": true,
+  "checks": {
+    "tests_run": 83,
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0
+  },
+  "allowed_network_hosts": [
+    "ab.chatgpt.com",
+    "chatgpt.com"
+  ],
+  "denied_network_hosts": [
+    "github.com",
+    "sdmntprbrazilsouth.oaiusercontent.com",
+    "sdmntprcentralus.oaiusercontent.com",
+    "sdmntprnortheu.oaiusercontent.com",
+    "sdmntprsouthcentralus.oaiusercontent.com"
+  ],
+  "network_boundary": {
+    "github_proxy_denied": true,
+    "direct_internet_blocked": true
+  },
+  "changed_production_files": [
+    "docs/lib/copy-schema/adapter/drizzle.ts",
+    "docs/lib/copy-schema/adapter/prisma.ts",
+    "docs/lib/copy-schema/dialects/mssql.ts",
+    "docs/lib/copy-schema/dialects/mysql.ts",
+    "docs/lib/copy-schema/dialects/postgresql.ts",
+    "docs/lib/copy-schema/dialects/sqlite.ts",
+    "docs/lib/copy-schema/types.ts",
+    "docs/lib/copy-schema/utils.ts",
+    "packages/better-auth/src/db/get-migration.ts",
+    "packages/better-auth/src/plugins/device-authorization/index.ts",
+    "packages/better-auth/src/plugins/device-authorization/routes.ts",
+    "packages/better-auth/src/plugins/device-authorization/schema.ts"
+  ],
+  "patch_sha256": "427c34d2dd18ab84cf875b8591ac43561ac05455bbdcf1fdef6905e2dd71f9a1",
+  "source_files": 398,
+  "public_instruction_matches_trial": true,
+  "verifier_fairness_revision": "betterauth-semantic-fairness-1",
+  "original_reward": 0.0,
+  "original_checks": {
+    "tests_run": 83,
+    "passed": 82,
+    "failed": 1,
+    "skipped": 0
+  },
+  "fairness_rescored": true
+}

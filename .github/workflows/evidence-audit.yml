@@ -1,0 +1,23 @@
+name: Saved-evidence audit
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-saved-evidence:
+    name: Verify saved evidence, not new agent runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the published files
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Check published file hashes
+        run: sha256sum --quiet -c SHA256SUMS
+      - name: Audit saved results and source provenance
+        run: python3 tools/report.py

@@ -1,0 +1,110 @@
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout generated-code boundary[2m > [22mrejects oversized custom device code before persistence
+[31m[1mAssertionError[22m: promise resolved "{ …(6) }" instead of rejecting[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Error {[39m
+[32m-   "message": "rejected promise",[39m
+[31m+ {[39m
+[31m+   "device_code": "🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋",[39m
+[31m+   "expires_in": 1800,[39m
+[31m+   "interval": 5,[39m
+[31m+   "user_code": "AP7QHEGA",[39m
+[31m+   "verification_uri": "http://localhost:3000/device",[39m
+[31m+   "verification_uri_complete": "http://localhost:3000/device?user_code=AP7QHEGA",[39m
+[2m  }[22m
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m142:69[22m[39m
+    [90m140|[39m   const options=deviceAuthorizationOptionsSchema.parse(label==="device…
+    [90m141|[39m   const {auth}=await getTestInstance({plugins:[deviceAuthorization(opt…
+    [90m142|[39m   await expect(auth.api.deviceCode({body:{client_id:"test-client"}})).…
+    [90m   |[39m                                                                     [31m^[39m
+    [90m143|[39m   expect(await(await auth.$context).adapter.findMany({model:"deviceCod…
+    [90m144|[39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout generated-code boundary[2m > [22mrejects oversized custom user code before persistence
+[31m[1mAssertionError[22m: promise resolved "{ …(6) }" instead of rejecting[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Error {[39m
+[32m-   "message": "rejected promise",[39m
+[31m+ {[39m
+[31m+   "device_code": "DVz2ZEStbzkHiFhmH6s0wRJFVjJ0n1K8J4DczAw6",[39m
+[31m+   "expires_in": 1800,[39m
+[31m+   "interval": 5,[39m
+[31m+   "user_code": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",[39m
+[31m+   "verification_uri": "http://localhost:3000/device",[39m
+[31m+   "verification_uri_complete": "http://localhost:3000/device?user_code=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",[39m
+[2m  }[22m
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m142:69[22m[39m
+    [90m140|[39m   const options=deviceAuthorizationOptionsSchema.parse(label==="device…
+    [90m141|[39m   const {auth}=await getTestInstance({plugins:[deviceAuthorization(opt…
+    [90m142|[39m   await expect(auth.api.deviceCode({body:{client_id:"test-client"}})).…
+    [90m   |[39m                                                                     [31m^[39m
+    [90m143|[39m   expect(await(await auth.$context).adapter.findMany({model:"deviceCod…
+    [90m144|[39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout generated-code boundary[2m > [22mrejects non-string custom device code before persistence
+[31m[1mAssertionError[22m: promise resolved "{ device_code: 42, …(5) }" instead of rejecting[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Error {[39m
+[32m-   "message": "rejected promise",[39m
+[31m+ {[39m
+[31m+   "device_code": 42,[39m
+[31m+   "expires_in": 1800,[39m
+[31m+   "interval": 5,[39m
+[31m+   "user_code": "BKQP447W",[39m
+[31m+   "verification_uri": "http://localhost:3000/device",[39m
+[31m+   "verification_uri_complete": "http://localhost:3000/device?user_code=BKQP447W",[39m
+[2m  }[22m
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m148:69[22m[39m
+    [90m146|[39m   const options=deviceAuthorizationOptionsSchema.parse(label==="device…
+    [90m147|[39m   const {auth}=await getTestInstance({plugins:[deviceAuthorization(opt…
+    [90m148|[39m   await expect(auth.api.deviceCode({body:{client_id:"test-client"}})).…
+    [90m   |[39m                                                                     [31m^[39m
+    [90m149|[39m   expect(await(await auth.$context).adapter.findMany({model:"deviceCod…
+    [90m150|[39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout generated-code boundary[2m > [22mrejects non-string custom user code before persistence
+[31m[1mAssertionError[22m: expected TypeError: Provided value cannot be bound… { code: '…' } to match object { body: { error: 'invalid_request' } }
+(1 matching property omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- {[39m
+[32m-   "body": {[39m
+[32m-     "error": "invalid_request",[39m
+[32m-   },[39m
+[31m+ TypeError {[39m
+[31m+   "message": "Provided value cannot be bound to SQLite parameter 2.",[39m
+[31m+   "code": "ERR_INVALID_ARG_TYPE",[39m
+[2m  }[22m
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m148:69[22m[39m
+    [90m146|[39m   const options=deviceAuthorizationOptionsSchema.parse(label==="device…
+    [90m147|[39m   const {auth}=await getTestInstance({plugins:[deviceAuthorization(opt…
+    [90m148|[39m   await expect(auth.api.deviceCode({body:{client_id:"test-client"}})).…
+    [90m   |[39m                                                                     [31m^[39m
+    [90m149|[39m   expect(await(await auth.$context).adapter.findMany({model:"deviceCod…
+    [90m150|[39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+

@@ -1,0 +1,341 @@
+{
+  "trials": [
+    {
+      "id": "anyio-cancel-scope-extended",
+      "task": "anyio-cancel-scope",
+      "profile": "extended",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "agent_timeout_seconds": 600,
+      "reward": 1.0,
+      "status": "PASS",
+      "exception": null,
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": false,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 169,
+        "passed": 165,
+        "failed": 0,
+        "skipped": 4
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "src/anyio/_backends/_asyncio.py"
+      ],
+      "patch_sha256": "79d8352aa41c2023d40287627b7aed82eb34a9a641277cb1e0499cb1c0362a7d",
+      "source_files": 38,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": null,
+      "original_reward": 1.0,
+      "original_checks": {
+        "tests_run": 169,
+        "passed": 165,
+        "failed": 0,
+        "skipped": 4
+      },
+      "fairness_rescored": false
+    },
+    {
+      "id": "anyio-cancel-scope-standard",
+      "task": "anyio-cancel-scope",
+      "profile": "standard",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "agent_timeout_seconds": 300,
+      "reward": 1.0,
+      "status": "PASS",
+      "exception": null,
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": false,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 169,
+        "passed": 165,
+        "failed": 0,
+        "skipped": 4
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "src/anyio/_backends/_asyncio.py"
+      ],
+      "patch_sha256": "1f38688058e9dddeb565ebbdb5ef5b732e61761728af1e047ada397a0e40a046",
+      "source_files": 38,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": null,
+      "original_reward": 1.0,
+      "original_checks": {
+        "tests_run": 169,
+        "passed": 165,
+        "failed": 0,
+        "skipped": 4
+      },
+      "fairness_rescored": false
+    },
+    {
+      "id": "better-auth-indexes-extended",
+      "task": "better-auth-indexes",
+      "profile": "extended",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "agent_timeout_seconds": 600,
+      "reward": 1.0,
+      "status": "PASS",
+      "exception": null,
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": false,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 83,
+        "passed": 83,
+        "failed": 0,
+        "skipped": 0
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "docs/lib/copy-schema/adapter/drizzle.ts",
+        "docs/lib/copy-schema/adapter/prisma.ts",
+        "docs/lib/copy-schema/dialects/mssql.ts",
+        "docs/lib/copy-schema/dialects/mysql.ts",
+        "docs/lib/copy-schema/dialects/postgresql.ts",
+        "docs/lib/copy-schema/dialects/sqlite.ts",
+        "docs/lib/copy-schema/types.ts",
+        "docs/lib/copy-schema/utils.ts",
+        "packages/better-auth/src/db/get-migration.ts",
+        "packages/better-auth/src/plugins/device-authorization/index.ts",
+        "packages/better-auth/src/plugins/device-authorization/routes.ts",
+        "packages/better-auth/src/plugins/device-authorization/schema.ts"
+      ],
+      "patch_sha256": "427c34d2dd18ab84cf875b8591ac43561ac05455bbdcf1fdef6905e2dd71f9a1",
+      "source_files": 398,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": "betterauth-semantic-fairness-1",
+      "original_reward": 0.0,
+      "original_checks": {
+        "tests_run": 83,
+        "passed": 82,
+        "failed": 1,
+        "skipped": 0
+      },
+      "fairness_rescored": true
+    },
+    {
+      "id": "better-auth-indexes-standard",
+      "task": "better-auth-indexes",
+      "profile": "standard",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "agent_timeout_seconds": 300,
+      "reward": 1.0,
+      "status": "TIMEOUT",
+      "exception": {
+        "exception_type": "AgentTimeoutError",
+        "exception_message": "Agent execution timed out after 300.0 seconds",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/tasks.py\", line 488, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/agents/installed/base.py\", line 194, in wrapper\n    return await fn(self, instruction, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/agents/installed/codex.py\", line 2067, in run\n    await self.exec_as_agent(\n    ...<17 lines>...\n    )\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/agents/installed/base.py\", line 1081, in exec_as_agent\n    return await self._exec(\n           ^^^^^^^^^^^^^^^^^\n        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/agents/installed/base.py\", line 1032, in _exec\n    result = await environment.exec(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n    )\n    ^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 1363, in exec\n    return await self._compose_exec(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n    )\n    ^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 1440, in _compose_exec\n    return await self._run_docker_compose_command(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 758, in _run_docker_compose_command\n    result = await self._collect_buffered_output(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<3 lines>...\n    )\n    ^\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 788, in _collect_buffered_output\n    stdout_bytes, stderr_bytes = await process.communicate(input=stdin_data)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/subprocess.py\", line 201, in communicate\n    stdin, stdout, stderr = await tasks.gather(stdin, stdout, stderr)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/subprocess.py\", line 181, in _read_stream\n    output = await stream.read()\n             ^^^^^^^^^^^^^^^^^^^\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/streams.py\", line 723, in read\n    block = await self.read(self._limit)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/streams.py\", line 730, in read\n    await self._wait_for_data('read')\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/streams.py\", line 539, in _wait_for_data\n    await self._waiter\nasyncio.exceptions.CancelledError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/trial/trial.py\", line 769, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/tasks.py\", line 487, in wait_for\n    async with timeouts.timeout(timeout):\n               ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/Users/gautammanch/.local/share/uv/python/cpython-3.14.2-macos-aarch64-none/lib/python3.14/asyncio/timeouts.py\", line 114, in __aexit__\n    raise TimeoutError from exc_val\nTimeoutError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/trial/single_step.py\", line 76, in _run_agent\n    await self._run_agent_phase(\n    ...<5 lines>...\n    )\n  File \"/private/tmp/agent-taskpack-uv-cache/archive-v0/kvUjY28wjck_KvDqIdZt_/lib/python3.14/site-packages/harbor/trial/trial.py\", line 778, in _run_agent_phase\n    raise AgentTimeoutError(\n        f\"Agent execution timed out after {timeout_sec} seconds\"\n    ) from exc\nharbor.trial.errors.AgentTimeoutError: Agent execution timed out after 300.0 seconds\n",
+        "occurred_at": "2026-10-30T10:15:45.952371Z"
+      },
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": true,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 83,
+        "passed": 83,
+        "failed": 0,
+        "skipped": 0
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "docs/lib/copy-schema/adapter/drizzle.ts",
+        "docs/lib/copy-schema/adapter/prisma.ts",
+        "docs/lib/copy-schema/dialects/mssql.ts",
+        "docs/lib/copy-schema/dialects/mysql.ts",
+        "docs/lib/copy-schema/dialects/postgresql.ts",
+        "docs/lib/copy-schema/dialects/sqlite.ts",
+        "docs/lib/copy-schema/types.ts",
+        "docs/lib/copy-schema/utils.ts",
+        "packages/better-auth/src/db/get-migration.ts",
+        "packages/better-auth/src/plugins/device-authorization/index.ts",
+        "packages/better-auth/src/plugins/device-authorization/routes.ts",
+        "packages/better-auth/src/plugins/device-authorization/schema.ts",
+        "packages/core/src/db/database-index-name.ts",
+        "packages/core/src/db/database-index.ts"
+      ],
+      "patch_sha256": "3528e79fbb86def696489a48e8b5ef8beda3b2d40171bb4daa9b786e7dd84559",
+      "source_files": 399,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": "betterauth-semantic-fairness-1",
+      "original_reward": 0.0,
+      "original_checks": {
+        "tests_run": 83,
+        "passed": 80,
+        "failed": 3,
+        "skipped": 0
+      },
+      "fairness_rescored": true
+    },
+    {
+      "id": "werkzeug-multipart-extended",
+      "task": "werkzeug-multipart",
+      "profile": "extended",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "agent_timeout_seconds": 600,
+      "reward": 1.0,
+      "status": "PASS",
+      "exception": null,
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": false,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 65,
+        "passed": 65,
+        "failed": 0,
+        "skipped": 0
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "src/werkzeug/sansio/multipart.py"
+      ],
+      "patch_sha256": "cb5708526acd374e24a0c4f35eb44b2f57a0ad38c1e471b2f14c3725c2f89580",
+      "source_files": 59,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": null,
+      "original_reward": 1.0,
+      "original_checks": {
+        "tests_run": 65,
+        "passed": 65,
+        "failed": 0,
+        "skipped": 0
+      },
+      "fairness_rescored": false
+    },
+    {
+      "id": "werkzeug-multipart-standard",
+      "task": "werkzeug-multipart",
+      "profile": "standard",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "agent_timeout_seconds": 300,
+      "reward": 1.0,
+      "status": "PASS",
+      "exception": null,
+      "task_unchanged_during_trial": true,
+      "budget_exhausted": false,
+      "cutoff_artifact_passed": true,
+      "checks": {
+        "tests_run": 65,
+        "passed": 65,
+        "failed": 0,
+        "skipped": 0
+      },
+      "allowed_network_hosts": [
+        "ab.chatgpt.com",
+        "chatgpt.com"
+      ],
+      "denied_network_hosts": [
+        "github.com",
+        "sdmntprbrazilsouth.oaiusercontent.com",
+        "sdmntprcentralus.oaiusercontent.com",
+        "sdmntprnortheu.oaiusercontent.com",
+        "sdmntprsouthcentralus.oaiusercontent.com"
+      ],
+      "network_boundary": {
+        "github_proxy_denied": true,
+        "direct_internet_blocked": true
+      },
+      "changed_production_files": [
+        "src/werkzeug/sansio/multipart.py"
+      ],
+      "patch_sha256": "ce9a4fd9278349f2790faace6e8e1e90de3395d518ef4d85eda4e6ed5213776a",
+      "source_files": 59,
+      "public_instruction_matches_trial": true,
+      "verifier_fairness_revision": null,
+      "original_reward": 1.0,
+      "original_checks": {
+        "tests_run": 65,
+        "passed": 65,
+        "failed": 0,
+        "skipped": 0
+      },
+      "fairness_rescored": false
+    }
+  ],
+  "completed": 6,
+  "passed": 5,
+  "normally_finished": 5,
+  "passing_saved_artifacts": 6,
+  "failed": 0,
+  "exceptions": 0,
+  "budget_exhaustions": 1,
+  "interpretation": "Two fresh same-model-family budget profiles per task. Exploratory usability checks, not a statistical difficulty estimate or a contamination-free claim."
+}

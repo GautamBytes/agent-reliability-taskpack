@@ -1,0 +1,713 @@
+--- a/docs/lib/copy-schema/adapter/drizzle.ts
++++ b/docs/lib/copy-schema/adapter/drizzle.ts
+@@ -1,5 +1,9 @@
+ import type { Resolver } from "../types";
+-import { getTypeFactory } from "../utils";
++import {
++	filterIndexedFields,
++	getFieldIndexName,
++	getTypeFactory,
++} from "../utils";
+ 
+ export type DrizzleResolverOptions = {
+ 	/**
+@@ -49,11 +53,13 @@
+ 					string:
+ 						provider === "sqlite"
+ 							? `t.text("${fieldName}")`
+-							: field.unique
+-								? `t.varchar("${fieldName}", { length: 255 })`
+-								: field.references
+-									? `t.varchar("${fieldName}", { length: 36 })`
+-									: `t.text("${fieldName}")`,
++							: provider === "mysql" && field.index
++								? `t.varchar("${fieldName}", { length: 191 })`
++								: field.unique
++									? `t.varchar("${fieldName}", { length: 255 })`
++									: field.references
++										? `t.varchar("${fieldName}", { length: 36 })`
++										: `t.text("${fieldName}")`,
+ 					boolean:
+ 						provider === "sqlite"
+ 							? `t.integer("${fieldName}")`
+@@ -80,14 +86,17 @@
+ 							: `t.text("${fieldName}").primaryKey()`,
+ 					foreignKeyId: ctx.useNumberId
+ 						? `t.integer("${fieldName}")`
+-						: `t.text("${fieldName}")`,
++						: provider === "mysql" && field.index
++							? `t.varchar("${fieldName}", { length: 191 })`
++							: `t.text("${fieldName}")`,
+ 					"number[]": `${number}.array()`,
+ 					"string[]": `t.text("${fieldName}").array()`,
+ 				};
+ 			});
+ 
++			const tableName = `${convertToSnakeCase(ctx.schema.modelName, options.camelCase)}${options.usePlural ? "s" : ""}`;
+ 			const table = [
+-				`export const ${ctx.schema.modelName} = ${tableFnName}("${convertToSnakeCase(ctx.schema.modelName, options.camelCase)}${options.usePlural ? "s" : ""}", {`,
++				`export const ${ctx.schema.modelName} = ${tableFnName}("${tableName}", {`,
+ 			];
+ 
+ 			if (ctx.mode === "alter") {
+@@ -108,7 +117,22 @@
+ 				table.push(`\t${field.fieldName}: ${value},`);
+ 			}
+ 
+-			table.push("});");
++			const indexes = filterIndexedFields(ctx.schema);
++			if (indexes.length) {
++				table.push("}, (table) => [");
++				for (const field of indexes) {
++					const name = getFieldIndexName(
++						tableName,
++						convertToSnakeCase(field.fieldName, options.camelCase),
++					);
++					table.push(
++						`\tt.index(${JSON.stringify(name)}).on(table.${field.fieldName}),`,
++					);
++				}
++				table.push("]);");
++			} else {
++				table.push("});");
++			}
+ 
+ 			return [...imports, "", ...table].join("\n");
+ 		},
+--- a/docs/lib/copy-schema/adapter/prisma.ts
++++ b/docs/lib/copy-schema/adapter/prisma.ts
+@@ -1,5 +1,10 @@
+ import type { Resolver } from "../types";
+-import { capitalize, getTypeFactory } from "../utils";
++import {
++	capitalize,
++	filterIndexedFields,
++	getFieldIndexName,
++	getTypeFactory,
++} from "../utils";
+ 
+ export type PrismaResolverOptions = {
+ 	/**
+@@ -41,6 +46,13 @@
+ 
+ 					id += ` @map("_id") @db.ObjectId`;
+ 					foreignKeyId += " @db.ObjectId";
++				}
++
++				if (field.index && (provider === "mysql" || provider === "sqlserver")) {
++					string += ` @db.VarChar(${provider === "mysql" ? 191 : 255})`;
++					if (!ctx.useNumberId) {
++						foreignKeyId += ` @db.VarChar(${provider === "mysql" ? 191 : 255})`;
++					}
+ 				}
+ 
+ 				// Only PostgreSQL, CockroachDB, and MongoDB support Prisma scalar
+@@ -98,6 +110,15 @@
+ 				}
+ 				lines.push(`\t${newLine}`);
+ 			}
++			for (const field of filterIndexedFields(ctx.schema)) {
++				const name = getFieldIndexName(
++					`${ctx.schema.modelName}${options.usePlural ? "s" : ""}`,
++					field.fieldName,
++				);
++				lines.push(
++					`\t@@index([${field.fieldName}], map: ${JSON.stringify(name)})`,
++				);
++			}
+ 			lines.push(
+ 				`\t@@map("${ctx.schema.modelName}${options.usePlural ? "s" : ""}")`,
+ 			);
+--- a/docs/lib/copy-schema/dialects/mssql.ts
++++ b/docs/lib/copy-schema/dialects/mssql.ts
+@@ -3,14 +3,20 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import {
++	filterForeignKeys,
++	getIndexStatements,
++	getTypeFactory,
++	quoteIdentifier,
++	quoteSQLString,
++} from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+ };
+ 
+ const formatField = (field: DBFieldAttribute, ctx: CustomResolverContext) => {
+-	let out = `[${field.fieldName}] ${ctx.getType(field)}`;
++	let out = `${quoteIdentifier(field.fieldName, "mssql")} ${ctx.getType(field)}`;
+ 
+ 	if (field.required !== false) {
+ 		out += " NOT NULL";
+@@ -29,7 +35,7 @@
+ };
+ 
+ const formatForeignKey = (field: DBFieldAttribute) => {
+-	let newLine = `FOREIGN KEY ([${field.fieldName}]) REFERENCES [${field.references!.model}]([${field.references!.field}])`;
++	let newLine = `FOREIGN KEY (${quoteIdentifier(field.fieldName, "mssql")}) REFERENCES ${quoteIdentifier(field.references!.model, "mssql")}(${quoteIdentifier(field.references!.field, "mssql")})`;
+ 
+ 	if (field.references!.onDelete) {
+ 		newLine += ` ON DELETE ${field.references!.onDelete.toUpperCase()}`;
+@@ -41,9 +47,10 @@
+ 
+ export const mssqlResolver = {
+ 	handler: (ctx) => {
++		if (ctx.schema.fields.length === 0) return "";
+ 		const getType = getTypeFactory((field) => ({
+ 			string:
+-				field.unique || field.sortable
++				field.unique || field.sortable || field.index
+ 					? "varchar(255)"
+ 					: field.references
+ 						? "varchar(36)"
+@@ -56,11 +63,11 @@
+ 			foreignKeyId: ctx.useNumberId ? "integer" : "varchar(36)",
+ 		}));
+ 		const lines = [
+-			`IF OBJECT_ID('${ctx.schema.modelName}') IS ${ctx.mode === "create" ? "NULL" : "NOT NULL"}`,
++			`IF OBJECT_ID(${quoteSQLString(quoteIdentifier(ctx.schema.modelName, "mssql"))}, 'U') IS ${ctx.mode === "create" ? "NULL" : "NOT NULL"}`,
+ 			"BEGIN",
+ 			ctx.mode === "create"
+-				? `\tCREATE TABLE [${ctx.schema.modelName}] (`
+-				: `\tALTER TABLE [${ctx.schema.modelName}]`,
++				? `\tCREATE TABLE ${quoteIdentifier(ctx.schema.modelName, "mssql")} (`
++				: `\tALTER TABLE ${quoteIdentifier(ctx.schema.modelName, "mssql")}`,
+ 		];
+ 		const fields = [];
+ 		for (const field of ctx.schema.fields) {
+@@ -77,8 +84,9 @@
+ 			);
+ 		}
+ 		const lastLineIdx = fields.length - 1;
+-		if (fields[lastLineIdx].endsWith(",")) {
+-			const str = fields[lastLineIdx].slice(0, -1);
++		const lastLine = fields[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			fields[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		lines.push(...fields);
+@@ -86,6 +94,7 @@
+ 			lines.push(`\t);`);
+ 		}
+ 		lines.push("END;");
++		lines.push(...getIndexStatements(ctx, "mssql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/mysql.ts
++++ b/docs/lib/copy-schema/dialects/mysql.ts
+@@ -3,14 +3,19 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import {
++	filterForeignKeys,
++	getIndexStatements,
++	getTypeFactory,
++	quoteIdentifier,
++} from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+ };
+ 
+ const formatField = (field: DBFieldAttribute, ctx: CustomResolverContext) => {
+-	let out = `\`${field.fieldName}\` ${ctx.getType(field)}`;
++	let out = `${quoteIdentifier(field.fieldName, "mysql")} ${ctx.getType(field)}`;
+ 
+ 	if (field.required !== false) {
+ 		out += " NOT NULL";
+@@ -32,7 +37,7 @@
+ };
+ 
+ const formatForeignKey = (field: DBFieldAttribute) => {
+-	let newLine = `FOREIGN KEY (\`${field.fieldName}\`) REFERENCES \`${field.references!.model}\`(\`${field.references!.field}\`)`;
++	let newLine = `FOREIGN KEY (${quoteIdentifier(field.fieldName, "mysql")}) REFERENCES ${quoteIdentifier(field.references!.model, "mysql")}(${quoteIdentifier(field.references!.field, "mysql")})`;
+ 
+ 	if (field.references!.onDelete) {
+ 		newLine += ` ON DELETE ${field.references!.onDelete.toUpperCase()}`;
+@@ -44,24 +49,31 @@
+ 
+ export const mysqlResolver = {
+ 	handler: (ctx) => {
++		if (ctx.schema.fields.length === 0) return "";
+ 		const getType = getTypeFactory((field) => ({
+-			string: field.unique
+-				? "varchar(255)"
+-				: field.references
+-					? "varchar(36)"
+-					: "text",
++			string: field.index
++				? "varchar(191)"
++				: field.unique
++					? "varchar(255)"
++					: field.references
++						? "varchar(36)"
++						: "text",
+ 			boolean: "boolean",
+ 			number: field.bigint ? "bigint" : "integer",
+ 			date: "timestamp(3)",
+ 			json: "json",
+ 			id: ctx.useNumberId ? "integer" : "varchar(36)",
+-			foreignKeyId: ctx.useNumberId ? "integer" : "text",
++			foreignKeyId: ctx.useNumberId
++				? "integer"
++				: field.index
++					? "varchar(191)"
++					: "text",
+ 		}));
+ 
+ 		const lines = [
+ 			ctx.mode === "create"
+-				? `CREATE TABLE IF NOT EXISTS \`${ctx.schema.modelName}\` (`
+-				: `ALTER TABLE \`${ctx.schema.modelName}\``,
++				? `CREATE TABLE IF NOT EXISTS ${quoteIdentifier(ctx.schema.modelName, "mysql")} (`
++				: `ALTER TABLE ${quoteIdentifier(ctx.schema.modelName, "mysql")}`,
+ 		];
+ 
+ 		for (const field of ctx.schema.fields) {
+@@ -80,13 +92,15 @@
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		if (ctx.mode === "create") {
+ 			lines.push(`);`);
+ 		}
++		lines.push(...getIndexStatements(ctx, "mysql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/postgresql.ts
++++ b/docs/lib/copy-schema/dialects/postgresql.ts
+@@ -3,14 +3,19 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import {
++	filterForeignKeys,
++	getIndexStatements,
++	getTypeFactory,
++	quoteIdentifier,
++} from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+ };
+ 
+ const formatField = (field: DBFieldAttribute, ctx: CustomResolverContext) => {
+-	let out = `"${field.fieldName}" ${ctx.getType(field)}`;
++	let out = `${quoteIdentifier(field.fieldName, "postgresql")} ${ctx.getType(field)}`;
+ 
+ 	if (field.required !== false) {
+ 		out += " NOT NULL";
+@@ -29,7 +34,7 @@
+ };
+ 
+ const formatForeignKey = (field: DBFieldAttribute) => {
+-	let newLine = `FOREIGN KEY ("${field.fieldName}") REFERENCES "${field.references!.model}" ("${field.references!.field}")`;
++	let newLine = `FOREIGN KEY (${quoteIdentifier(field.fieldName, "postgresql")}) REFERENCES ${quoteIdentifier(field.references!.model, "postgresql")} (${quoteIdentifier(field.references!.field, "postgresql")})`;
+ 
+ 	if (field.references!.onDelete) {
+ 		newLine += ` ON DELETE ${field.references!.onDelete.toUpperCase()}`;
+@@ -41,6 +46,7 @@
+ 
+ export const postgresqlResolver = {
+ 	handler: (ctx) => {
++		if (ctx.schema.fields.length === 0) return "";
+ 		const getType = getTypeFactory((field) => ({
+ 			string: "text",
+ 			boolean: "boolean",
+@@ -52,8 +58,8 @@
+ 		}));
+ 		const lines = [
+ 			ctx.mode === "create"
+-				? `CREATE TABLE IF NOT EXISTS "${ctx.schema.modelName}" (`
+-				: `ALTER TABLE IF EXISTS "${ctx.schema.modelName}"`,
++				? `CREATE TABLE IF NOT EXISTS ${quoteIdentifier(ctx.schema.modelName, "postgresql")} (`
++				: `ALTER TABLE IF EXISTS ${quoteIdentifier(ctx.schema.modelName, "postgresql")}`,
+ 		];
+ 
+ 		for (const field of ctx.schema.fields) {
+@@ -71,13 +77,15 @@
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
+ 			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
+ 		}
+ 		if (ctx.mode === "create") {
+ 			lines.push(`);`);
+ 		}
++		lines.push(...getIndexStatements(ctx, "postgresql"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/dialects/sqlite.ts
++++ b/docs/lib/copy-schema/dialects/sqlite.ts
+@@ -3,14 +3,19 @@
+ 	Resolver,
+ 	ResolverHandlerContext,
+ } from "../types";
+-import { filterForeignKeys, getTypeFactory } from "../utils";
++import {
++	filterForeignKeys,
++	getIndexStatements,
++	getTypeFactory,
++	quoteIdentifier,
++} from "../utils";
+ 
+ type CustomResolverContext = ResolverHandlerContext & {
+ 	getType: ReturnType<typeof getTypeFactory>;
+ };
+ 
+ const formatField = (field: DBFieldAttribute, ctx: CustomResolverContext) => {
+-	let out = `"${field.fieldName}" ${ctx.getType(field)}`;
++	let out = `${quoteIdentifier(field.fieldName, "sqlite")} ${ctx.getType(field)}`;
+ 
+ 	if (field.required !== false) {
+ 		out += " NOT NULL";
+@@ -29,7 +34,7 @@
+ };
+ 
+ const formatForeignKey = (field: DBFieldAttribute) => {
+-	let newLine = `FOREIGN KEY ("${field.fieldName}") REFERENCES "${field.references!.model}" ("${field.references!.field}")`;
++	let newLine = `FOREIGN KEY (${quoteIdentifier(field.fieldName, "sqlite")}) REFERENCES ${quoteIdentifier(field.references!.model, "sqlite")} (${quoteIdentifier(field.references!.field, "sqlite")})`;
+ 
+ 	if (field.references!.onDelete) {
+ 		newLine += ` ON DELETE ${field.references!.onDelete.toUpperCase()}`;
+@@ -41,6 +46,7 @@
+ 
+ export const sqliteResolver = {
+ 	handler: (ctx) => {
++		if (ctx.schema.fields.length === 0) return "";
+ 		const getType = getTypeFactory(
+ 			(field) => ({
+ 				string: "text",
+@@ -53,34 +59,45 @@
+ 			}),
+ 			{ arrayDataType: "text" },
+ 		);
++		if (ctx.mode === "alter") {
++			// SQLite accepts one ADD COLUMN per statement and requires foreign
++			// keys on added columns to be declared inline.
++			const lines = ctx.schema.fields.map((field) => {
++				let column = formatField(field, { ...ctx, getType }).slice(0, -1);
++				if (field.references) {
++					column += ` REFERENCES ${quoteIdentifier(field.references.model, "sqlite")} (${quoteIdentifier(field.references.field, "sqlite")})`;
++					if (field.references.onDelete) {
++						column += ` ON DELETE ${field.references.onDelete.toUpperCase()}`;
++					}
++				}
++				return `ALTER TABLE ${quoteIdentifier(ctx.schema.modelName, "sqlite")} ADD COLUMN ${column};`;
++			});
++			return [...lines, ...getIndexStatements(ctx, "sqlite")].join("\n");
++		}
+ 		const lines = [
+-			ctx.mode === "create"
+-				? `CREATE TABLE IF NOT EXISTS "${ctx.schema.modelName}" (`
+-				: `ALTER TABLE "${ctx.schema.modelName}"`,
++			`CREATE TABLE IF NOT EXISTS ${quoteIdentifier(ctx.schema.modelName, "sqlite")} (`,
+ 		];
+ 
+ 		for (const field of ctx.schema.fields) {
+ 			lines.push(
+-				`\t${ctx.mode === "alter" ? "ADD COLUMN " : ""}${formatField(field, {
++				`\t${formatField(field, {
+ 					...ctx,
+ 					getType,
+ 				})}`,
+ 			);
+ 		}
+ 		for (const field of filterForeignKeys(ctx.schema)) {
+-			lines.push(
+-				`\t${ctx.mode === "alter" ? "ADD " : ""}${formatForeignKey(field)}`,
+-			);
++			lines.push(`\t${formatForeignKey(field)}`);
+ 		}
+ 
+ 		const lastLineIdx = lines.length - 1;
+-		if (lines[lastLineIdx].endsWith(",")) {
+-			const str = lines[lastLineIdx].slice(0, -1);
+-			lines[lastLineIdx] = ctx.mode === "create" ? str : `${str};`;
++		const lastLine = lines[lastLineIdx];
++		if (lastLine?.endsWith(",")) {
++			const str = lastLine.slice(0, -1);
++			lines[lastLineIdx] = str;
+ 		}
+-		if (ctx.mode === "create") {
+-			lines.push(`);`);
+-		}
++		lines.push(`);`);
++		lines.push(...getIndexStatements(ctx, "sqlite"));
+ 		return lines.join("\n");
+ 	},
+ } satisfies Resolver;
+--- a/docs/lib/copy-schema/types.ts
++++ b/docs/lib/copy-schema/types.ts
+@@ -69,6 +69,8 @@
+ 			| "set default";
+ 	};
+ 	unique?: boolean;
++	/** Whether to create a non-unique lookup index. Unique fields already have an index. */
++	index?: boolean;
+ 	/**
+ 	 * If the field should be a bigint on the database instead of integer.
+ 	 */
+--- a/docs/lib/copy-schema/utils.ts
++++ b/docs/lib/copy-schema/utils.ts
+@@ -1,4 +1,8 @@
+-import type { DBFieldAttribute } from "./types";
++import type {
++	DBFieldAttribute,
++	DefaultDialects,
++	ResolverHandlerContext,
++} from "./types";
+ 
+ export function getTypeFactory(
+ 	getTypeMap: (
+@@ -32,7 +36,7 @@
+ 			return config?.arrayDataType ?? "jsonb";
+ 		}
+ 		if (Array.isArray(type)) {
+-			return "text";
++			return field.index ? typeMap.string : "text";
+ 		}
+ 		return typeMap[type as keyof typeof typeMap]!;
+ 	};
+@@ -45,3 +49,88 @@
+ export function capitalize(str: string) {
+ 	return str.charAt(0).toUpperCase() + str.slice(1);
+ }
++
++/** Fields that need a separate, non-unique lookup index. */
++export function filterIndexedFields({
++	fields,
++}: {
++	fields: DBFieldAttribute[];
++}) {
++	return fields.filter(
++		(field) => field.index && !field.unique && field.fieldName !== "id",
++	);
++}
++
++/**
++ * Uses the same portable, UTF-8 byte budget and stable suffix as core's
++ * getDatabaseFieldIndexName, without requiring the docs copier to load core.
++ */
++export function getFieldIndexName(tableName: string, fieldName: string) {
++	const name = `${tableName}_${fieldName}_idx`;
++	const encoder = new TextEncoder();
++	if (encoder.encode(name).length <= 63) return name;
++
++	let hash = 0x811c9dc5;
++	for (let index = 0; index < name.length; index++) {
++		hash ^= name.charCodeAt(index);
++		hash = Math.imul(hash, 0x01000193);
++	}
++	const suffix = `_${(hash >>> 0).toString(16).padStart(8, "0")}_idx`;
++	let prefix = "";
++	let bytes = encoder.encode(suffix).length;
++	for (const character of name.slice(0, -4)) {
++		bytes += encoder.encode(character).length;
++		if (bytes > 63) break;
++		prefix += character;
++	}
++	return `${prefix}${suffix}`;
++}
++
++/** Quotes a database identifier for the selected SQL dialect. */
++export function quoteIdentifier(value: string, dialect: DefaultDialects) {
++	if (dialect === "mysql") return `\`${value.replaceAll("`", "``")}\``;
++	if (dialect === "mssql") return `[${value.replaceAll("]", "]]")}]`;
++	return `"${value.replaceAll('"', '""')}"`;
++}
++
++/** Quotes a SQL string literal, including catalog lookups and dynamic DDL. */
++export function quoteSQLString(value: string) {
++	return `'${value.replaceAll("'", "''")}'`;
++}
++
++/** Creates guarded index DDL after the table's columns have been declared. */
++export function getIndexStatements(
++	ctx: ResolverHandlerContext,
++	dialect: DefaultDialects,
++) {
++	const tableName = ctx.schema.modelName;
++	const table = quoteIdentifier(tableName, dialect);
++	return filterIndexedFields(ctx.schema).map((field) => {
++		const name = getFieldIndexName(tableName, field.fieldName);
++		const index = quoteIdentifier(name, dialect);
++		const column = quoteIdentifier(field.fieldName, dialect);
++		const ddl = `CREATE INDEX ${index} ON ${table} (${column})`;
++		if (dialect === "mysql") {
++			return [
++				`SET @better_auth_index_sql = (SELECT IF(`,
++				`\tEXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = ${quoteSQLString(tableName)})`,
++				`\tAND NOT EXISTS (SELECT 1 FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = ${quoteSQLString(tableName)} AND index_name = ${quoteSQLString(name)}),`,
++				`\t${quoteSQLString(ddl)}, 'SELECT 1'));`,
++				`PREPARE better_auth_index_stmt FROM @better_auth_index_sql;`,
++				`EXECUTE better_auth_index_stmt;`,
++				`DEALLOCATE PREPARE better_auth_index_stmt;`,
++			].join("\n");
++		}
++		if (dialect === "mssql") {
++			const object = `OBJECT_ID(N${quoteSQLString(table)}, N'U')`;
++			return [
++				`IF ${object} IS NOT NULL`,
++				`\tAND NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = ${object} AND name = N${quoteSQLString(name)})`,
++				`BEGIN`,
++				`\t${ddl};`,
++				`END;`,
++			].join("\n");
++		}
++		return `CREATE INDEX IF NOT EXISTS ${index} ON ${table} (${column});`;
++	});
++}
+--- a/packages/better-auth/src/db/get-migration.ts
++++ b/packages/better-auth/src/db/get-migration.ts
+@@ -649,7 +649,24 @@
+ 			continue;
+ 		}
+ 		const table = tableMetadata.find((table) => table.name === key);
+-		for (const index of value.indexes ?? []) {
++		// New columns and tables already create their field indexes below. Existing
++		// columns need the same index planning so adding a hint also upgrades them.
++		const existingFieldIndexes: ResolvedDBTableIndex[] = Object.entries(
++			value.fields,
++		).flatMap(([column, field]) =>
++			field.index &&
++			!field.unique &&
++			table?.columns.some((existing) => existing.name === column)
++				? [
++						{
++							columns: [column],
++							name: getDatabaseFieldIndexName(key, column, false),
++							unique: false,
++						} satisfies ResolvedDBTableIndex,
++					]
++				: [],
++		);
++		for (const index of [...(value.indexes ?? []), ...existingFieldIndexes]) {
+ 			const name = index.name;
+ 			const indexKey = createDatabaseIndexKey(key, name);
+ 			const existingIndex = databaseIndexes.get(indexKey);
+@@ -782,18 +799,18 @@
+ 				postgres: "text",
+ 				mysql: tableIndexStringLength
+ 					? `varchar(${tableIndexStringLength})`
+-					: field.unique
+-						? "varchar(255)"
+-						: field.references
+-							? "varchar(36)"
+-							: field.sortable
+-								? "varchar(255)"
+-								: field.index
++					: field.index
++						? "varchar(191)"
++						: field.unique
++							? "varchar(255)"
++							: field.references
++								? "varchar(36)"
++								: field.sortable
+ 									? "varchar(255)"
+ 									: "text",
+ 				mssql: tableIndexStringLength
+ 					? `varchar(${tableIndexStringLength})`
+-					: field.unique || field.sortable
++					: field.unique || field.sortable || field.index
+ 						? "varchar(255)"
+ 						: field.references
+ 							? "varchar(36)"
+--- a/packages/better-auth/src/plugins/device-authorization/index.ts
++++ b/packages/better-auth/src/plugins/device-authorization/index.ts
+@@ -54,17 +54,19 @@
+ 		.number()
+ 		.int()
+ 		.positive()
++		.max(191)
+ 		.default(40)
+ 		.describe(
+-			"Length of the device code to be generated. Default is 40 characters.",
++			"Length of the device code to be generated. Default is 40 characters. Maximum is 191.",
+ 		),
+ 	userCodeLength: z
+ 		.number()
+ 		.int()
+ 		.positive()
++		.max(191)
+ 		.default(8)
+ 		.describe(
+-			"Length of the user code to be generated. Default is 8 characters.",
++			"Length of the user code to be generated. Default is 8 characters. Maximum is 191.",
+ 		),
+ 	generateDeviceCode: z
+ 		.custom<() => string | Promise<string>>(
+@@ -76,7 +78,7 @@
+ 		)
+ 		.optional()
+ 		.describe(
+-			"Function to generate a device code. If not provided, a default random string generator will be used.",
++			"Function to generate a device code of at most 191 Unicode code points. If not provided, a default random string generator will be used.",
+ 		),
+ 	generateUserCode: z
+ 		.custom<() => string | Promise<string>>(
+@@ -88,7 +90,7 @@
+ 		)
+ 		.optional()
+ 		.describe(
+-			"Function to generate a user code. If not provided, a default random string generator will be used.",
++			"Function to generate a user code of at most 191 Unicode code points. If not provided, a default random string generator will be used.",
+ 		),
+ 	validateClient: z
+ 		.custom<(clientId: string) => boolean | Promise<boolean>>(
+--- a/packages/better-auth/src/plugins/device-authorization/routes.ts
++++ b/packages/better-auth/src/plugins/device-authorization/routes.ts
+@@ -145,6 +145,15 @@
+ 
+ 			const deviceCode = await generateDeviceCode();
+ 			const userCode = await generateUserCode();
++			for (const code of [deviceCode, userCode]) {
++				if (typeof code !== "string" || [...code].length > 191) {
++					throw new APIError("BAD_REQUEST", {
++						error: "invalid_request",
++						error_description:
++							"Code generators must return strings of at most 191 Unicode code points.",
++					});
++				}
++			}
+ 			const expiresIn = ms(opts.expiresIn);
+ 			const expiresAt = new Date(Date.now() + expiresIn);
+ 
+--- a/packages/better-auth/src/plugins/device-authorization/schema.ts
++++ b/packages/better-auth/src/plugins/device-authorization/schema.ts
+@@ -6,10 +6,12 @@
+ 		fields: {
+ 			deviceCode: {
+ 				type: "string",
++				index: true,
+ 				required: true,
+ 			},
+ 			userCode: {
+ 				type: "string",
++				index: true,
+ 				required: true,
+ 			},
+ 			userId: {

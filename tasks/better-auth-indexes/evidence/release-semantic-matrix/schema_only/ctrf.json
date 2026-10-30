@@ -1,0 +1,516 @@
+{
+  "results": {
+    "tool": {
+      "name": "better-auth-oss-verifier"
+    },
+    "summary": {
+      "tests": 83,
+      "passed": 53,
+      "failed": 30,
+      "skipped": 0,
+      "pending": 0,
+      "other": 0,
+      "start": 1793356964829,
+      "stop": 1793356969955
+    },
+    "tests": [
+      {
+        "name": "focused TypeScript schema contract",
+        "status": "failed",
+        "duration": 0
+      },
+      {
+        "name": "holdout portable lookup indexes creates non-unique lookup indexes through the real plugin migration",
+        "status": "passed",
+        "duration": 13.406750000000102,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in sqlite",
+        "status": "failed",
+        "duration": 3.6009589999998752,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:70:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in postgresql",
+        "status": "failed",
+        "duration": 0.467583999999988,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:70:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in mysql",
+        "status": "failed",
+        "duration": 0.30266600000004473,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:70:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits exactly two non-unique indexes in mssql",
+        "status": "failed",
+        "duration": 0.27520800000002055,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:70:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for sqlite",
+        "status": "failed",
+        "duration": 0.22174999999992906,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:75:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for postgresql",
+        "status": "failed",
+        "duration": 0.17420800000013514,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:75:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for mysql",
+        "status": "failed",
+        "duration": 0.19529199999988123,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:75:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes emits non-unique indexes in alter mode for mssql",
+        "status": "failed",
+        "duration": 0.2293329999999969,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:75:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes executes generated SQLite DDL twice and still permits repeated indexed values",
+        "status": "failed",
+        "duration": 1.3157920000001013,
+        "message": "AssertionError: expected [] to deeply equal ArrayContaining{\u2026}\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:83:50\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      },
+      {
+        "name": "holdout portable lookup indexes upgrades existing populated SQLite device storage and has no second migration",
+        "status": "passed",
+        "duration": 5.493417000000136,
+        "message": ""
+      },
+      {
+        "name": "holdout portable lookup indexes keeps filtered fields out of the generated index set",
+        "status": "failed",
+        "duration": 0.8793749999999818,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:110:33\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+      },
+      {
+        "name": "holdout portable lookup indexes uses bounded string columns in mysql",
+        "status": "failed",
+        "duration": 0.8052499999998872,
+        "message": "AssertionError: expected 'CREATE TABLE IF NOT EXISTS `deviceCod\u2026' to match /`deviceCode`\\s+varchar\\(191\\)/i\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:117:20\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes uses bounded string columns in mssql",
+        "status": "failed",
+        "duration": 0.5385840000001281,
+        "message": "AssertionError: expected 8000 to be less than or equal to 255\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:123:20\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes guards MySQL index creation with table and index existence predicates",
+        "status": "failed",
+        "duration": 0.37695899999994253,
+        "message": "AssertionError: expected 'CREATE TABLE IF NOT EXISTS `team\\'s_c\u2026' to match /information_schema\\.tables/i\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:129:18\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      },
+      {
+        "name": "holdout portable lookup indexes guards SQL Server index creation for the target object",
+        "status": "failed",
+        "duration": 0.41133300000001327,
+        "message": "AssertionError: expected 'IF OBJECT_ID(\\'team\\'s_codes\\') IS NU\u2026' to match /sys\\.indexes/i\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:136:18\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma mysql output",
+        "status": "failed",
+        "duration": 0.8046659999999974,
+        "message": "AssertionError: Target cannot be null or undefined.\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:143:41\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma postgresql output",
+        "status": "failed",
+        "duration": 0.33854199999996126,
+        "message": "AssertionError: Target cannot be null or undefined.\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:143:41\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Prisma sqlite output",
+        "status": "failed",
+        "duration": 0.31399999999985084,
+        "message": "AssertionError: Target cannot be null or undefined.\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:143:41\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle mysql output",
+        "status": "failed",
+        "duration": 42.15237500000012,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:152:27\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle pg output",
+        "status": "failed",
+        "duration": 25.703125,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:152:27\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes preserves index semantics in Drizzle sqlite output",
+        "status": "failed",
+        "duration": 8.37458400000014,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:152:27\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family tabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletable portable and distinct",
+        "status": "failed",
+        "duration": 0.2683749999998781,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:163:18\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family \u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93\u6570\u636e\u5e93 portable and distinct",
+        "status": "failed",
+        "duration": 0.21329199999991033,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:163:18\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout portable lookup indexes keeps long name family \ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b\ud83e\udd8b portable and distinct",
+        "status": "failed",
+        "duration": 0.13766599999985374,
+        "message": "AssertionError: expected [] to have a length of 2 but got +0\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:163:18\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized configured deviceCodeLength",
+        "status": "failed",
+        "duration": 0.5051670000000286,
+        "message": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:173:67\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized configured userCodeLength",
+        "status": "failed",
+        "duration": 0.12658299999998235,
+        "message": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:173:67\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized custom device code before persistence",
+        "status": "failed",
+        "duration": 122.60074999999983,
+        "message": "Error: promise resolved \"{ \u2026(6) }\" instead of rejecting\n    at _Assertion.__VITEST_REJECTS__ (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:179:69\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      },
+      {
+        "name": "holdout generated-code boundary rejects oversized custom user code before persistence",
+        "status": "failed",
+        "duration": 66.77420800000004,
+        "message": "Error: promise resolved \"{ \u2026(6) }\" instead of rejecting\n    at _Assertion.__VITEST_REJECTS__ (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:179:69\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      },
+      {
+        "name": "holdout generated-code boundary rejects non-string custom device code before persistence",
+        "status": "failed",
+        "duration": 51.59545900000012,
+        "message": "Error: promise resolved \"{ device_code: 42, \u2026(5) }\" instead of rejecting\n    at _Assertion.__VITEST_REJECTS__ (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:185:69\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      },
+      {
+        "name": "holdout generated-code boundary rejects non-string custom user code before persistence",
+        "status": "failed",
+        "duration": 54.96308299999987,
+        "message": "Error: expected TypeError: Provided value cannot be bound\u2026 { code: '\u2026' } to match object { body: { error: 'invalid_request' } }\n(1 matching property omitted from actual)\n    at _Assertion.__VITEST_REJECTS__ (file:///opt/baseline/node_modules/.pnpm/@vitest+expect@4.1.9/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///opt/baseline/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /tmp/better-auth-grade-ddu1heyt/repo/_task_tests/holdout.test.ts:185:69\n    at file:///opt/baseline/node_modules/.pnpm/@vitest+runner@4.1.9/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      },
+      {
+        "name": "holdout generated-code boundary accepts exactly 191 Unicode code points rather than counting UTF-16 units",
+        "status": "passed",
+        "duration": 53.554709,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should use CREATE INDEX when adding indexed columns to existing SQLite tables",
+        "status": "passed",
+        "duration": 7.6847080000000005,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should enforce unique indexed fields on new tables without a duplicate index",
+        "status": "passed",
+        "duration": 1.4871669999999995,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations without error when adding indexed columns to existing tables",
+        "status": "passed",
+        "duration": 1.6009169999999813,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations when adding a new table with indexed columns to an existing database",
+        "status": "passed",
+        "duration": 1.2327089999999998,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should execute runMigrations when upgrading an existing table with new indexed columns (simulates 1.4.x -> latest)",
+        "status": "passed",
+        "duration": 1.5375840000000096,
+        "message": ""
+      },
+      {
+        "name": "index generation for columns added to existing tables should not detect migration changes for SQLite bigint fields on subsequent runs",
+        "status": "passed",
+        "duration": 1.178042000000005,
+        "message": ""
+      },
+      {
+        "name": "device authorization plugin input validation basic validation",
+        "status": "passed",
+        "duration": 4.934083000000101,
+        "message": ""
+      },
+      {
+        "name": "device authorization plugin input validation should validate custom options",
+        "status": "passed",
+        "duration": 0.7001250000000709,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject invalid client in device code request",
+        "status": "passed",
+        "duration": 2.515625,
+        "message": ""
+      },
+      {
+        "name": "client validation should accept valid client in device code request",
+        "status": "passed",
+        "duration": 0.7568340000000262,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject invalid client in token request",
+        "status": "passed",
+        "duration": 1.280416999999943,
+        "message": ""
+      },
+      {
+        "name": "client validation should reject mismatched client_id in token request",
+        "status": "passed",
+        "duration": 1.38474999999994,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device code request should generate device and user codes",
+        "status": "passed",
+        "duration": 0.7459580000002006,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device code request should support custom client ID and scope",
+        "status": "passed",
+        "duration": 0.3728329999999005,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return authorization_pending when not approved",
+        "status": "passed",
+        "duration": 1.3497500000000855,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return expired_token for expired device codes",
+        "status": "passed",
+        "duration": 1.8222079999998186,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device token polling should return error for invalid device code",
+        "status": "passed",
+        "duration": 0.42116699999996854,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device verification should verify valid user code",
+        "status": "passed",
+        "duration": 1.2167080000001533,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device verification should handle invalid user code",
+        "status": "passed",
+        "duration": 0.3869999999999436,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow sends no-store on the device code response",
+        "status": "passed",
+        "duration": 24.441540999999916,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow sends no-store on the device token response",
+        "status": "passed",
+        "duration": 61.16145900000015,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should approve device and create session",
+        "status": "passed",
+        "duration": 66.77758399999993,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should deny device authorization",
+        "status": "passed",
+        "duration": 54.83958299999995,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should require authentication for approval",
+        "status": "passed",
+        "duration": 0.5534999999999854,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow device approval flow should enforce rate limiting with slow_down error",
+        "status": "passed",
+        "duration": 0.8492089999999735,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should not allow approving already processed device code",
+        "status": "passed",
+        "duration": 58.05291699999998,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should handle user code without dashes",
+        "status": "passed",
+        "duration": 0.5781659999997828,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should store and use scope from device code request",
+        "status": "passed",
+        "duration": 62.786375000000135,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should require authentication for deny",
+        "status": "passed",
+        "duration": 0.5881669999998849,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow edge cases should allow first user to approve but prevent re-approval",
+        "status": "passed",
+        "duration": 50.77124999999978,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow concurrent token redemption should redeem an approved device code at most once under concurrent polling",
+        "status": "passed",
+        "duration": 86.91154200000028,
+        "message": ""
+      },
+      {
+        "name": "device authorization flow concurrent token redemption should burn an expired approved device code instead of issuing a token",
+        "status": "passed",
+        "duration": 93.95337500000005,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a session that did not claim the pending code",
+        "status": "passed",
+        "duration": 147.05937499999982,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects deny from a session that did not claim the pending code",
+        "status": "passed",
+        "duration": 151.55408399999988,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows approve when the same session called verify first",
+        "status": "passed",
+        "duration": 101.1301669999998,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a different user after another claimed the code",
+        "status": "passed",
+        "duration": 207.7260409999999,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate rejects approve from a different user if the code was generated for a different user_id",
+        "status": "passed",
+        "duration": 237.9112500000001,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows approve when the pre-bound user matches the current user",
+        "status": "passed",
+        "duration": 108.03120900000022,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate allows deny when the pre-bound user matches the current user",
+        "status": "passed",
+        "duration": 109.15433299999995,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate treats an empty user_id as omitted and leaves the code unbound",
+        "status": "passed",
+        "duration": 110.51941699999998,
+        "message": ""
+      },
+      {
+        "name": "device authorization ownership gate does not overwrite a device code claimed after verify reads it",
+        "status": "passed",
+        "duration": 264.55733299999974,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should correctly store interval as milliseconds in database",
+        "status": "passed",
+        "duration": 54.826292000000194,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should use custom code generators",
+        "status": "passed",
+        "duration": 70.7322909999998,
+        "message": ""
+      },
+      {
+        "name": "device authorization with custom options should respect custom expiration time",
+        "status": "passed",
+        "duration": 55.46295800000007,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should validate verificationUri option at plugin initialization",
+        "status": "passed",
+        "duration": 0.6963749999999891,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should return default /device verification URIs when not configured",
+        "status": "passed",
+        "duration": 58.046291999999994,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should use custom relative path for verificationUri",
+        "status": "passed",
+        "duration": 54.26099999999997,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should use absolute URL for verificationUri",
+        "status": "passed",
+        "duration": 55.228834000000006,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should properly encode user_code in verification_uri_complete",
+        "status": "passed",
+        "duration": 55.43133399999988,
+        "message": ""
+      },
+      {
+        "name": "verificationUri option should support verificationUri with existing query parameters",
+        "status": "passed",
+        "duration": 60.941915999999765,
+        "message": ""
+      }
+    ]
+  }
+}

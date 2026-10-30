@@ -1,0 +1,30 @@
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout portable lookup indexes[2m > [22mguards MySQL index creation with table and index existence predicates
+[31m[1mAssertionError[22m: expected 'CREATE TABLE IF NOT EXISTS `team\'s_c…' to match /information_schema\.tables/i[39m
+
+[32m- Expected:[39m
+/information_schema\.tables/i
+
+[31m+ Received:[39m
+"CREATE TABLE IF NOT EXISTS `team's_codes` (
+	`id` varchar(36) NOT NULL PRIMARY KEY,
+	`deviceCode` varchar(191) NOT NULL,
+	`userCode` varchar(191) NOT NULL,
+	`uniqueCode` varchar(255) NOT NULL UNIQUE,
+	`label` text
+);
+CREATE INDEX `team's_codes_deviceCode_idx` ON `team's_codes` (`deviceCode`(191));
+CREATE INDEX `team's_codes_userCode_idx` ON `team's_codes` (`userCode`(191));"
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m97:18[22m[39m
+    [90m 95|[39m  it("guards MySQL index creation with table and index existence predic…
+    [90m 96|[39m   const result=copySchema(fixture("team's_codes"),{dialect:"mysql",mod…
+    [90m 97|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/information_schema\.tables/i[39m)[33m;[39m
+    [90m   |[39m                  [31m^[39m
+    [90m 98|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/information_schema\.statistics/i[39m)[33m;[39m
+    [90m 99|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/table_name\s*=\s*'team''s_codes'/i[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+

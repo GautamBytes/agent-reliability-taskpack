@@ -1,0 +1,75 @@
+...................................................................xx... [ 48%]
+................F...............................ss...................... [ 96%]
+.....                                                                    [100%]
+=================================== FAILURES ===================================
+________________________ test_shielding_mutate[asyncio] ________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/usr/local/lib/python3.12/site-packages/_pytest/runner.py", line 341, in from_call
+  |     result: Optional[TResult] = func()
+  |                                 ^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/_pytest/runner.py", line 262, in <lambda>
+  |     lambda: ihook(item=item, **kwds), when=when, reraise=reraise
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py", line 493, in __call__
+  |     return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_manager.py", line 115, in _hookexec
+  |     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_callers.py", line 152, in _multicall
+  |     return outcome.get_result()
+  |            ^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_result.py", line 114, in get_result
+  |     raise exc.with_traceback(exc.__traceback__)
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_callers.py", line 77, in _multicall
+  |     res = hook_impl.function(*args)
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/_pytest/runner.py", line 169, in pytest_runtest_call
+  |     item.runtest()
+  |   File "/usr/local/lib/python3.12/site-packages/_pytest/python.py", line 1792, in runtest
+  |     self.ihook.pytest_pyfunc_call(pyfuncitem=self)
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py", line 493, in __call__
+  |     return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_manager.py", line 115, in _hookexec
+  |     return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_callers.py", line 113, in _multicall
+  |     raise exception.with_traceback(exception.__traceback__)
+  |   File "/usr/local/lib/python3.12/site-packages/pluggy/_callers.py", line 77, in _multicall
+  |     res = hook_impl.function(*args)
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/repo/src/anyio/pytest_plugin.py", line 124, in pytest_pyfunc_call
+  |     runner.run_test(pyfuncitem.obj, testargs)
+  |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 1937, in run_test
+  |     self.get_loop().run_until_complete(
+  |   File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+  |     return future.result()
+  |            ^^^^^^^^^^^^^^^
+  |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 1897, in _call_in_runner_task
+  |     return await future
+  |            ^^^^^^^^^^^^
+  |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 1875, in _run_tests_and_fixtures
+  |     retval = await coro
+  |              ^^^^^^^^^^
+  |   File "/app/repo/tests/test_taskgroups.py", line 704, in test_shielding_mutate
+  |     async with create_task_group() as tg:
+  |                ^^^^^^^^^^^^^^^^^^^
+  |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 667, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/app/repo/tests/test_taskgroups.py", line 702, in task
+    |     pytest.fail("Execution should not reach this point")
+    |   File "/usr/local/lib/python3.12/site-packages/_pytest/outcomes.py", line 198, in fail
+    |     raise Failed(msg=reason, pytrace=pytrace)
+    | Failed: Execution should not reach this point
+    +------------------------------------
+-------------------- generated xml file: /proof/public.xml ---------------------
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_taskgroups.py:944: Generator based coroutines have been removed in Python 3.11
+SKIPPED [1] tests/test_taskgroups.py:965: Generator based coroutines have been removed in Python 3.11
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[asyncio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[trio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+1 failed, 144 passed, 2 skipped, 66 deselected, 2 xfailed in 7.03s

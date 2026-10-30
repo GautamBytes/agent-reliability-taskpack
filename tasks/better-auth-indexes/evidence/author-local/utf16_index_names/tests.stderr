@@ -1,0 +1,27 @@
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout portable lookup indexes[2m > [22mkeeps long name family 数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库 portable and distinct
+[31m[1mAssertionError[22m: expected 163 to be less than or equal to 63[39m
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m128:77[22m[39m
+    [90m126|[39m    [34mexpect[39m(names)[33m.[39m[34mtoHaveLength[39m([34m2[39m)[33m;[39m
+    [90m127|[39m    [34mexpect[39m([35mnew[39m [33mSet[39m(names)[33m.[39msize)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m128|[39m    for(const value of names){expect(new TextEncoder().encode(value).le…
+    [90m   |[39m                                                                             [31m^[39m
+    [90m129|[39m   }
+    [90m130|[39m   [35mfor[39m([35mconst[39m names [35mof[39m outputs) [34mexpect[39m(names)[33m.[39m[34mtoEqual[39m(outputs[[34m0[39m])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout portable lookup indexes[2m > [22mkeeps long name family 🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋 portable and distinct
+[31m[1mAssertionError[22m: expected 113 to be less than or equal to 63[39m
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m128:77[22m[39m
+    [90m126|[39m    [34mexpect[39m(names)[33m.[39m[34mtoHaveLength[39m([34m2[39m)[33m;[39m
+    [90m127|[39m    [34mexpect[39m([35mnew[39m [33mSet[39m(names)[33m.[39msize)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m128|[39m    for(const value of names){expect(new TextEncoder().encode(value).le…
+    [90m   |[39m                                                                             [31m^[39m
+    [90m129|[39m   }
+    [90m130|[39m   [35mfor[39m([35mconst[39m names [35mof[39m outputs) [34mexpect[39m(names)[33m.[39m[34mtoEqual[39m(outputs[[34m0[39m])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+

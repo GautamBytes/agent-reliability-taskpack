@@ -1,0 +1,15 @@
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m [ _task_tests/holdout.test.ts ][22m
+[31m[1mError[22m: Cannot find package 'drizzle-orm' imported from /tmp/better-auth-grade-r6id5k0l/repo/_task_tests/holdout.test.ts[39m
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m3:1[22m[39m
+    [90m  1|[39m [35mimport[39m { [33mDatabaseSync[39m } [35mfrom[39m [32m"node:sqlite"[39m[33m;[39m
+    [90m  2|[39m [35mimport[39m { createRequire } [35mfrom[39m [32m"node:module"[39m[33m;[39m
+    [90m  3|[39m [35mimport[39m { is } [35mfrom[39m [32m"drizzle-orm"[39m[33m;[39m
+    [90m   |[39m [31m^[39m
+    [90m  4|[39m [35mimport[39m [33m*[39m [35mas[39m mysqlCore [35mfrom[39m [32m"drizzle-orm/mysql-core"[39m[33m;[39m
+    [90m  5|[39m [35mimport[39m [33m*[39m [35mas[39m pgCore [35mfrom[39m [32m"drizzle-orm/pg-core"[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+

@@ -1,0 +1,7 @@
+{
+  "original_false_negative": "results/results.json belongs to pure whitespace template @@index( [ FIELD ]), applied over full reference; only three Prisma checks failed",
+  "final_format_validation": "formatting-validation.json belongs to current final reference-derived named-fields alternative; actual generated outputs are stored in generated properties before prisma format canonicalizes .prisma files",
+  "official_format_runtime": "Prisma7.4.1 bundled WASM formatter, network none; PRISMA_SCHEMA_ENGINE_BINARY=/bin/true bypasses absent unused native binary downloader; no live DB or native schema engine result claimed",
+  "generator_sha256": "362366e384195d5e0ba59f0c2c0accf02844639c81fbb7c3942db46dee5a1865",
+  "alternative_patch_sha256": "ee1692a0073491faee95b5785e9c7b7b2ac1680f4dbc8545bcd1b5076f0ccbba"
+}

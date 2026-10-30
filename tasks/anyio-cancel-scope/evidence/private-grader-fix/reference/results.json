@@ -1,0 +1,1087 @@
+{
+  "reward": 1,
+  "tests_run": 169,
+  "passed": 165,
+  "failed": 0,
+  "skipped": 4,
+  "stages": [
+    {
+      "stage": "public",
+      "tests": 149,
+      "passed": 145,
+      "failed": 0,
+      "skipped": 4,
+      "expected_cases_match": true
+    },
+    {
+      "stage": "private",
+      "tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "expected_cases_match": true
+    }
+  ],
+  "cases": [
+    {
+      "name": "public:tests.test_taskgroups.test_already_closed[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 19.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_already_closed[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 9.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_success[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_success[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_run_natively[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_run_natively[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_while_running[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_while_running[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_after_error[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_after_error[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_no_value[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_no_value[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_called_twice[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_called_twice[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_with_value[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_with_value[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_crash_before_started_call[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_crash_before_started_call[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_crash_after_started_call[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_crash_after_started_call[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_no_started_call[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_no_started_call[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_cancelled[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_cancelled[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_native_host_cancelled[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_native_child_cancelled[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_propagate_native_cancellation_from_taskgroup[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_exception_delivery[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_exception_delivery[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_cancel_after_error[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 5.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_cancel_after_error[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 6.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_host_exception[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_host_exception[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_level_cancellation[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_level_cancellation[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_failing_child_task_cancels_host[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_failing_child_task_cancels_host[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_failing_host_task_cancels_children[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_failing_host_task_cancels_children[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_in_another_task[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_in_another_task[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_propagation[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_propagation[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_twice[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_twice[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_exiting_task_group[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 109.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_exiting_task_group[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_before_entering_scope[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_before_entering_scope[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_children[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_children[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 103.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_host[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_host[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_escaping_cancelled_exception[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_escaping_cancelled_exception[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_cleared[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 102.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_cleared[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after[asyncio-instant]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after[asyncio-delayed]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 102.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after[trio-instant]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after[trio-delayed]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_no_timeout[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 103.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_no_timeout[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_after_cancellation[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 107.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_after_cancellation[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 109.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_cancelled_before_deadline[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_cancelled_before_deadline[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_scope_camcelled_before_timeout[asyncio]",
+      "status": "skipped",
+      "skip_type": "pytest.xfail",
+      "duration": 120.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_fail_after_scope_camcelled_before_timeout[trio]",
+      "status": "skipped",
+      "skip_type": "pytest.xfail",
+      "duration": 116.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after[asyncio-instant]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after[asyncio-delayed]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 107.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after[trio-instant]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after[trio-delayed]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 104.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after_no_timeout[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 106.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_move_on_after_no_timeout[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_move_on_after[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_move_on_after[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 105.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_from_shielded_scope[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_from_shielded_scope[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_shielded_scope[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_shielded_scope[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelled_not_caught[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelled_not_caught[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_host_asyncgen[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding_immediate_scope_cancelled[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding_immediate_scope_cancelled[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding_mutate[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 214.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielding_mutate[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 212.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_in_child_task[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 108.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_scope_in_child_task[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 107.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_cancels_siblings[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 5.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_cancels_siblings[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_cascade[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 112.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_cascade[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelled_parent[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelled_parent[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielded_deadline[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielded_deadline[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_deadline_reached_on_start[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_deadline_reached_on_start[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_deadline_moved[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 210.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_deadline_moved[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 210.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_timeout_error_with_multiple_cancellations[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 111.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_timeout_error_with_multiple_cancellations[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 104.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_fail_after[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_fail_after[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_shield[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 207.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_nested_shield[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 204.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_triple_nested_shield[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 5.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_triple_nested_shield[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_task_group_in_generator[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_task_group_in_generator[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_filtering[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 110.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_exception_group_filtering[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 109.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_propagation_with_inner_spawn[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 116.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_propagation_with_inner_spawn[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_escaping_cancelled_error_from_cancelled_task[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 109.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_escaping_cancelled_error_from_cancelled_task[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 109.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_generator_based_task",
+      "status": "skipped",
+      "skip_type": "pytest.skip",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_schedule_old_style_coroutine_func[asyncio]",
+      "status": "skipped",
+      "skip_type": "pytest.skip",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_native_future_tasks[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_native_future_tasks_cancel_scope[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_completed_task[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_task_in_sync_spawn_callback[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 6.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_task_in_sync_spawn_callback[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielded_cancel_sleep_time[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 213.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_shielded_cancel_sleep_time[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 210.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelscope_wrong_exit_order[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelscope_wrong_exit_order[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelscope_exit_before_enter[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelscope_exit_before_enter[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancelscope_exit_in_wrong_task[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_unhandled_exception_group",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 107.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_single_cancellation_exc[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 4.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_single_cancellation_exc[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_parent_id[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_soon_parent_id[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_parent_id[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_start_parent_id[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.TestUncancel.test_uncancel_after_native_cancel[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.TestUncancel.test_uncancel_after_scope_cancel[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.TestUncancel.test_uncancel_after_scope_and_native_cancel[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.TestUncancel.test_cancel_message_replaced[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 0.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_before_entering_task_group[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 2.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_cancel_before_entering_task_group[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_reraise_cancelled_in_excgroup[asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 3.0
+    },
+    {
+      "name": "public:tests.test_taskgroups.test_reraise_cancelled_in_excgroup[trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 1.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[host_shield-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 88.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[host_shield-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 84.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[host_shield_nested-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 89.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[host_shield_nested-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 85.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[independent_sibling_shield-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 91.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[independent_sibling_shield-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 87.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[repeated_sibling_cancellation-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 91.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[repeated_sibling_cancellation-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 84.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[nested_groups-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 90.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[nested_groups-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 92.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[restart_after_inner_shield-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 97.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[restart_after_inner_shield-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 90.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[restart_after_shield_toggle-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 92.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[restart_after_shield_toggle-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 86.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[explicitly_cancelled_shield-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 90.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[explicitly_cancelled_shield-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 88.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 92.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[shielded_child_joins_before_exit-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 94.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[child_error_propagates-asyncio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 93.0
+    },
+    {
+      "name": "private:.test_cancellation_behavior[child_error_propagates-trio]",
+      "status": "passed",
+      "skip_type": "",
+      "duration": 87.0
+    }
+  ],
+  "source_hashes": {
+    "__init__.py": "0b153120738838d2372a9b032c283e748ea541a0e45bfe1986dbb98d6b755cef",
+    "_backends/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "_backends/_asyncio.py": "381f38bbe1ff02723dd2e59ebecb7e832eebf94b0101a160069108de26e719e8",
+    "_backends/_trio.py": "179b20e69ad4fec1df583a474b55acb9bb39824c34d4d5a801145fac8d2fc4d9",
+    "_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "_core/_eventloop.py": "4f2f0c8ee1aedcfac3e99a4145360a818a19cf0260f4ad3135c4d54a0e67c749",
+    "_core/_exceptions.py": "c149a10eef34a8407bcfd11d0aa53054484d525344a24e3f5b6fab0bab020144",
+    "_core/_fileio.py": "a00b7c96196daf8616671259d7156dc01da445bf408e148edd0b5371ac8d5920",
+    "_core/_resources.py": "35b994e4ee545f7c44c800a7926617dbc166c1d97e7fe9f2d2d1f29b6e9ed30d",
+    "_core/_signals.py": "ac3395c6dba0643802e4085f5b796bc2cadeda7f4f8ff69da11522741885e9d0",
+    "_core/_sockets.py": "1f038c834c543f0d13ecdf9a8a9c6aff838433bd3796587723dfd8220f5ae173",
+    "_core/_streams.py": "67c6654d8eb1a26e44b33accb20093dd3a61893e09225406fb2df70ab0f43506",
+    "_core/_subprocesses.py": "ba59a62e5514f75ef017d49bb171855e873443e2831c04bcb8b351cb2690b77b",
+    "_core/_synchronization.py": "509f0135275fcb6a28072bc3c89e690eef669f64d3ba0ed737b75de73e509f89",
+    "_core/_tasks.py": "a6f5445f6170d79f6c7f4ca900f7abba42ac660451c2f14579d556e769d1d959",
+    "_core/_testing.py": "8bded2e6b496205a9f0863e6e2610c76225a52956c924f9c5848daad64de5d7b",
+    "_core/_typedattr.py": "4136da2306447b087000abdb04714170efdc46134ffe55e30286c495dcc4c425",
+    "abc/__init__.py": "538e3fb3706094bf01a235908aad0aba892f0aa92e9c8a7ec921f71b2457c407",
+    "abc/_eventloop.py": "c6f27bb3125235c21359a8196bf85b717b939725009a9f335dcc86426636edc6",
+    "abc/_resources.py": "28124fdf019bbd27ca7d38df38b2f840225d7a268dc2aa85ffa1703ec990b2c3",
+    "abc/_sockets.py": "5dd678d93435a2664df447371d47d33161bf8bedb5c8c8d743f145b25019b734",
+    "abc/_streams.py": "1b3493e50db3426c55cddac0aad6d2c8737190f9480bd033799260fd8c8f017c",
+    "abc/_subprocesses.py": "72e9803c94e4b4e42dc3adc8a86d250e9c99aaefe5d44125bd01cc8b02602f4f",
+    "abc/_tasks.py": "ac51e5fce0f2bc55e624398e16c2c43b69716ae9b2cbeca8ce88c7e49e83cd90",
+    "abc/_testing.py": "122584688572d79947b333b4d345e9e05b01d7735b06f0b506951c8b8ec1e73b",
+    "from_thread.py": "6f6db7b812b5251bf86dcd2b2cbaea49430b0d717cf6adc4b8f5d2a4b0a03180",
+    "lowlevel.py": "d1ac27321d39900e5650d68e0684194889818f4c4b3519583ae3061a2ced5a73",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pytest_plugin.py": "4c181101f4fe3b1cba79f84ed53ce2ab9e0d343dc9cb87519b090c9905d2be12",
+    "streams/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "streams/buffered.py": "50295d282d7af18b8bbd3ee7dc7b4d3e743689600c49361059b66fccbc0cc243",
+    "streams/file.py": "eaea1335be4a6cca23fba812dffc6bacbf2e64df10e2222f392d56b46c857cac",
+    "streams/memory.py": "6ea37d63000f03a66d76884eb2afd80692c59511d1e64f96f32d290ff8f39dbf",
+    "streams/stapled.py": "534f690ab98ec3d9243617bab4aa29b26d5020c4f59454c5bed6fe03b4887b89",
+    "streams/text.py": "eb1f30f3195f09929351642826230fa0c8524891540512a0a0135206d6ddf728",
+    "streams/tls.py": "0959dea1f3d0bf0bb2fa2a3e64a58c0cba42dbcd3a976aa2a96e12cdb0b50524",
+    "to_process.py": "eefafae0e82545e9208a40b7b380afa2f61ed60d52e1f48b8e0af630ed1036e2",
+    "to_thread.py": "9b9c5b89a4eae95ca4a13f61e24fb54a473ecf02b797506ed980b289a10093ad"
+  },
+  "local_privilege_boundary": true,
+  "runner": {
+    "exit_code": 0,
+    "timeout": false,
+    "seconds": 8.255
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "task_id": "anyio-cancel-scope",
+  "repository": "https://github.com/agronholm/anyio",
+  "issue": {
+    "url": "https://github.com/agronholm/anyio/issues/642",
+    "number": 642,
+    "title": "Opening a CancelScope with shield=True also shields sibling tasks on asyncio backend",
+    "reported_anyio_version": "4.1.0",
+    "reported_python_version": "3.11"
+  },
+  "accepted_pull_request": {
+    "url": "https://github.com/agronholm/anyio/pull/648",
+    "number": 648,
+    "merged_at": "2023-12-14"
+  },
+  "baseline": {
+    "commit": "3ea17f9f43a7b7078fcb597246dfbc1889a530cc",
+    "git_tree": "16a9c3bf84edec944319420cd325bb8d699063ff",
+    "source_file_count": 92,
+    "canonical_manifest_sha256": "a41345022e2f9e08abef6a87499812ddff02911a2b325a4efaeacb9b3ccd2572",
+    "manifest_file": "evidence/baseline-manifest.json",
+    "git_history_included": false,
+    "all_tracked_files_byte_verified": true
+  },
+  "reference": {
+    "commit": "44ca5eab5499afd567c5cf1f840346326e07de1d",
+    "patch": "solution/reference.patch",
+    "patch_sha256": "3cafa206861d3370b1dda9e0b8f465c8998a9ade8f7d90b9e0111b85eaa0395c",
+    "paths": [
+      "src/anyio/_backends/_asyncio.py"
+    ],
+    "excludes_upstream_changes": [
+      "docs/versionhistory.rst",
+      "tests/test_taskgroups.py"
+    ],
+    "preserved_upstream_test_file_sha256": "847d797a23fb1f3734a6f5264a64f36ef5881e5d57dab8bb88149ab00095b935",
+    "expected_backend_sha256": "381f38bbe1ff02723dd2e59ebecb7e832eebf94b0101a160069108de26e719e8",
+    "solve_script_sha256": "5cfcfb3d4c24e967b83a19c7a6a2bccf6c65412ab8fb37261fa9e25a726fd6db"
+  },
+  "license": {
+    "spdx": "MIT",
+    "source_path": "environment/repo/LICENSE",
+    "retained_copy": "LICENSE",
+    "sha256": "5361ac9dc58f2ef5fd2e9b09c68297c17f04950909bbc8023bdb82eacf22c2b0",
+    "url": "https://github.com/agronholm/anyio/blob/3ea17f9f43a7b7078fcb597246dfbc1889a530cc/LICENSE"
+  },
+  "runtime": {
+    "python": "3.12.12",
+    "requirements": "environment/requirements.txt",
+    "requirements_sha256": "6dca943e2e03e317861b02aedfd5d2ccb033ecf0af2a96e97c1b88d1b01177fc",
+    "docker_base": "python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c",
+    "local_platform": "macOS arm64",
+    "docker_platform": "Linux arm64",
+    "pip_check": "No broken requirements found.",
+    "native_build_dependencies": [
+      "gcc",
+      "libc6-dev"
+    ],
+    "uvloop": "Excluded at collection. No uvloop test is run or skipped for a missing extra."
+  },
+  "verification": {
+    "runner": "tests/run_tests.py",
+    "public": "Original baseline tests/test_taskgroups.py, unchanged. asyncio and trio retained. asyncio+uvloop deselected.",
+    "public_passed": 145,
+    "public_deselected_uvloop": 66,
+    "public_expected_nonpassing": [
+      {
+        "nodeid": "tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[asyncio]",
+        "type": "pytest.xfail",
+        "reason": "There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded"
+      },
+      {
+        "nodeid": "tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[trio]",
+        "type": "pytest.xfail",
+        "reason": "There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded"
+      },
+      {
+        "nodeid": "tests/test_taskgroups.py::test_cancel_generator_based_task",
+        "type": "pytest.skip",
+        "reason": "Generator based coroutines have been removed in Python 3.11"
+      },
+      {
+        "nodeid": "tests/test_taskgroups.py::test_schedule_old_style_coroutine_func[asyncio]",
+        "type": "pytest.skip",
+        "reason": "Generator based coroutines have been removed in Python 3.11"
+      }
+    ],
+    "private_case_count": 10,
+    "private_backend_count": 2,
+    "private_expected_passed": 20,
+    "private_timeout_per_journey_seconds": 5,
+    "group_timeout_seconds": 90,
+    "upstream_regression_basis": [
+      "test_cancel_child_task_when_host_is_shielded",
+      "test_triple_nested_shield_checkpoint_in_middle"
+    ],
+    "coordination": "Events establish readiness and release. No wall-clock sleep establishes ordering. Each private journey runs in a bounded subprocess.",
+    "junit": [
+      "public.xml",
+      "private.xml"
+    ],
+    "behavior_files_sha256": {
+      "tests/cancellation_cases.py": "4d09c026a4080e11de1ea22273df816af1710472bbc502a3e3b8a2024aac4011",
+      "tests/preservation_plugin.py": "adb4b027544ba67163a9ab3cc4f5f59e3a0d8ddcf2758e4aa8d4e434273e79b7",
+      "tests/run_tests.py": "493efd550c556a23e0ebc0a8e71e0e926bf6e2299e01de73d45eb4ffbf86aa74",
+      "tests/test_regressions.py": "675ec6695a2254a05a1d119b567a56f81d0c15341c1bad501e76540e7947acd0"
+    },
+    "evidence_summary": "evidence/results.json",
+    "docker_solve_idempotence": "evidence/docker-solve.runner.log"
+  },
+  "wrong_fix_controls": [
+    {
+      "id": "immediate-parent",
+      "kind": "real_rejected_upstream",
+      "commit": "a7284b73067a965aa6f037ecc703449b05f644db",
+      "url": "https://github.com/agronholm/anyio/commit/a7284b73067a965aa6f037ecc703449b05f644db",
+      "patch": "controls/immediate-parent.patch",
+      "patch_sha256": "8d7f8c89dee14070f9a79abbcb34ff2d772bab342cd80cfa42a20504a166bdea",
+      "failure": "Only restarts cancellation in the immediate parent, losing a cancelled ancestor across an uncancelled scope.",
+      "review_context": "PR648 reviewers proposed and initially accepted the simplification, then identified and reverted it before merge."
+    },
+    {
+      "id": "ignore-child-shields",
+      "kind": "constructed_incomplete_fix",
+      "patch": "controls/ignore-child-shields.patch",
+      "patch_sha256": "4b6e518105a9eb6c10a6c4232a2ae9b36041a8d538626e62d278dee43c3ee1ea",
+      "failure": "Propagates cancellation through genuinely shielded child scopes."
+    },
+    {
+      "id": "omit-shield-toggle-restart",
+      "kind": "constructed_incomplete_fix",
+      "patch": "controls/omit-shield-toggle-restart.patch",
+      "patch_sha256": "5a804c5432d843418701c70d6991b470d8f4f4e7b5aeff61fbd3f2b2c5715460",
+      "failure": "Does not resume pending ancestor cancellation when shield changes to false."
+    }
+  ],
+  "source_archive_sha256": {
+    "3ea17f9f43a7b7078fcb597246dfbc1889a530cc": "d4990f022dfdf2643732a1ffcf1ee2fb31fabf80881562ccb89409c0afa0b7ae",
+    "44ca5eab5499afd567c5cf1f840346326e07de1d": "f4b3352a2d0f1db3864ce62795dc5a3afe915c94b5a38bb455932c61c16567d1",
+    "a7284b73067a965aa6f037ecc703449b05f644db": "068e271830910ff7f3ff93a6ef03b6e13e3b511da4e7c7973184f68c79ef7d22"
+  }
+}

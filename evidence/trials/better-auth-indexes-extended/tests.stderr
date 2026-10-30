@@ -1,0 +1,41 @@
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m _task_tests/holdout.test.ts[2m > [22mholdout portable lookup indexes[2m > [22mguards SQL Server index creation for the target object
+[31m[1mAssertionError[22m: expected 'IF OBJECT_ID(\'[team\'\'s_codes]\', \…' to match /OBJECT_ID\(N?'team''s_codes'\)/i[39m
+
+[32m- Expected:[39m
+/OBJECT_ID\(N?'team''s_codes'\)/i
+
+[31m+ Received:[39m
+"IF OBJECT_ID('[team''s_codes]', 'U') IS NULL
+BEGIN
+	CREATE TABLE [team's_codes] (
+		[id] varchar(36) NOT NULL PRIMARY KEY,
+		[deviceCode] varchar(255) NOT NULL,
+		[userCode] varchar(255) NOT NULL,
+		[uniqueCode] varchar(255) NOT NULL UNIQUE,
+		[label] varchar(8000)
+	);
+END;
+IF OBJECT_ID(N'[team''s_codes]', N'U') IS NOT NULL
+	AND NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'[team''s_codes]', N'U') AND name = N'team''s_codes_deviceCode_idx')
+BEGIN
+	CREATE INDEX [team's_codes_deviceCode_idx] ON [team's_codes] ([deviceCode]);
+END;
+IF OBJECT_ID(N'[team''s_codes]', N'U') IS NOT NULL
+	AND NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'[team''s_codes]', N'U') AND name = N'team''s_codes_userCode_idx')
+BEGIN
+	CREATE INDEX [team's_codes_userCode_idx] ON [team's_codes] ([userCode]);
+END;"
+
+[36m [2m❯[22m _task_tests/holdout.test.ts:[2m113:18[22m[39m
+    [90m111|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/sys\.indexes/i[39m)[33m;[39m
+    [90m112|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/NOT\s+EXISTS/i[39m)[33m;[39m
+    [90m113|[39m   [34mexpect[39m(result)[33m.[39m[34mtoMatch[39m([36m/OBJECT_ID\(N?'team''s_codes'\)/i[39m)[33m;[39m
+    [90m   |[39m                  [31m^[39m
+    [90m114|[39m  })[33m;[39m
+    [90m115|[39m  it.each(["mysql","postgresql","sqlite"])("preserves index semantics i…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+

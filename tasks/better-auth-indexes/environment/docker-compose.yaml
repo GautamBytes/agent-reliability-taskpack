@@ -1,0 +1,33 @@
+services:
+  main:
+    networks: [model_only]
+    environment:
+      HTTP_PROXY: http://model-egress:3128
+      HTTPS_PROXY: http://model-egress:3128
+      http_proxy: http://model-egress:3128
+      https_proxy: http://model-egress:3128
+      NO_PROXY: localhost,127.0.0.1,::1
+      no_proxy: localhost,127.0.0.1,::1
+    depends_on:
+      model-egress:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python3, /opt/network_probe.py]
+      interval: 5s
+      timeout: 4s
+      retries: 8
+  model-egress:
+    build:
+      context: ./model_proxy
+    networks: [model_only, outbound]
+    read_only: true
+    volumes:
+      - proxy_logs:/logs/proxy
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+networks:
+  model_only:
+    internal: true
+  outbound: {}
+volumes:
+  proxy_logs: {}

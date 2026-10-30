@@ -1,0 +1,35 @@
+schema_version = "1.4"
+artifacts = [{ "source" = "/app/repo", "exclude" = [".git", "node_modules", "**/node_modules", "__pycache__", "**/__pycache__", ".pytest_cache", ".hypothesis", ".pnpm-store"] }, { "source" = "/logs/proxy", "service" = "model-egress", "destination" = "network-proxy" }]
+source = "Derived evaluation task from Better Auth issue 10025 and collective upstream PR 10059. See provenance.json."
+
+[task]
+name = "gautambytes/better-auth-portable-indexes"
+description = "Repair portable device lookup indexing and generated-code boundaries across a real TypeScript monorepo."
+authors = [{ "name" = "Gautam Manchandani, with Codex assistance; upstream fix coauthored with Gustavo Valverde" }]
+keywords = ["typescript", "sqlite", "schema-migration", "code-generation", "unicode"]
+
+[metadata]
+category = "software-engineering"
+difficulty = "unrated"
+license = "MIT"
+
+[agent]
+timeout_sec = 600.0
+user = "agent"
+
+[verifier]
+timeout_sec = 300.0
+environment_mode = "separate"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1200.0
+cpus = 2
+memory_mb = 3072
+storage_mb = 8192
+
+[environment]
+build_timeout_sec = 1200.0
+cpus = 2
+memory_mb = 3072
+storage_mb = 8192

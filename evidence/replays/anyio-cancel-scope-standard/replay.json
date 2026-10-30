@@ -1,0 +1,11 @@
+{
+  "trial": "anyio-cancel-scope-standard",
+  "patch_sha256": "1f38688058e9dddeb565ebbdb5ef5b732e61761728af1e047ada397a0e40a046",
+  "reward": "1",
+  "checks": 169,
+  "source_hashes_verified": true,
+  "comparison_report": "results.json",
+  "expected_reward": 1.0,
+  "matches_expected_reward": true,
+  "matches_all_expected_case_statuses": true
+}

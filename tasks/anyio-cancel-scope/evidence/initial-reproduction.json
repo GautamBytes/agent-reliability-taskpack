@@ -1,0 +1,29 @@
+[
+  {
+    "variant": "baseline",
+    "backend": "asyncio",
+    "outcome": "timeout",
+    "timeout_seconds": 3
+  },
+  {
+    "variant": "baseline",
+    "backend": "trio",
+    "returncode": 0,
+    "stdout": "cancellation reached child\n",
+    "stderr": ""
+  },
+  {
+    "variant": "reference",
+    "backend": "asyncio",
+    "returncode": 0,
+    "stdout": "cancellation reached child\n",
+    "stderr": ""
+  },
+  {
+    "variant": "reference",
+    "backend": "trio",
+    "returncode": 0,
+    "stdout": "cancellation reached child\n",
+    "stderr": ""
+  }
+]

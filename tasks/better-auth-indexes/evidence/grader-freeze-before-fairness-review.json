@@ -1,0 +1,15 @@
+{
+  "grader_files": {
+    "holdout.test.ts": "77328fb88fe38e8439136973a21ea343efc1c8e1ef70479ec1ce64839f4ff602",
+    "preservation-migrations.test.ts": "cbe322b1a05e4103c548016f8c10db145fea87b75042827b080ab57bdc54a4d0",
+    "type-contract.ts": "95625ffad8c1dc958780d8cd3591079cfd4cce9c80d3d450b69be7eb69e01b49",
+    "tsconfig.template.json": "70dfcb6097798d41305cb1f42d294f03755e33282c5e8e4f38199fd09352bea1",
+    "vitest.template.ts": "6cff9a2f55e4702f836e1d3f398d98be640daa81b4b58b6ea1fac6ba5c236835",
+    "expected-tests.json": "a4b80b4dc0e5edba8b7f79251c7fd6fe6b383fad304e2602fd8554fb79f6ab33",
+    "verify.py": "3f232ed1c82b6971ad572b27ff48c7b4ff092e3ea4c08e44bb131068050b9dd3",
+    "test.sh": "ca88ff2170a3f2cf5975092812ad4c9f958eafb24d4b7dcd8fb61e2f8f799f7e"
+  },
+  "checks": 83,
+  "controls": 6,
+  "all_expected_outcomes": true
+}

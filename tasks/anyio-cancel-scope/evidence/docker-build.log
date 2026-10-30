@@ -1,0 +1,46 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 522B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#4 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 4.97kB done
+#5 DONE 0.0s
+
+#6 [3/6] COPY requirements.txt /tmp/requirements.txt
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends patch gcc libc6-dev && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] RUN pip install --no-cache-dir -r /tmp/requirements.txt && pip check
+#8 CACHED
+
+#9 [5/6] COPY repo /app/repo
+#9 DONE 0.2s
+
+#10 [6/6] WORKDIR /app/repo
+#10 DONE 0.0s
+
+#11 exporting to image
+#11 exporting layers 0.0s done
+#11 exporting manifest sha256:232712e3f65b128419b36b844d60fdb5bace53bade73b96d42529f2c6bd67baf 0.0s done
+#11 exporting config sha256:98cfa66e23476e3e164293190421eeae471b44fb0ed1d21538dbe47a31eaadd0 done
+#11 exporting attestation manifest sha256:757a2d10090c9d123df488465a52745deb0aeeb2fe5327676ec88fec1d1d132e 0.0s done
+#11 exporting manifest list sha256:02945dd671613c1fc6f9340f6773a3833b281d329534097978a5e4bb82840c88
+#11 exporting manifest list sha256:02945dd671613c1fc6f9340f6773a3833b281d329534097978a5e4bb82840c88 done
+#11 naming to docker.io/library/anyio-cancel-scope-proof:20261030 done
+#11 unpacking to docker.io/library/anyio-cancel-scope-proof:20261030 0.0s done
+#11 DONE 0.1s

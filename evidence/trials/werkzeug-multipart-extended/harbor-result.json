@@ -1,0 +1,136 @@
+{
+    "id": "0b63674a-1d8b-494b-8ed7-8c271c05a8c0",
+    "task_name": "gautambytes/werkzeug-multipart",
+    "trial_name": "werkzeug-multipart__wktrAzz",
+    "trial_uri": "file:///private/tmp/oss-agent-taskpack-v2-20261030/evidence/coding-agents/werkzeug-multipart-extended/werkzeug-multipart__wktrAzz",
+    "task_id": {
+        "path": "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart"
+    },
+    "source": null,
+    "task_checksum": "30b34d1cdfe734167e43f8b7b1cd9284f687dd69ffe879dc812afc1f9ca831a0",
+    "config": {
+        "task": {
+            "path": "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "werkzeug-multipart__wktrAzz",
+        "trials_dir": "/private/tmp/oss-agent-taskpack-v2-20261030/evidence/coding-agents/werkzeug-multipart-extended",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": 1.0,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "codex",
+            "import_path": null,
+            "model_name": "openai/gpt-6.1-sol",
+            "base_url": null,
+            "model_api_key_name": null,
+            "model_api_format": null,
+            "skip_model_parsing": false,
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "reasoning_effort": "high",
+                "web_search": "disabled",
+                "version": "0.166.0"
+            },
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "stream": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {
+                "auto_mounting": false
+            },
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "c0056707-5d73-497c-880c-0355f4ec5968",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "codex",
+        "version": "0.166.0",
+        "model_info": {
+            "name": "gpt-6.1-sol",
+            "provider": "openai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 294681,
+        "n_cache_tokens": 265472,
+        "n_output_tokens": 10104,
+        "cost_usd": 0.1860052,
+        "model_usage": {
+            "openai/gpt-6.1-sol": {
+                "n_input_tokens": 294681,
+                "n_cache_tokens": 265472,
+                "n_output_tokens": 10104,
+                "cost_usd": 0.1860052
+            }
+        },
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "verifier_environment_mode": "separate",
+    "exception_info": null,
+    "started_at": "2026-10-30T10:03:41.530700Z",
+    "finished_at": "2026-10-30T10:09:08.441377Z",
+    "environment_setup": {
+        "started_at": "2026-10-30T10:03:41.682629Z",
+        "finished_at": "2026-10-30T10:03:51.470390Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-10-30T10:03:51.470476Z",
+        "finished_at": "2026-10-30T10:03:51.666668Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-10-30T10:03:51.667031Z",
+        "finished_at": "2026-10-30T10:08:58.707836Z"
+    },
+    "verifier": {
+        "started_at": "2026-10-30T10:09:02.593135Z",
+        "finished_at": "2026-10-30T10:09:08.441320Z"
+    },
+    "step_results": null
+}

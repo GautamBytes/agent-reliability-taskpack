@@ -1,0 +1,23 @@
+[
+  {
+    "provider": "mysql",
+    "generated": "model DeviceCode {\n\tid String @id\n\tdeviceCode String\n\tuserCode String\n\tuniqueCode String @unique\n\tlabel String?\n\t@@index(fields: [ deviceCode ], map: \"deviceCode_deviceCode_idx\")\n\t@@index(fields: [ userCode ], map: \"deviceCode_userCode_idx\")\n\t@@map(\"deviceCode\")\n}",
+    "old_private_exact_match": false,
+    "parser_accepted": true,
+    "prisma_format_exit": 0
+  },
+  {
+    "provider": "postgresql",
+    "generated": "model DeviceCode {\n\tid String @id\n\tdeviceCode String\n\tuserCode String\n\tuniqueCode String @unique\n\tlabel String?\n\t@@index(fields: [ deviceCode ], map: \"deviceCode_deviceCode_idx\")\n\t@@index(fields: [ userCode ], map: \"deviceCode_userCode_idx\")\n\t@@map(\"deviceCode\")\n}",
+    "old_private_exact_match": false,
+    "parser_accepted": true,
+    "prisma_format_exit": 0
+  },
+  {
+    "provider": "sqlite",
+    "generated": "model DeviceCode {\n\tid String @id\n\tdeviceCode String\n\tuserCode String\n\tuniqueCode String @unique\n\tlabel String?\n\t@@index(fields: [ deviceCode ], map: \"deviceCode_deviceCode_idx\")\n\t@@index(fields: [ userCode ], map: \"deviceCode_userCode_idx\")\n\t@@map(\"deviceCode\")\n}",
+    "old_private_exact_match": false,
+    "parser_accepted": true,
+    "prisma_format_exit": 0
+  }
+]

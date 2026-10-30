@@ -1,0 +1,505 @@
+FFFFFFFFFFFFFFFFFFFF                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_cancellation_behavior[host_shield-asyncio] ________________
+
+case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ho...ld on asyncio'
+E         - completed host_shield on asyncio
+
+test_regressions.py:28: AssertionError
+_________________ test_cancellation_behavior[host_shield-trio] _________________
+
+case = 'host_shield', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ho...hield on trio'
+E         - completed host_shield on trio
+
+test_regressions.py:28: AssertionError
+____________ test_cancellation_behavior[host_shield_nested-asyncio] ____________
+
+case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ho...ed on asyncio'
+E         - completed host_shield_nested on asyncio
+
+test_regressions.py:28: AssertionError
+_____________ test_cancellation_behavior[host_shield_nested-trio] ______________
+
+case = 'host_shield_nested', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ho...ested on trio'
+E         - completed host_shield_nested on trio
+
+test_regressions.py:28: AssertionError
+________ test_cancellation_behavior[independent_sibling_shield-asyncio] ________
+
+case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed in...ld on asyncio'
+E         - completed independent_sibling_shield on asyncio
+
+test_regressions.py:28: AssertionError
+_________ test_cancellation_behavior[independent_sibling_shield-trio] __________
+
+case = 'independent_sibling_shield', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed in...hield on trio'
+E         - completed independent_sibling_shield on trio
+
+test_regressions.py:28: AssertionError
+______ test_cancellation_behavior[repeated_sibling_cancellation-asyncio] _______
+
+case = 'repeated_sibling_cancellation', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...on on asyncio'
+E         - completed repeated_sibling_cancellation on asyncio
+
+test_regressions.py:28: AssertionError
+________ test_cancellation_behavior[repeated_sibling_cancellation-trio] ________
+
+case = 'repeated_sibling_cancellation', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...ation on trio'
+E         - completed repeated_sibling_cancellation on trio
+
+test_regressions.py:28: AssertionError
+______________ test_cancellation_behavior[nested_groups-asyncio] _______________
+
+case = 'nested_groups', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ne...ps on asyncio'
+E         - completed nested_groups on asyncio
+
+test_regressions.py:28: AssertionError
+________________ test_cancellation_behavior[nested_groups-trio] ________________
+
+case = 'nested_groups', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ne...roups on trio'
+E         - completed nested_groups on trio
+
+test_regressions.py:28: AssertionError
+________ test_cancellation_behavior[restart_after_inner_shield-asyncio] ________
+
+case = 'restart_after_inner_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...ld on asyncio'
+E         - completed restart_after_inner_shield on asyncio
+
+test_regressions.py:28: AssertionError
+_________ test_cancellation_behavior[restart_after_inner_shield-trio] __________
+
+case = 'restart_after_inner_shield', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...hield on trio'
+E         - completed restart_after_inner_shield on trio
+
+test_regressions.py:28: AssertionError
+_______ test_cancellation_behavior[restart_after_shield_toggle-asyncio] ________
+
+case = 'restart_after_shield_toggle', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...le on asyncio'
+E         - completed restart_after_shield_toggle on asyncio
+
+test_regressions.py:28: AssertionError
+_________ test_cancellation_behavior[restart_after_shield_toggle-trio] _________
+
+case = 'restart_after_shield_toggle', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed re...oggle on trio'
+E         - completed restart_after_shield_toggle on trio
+
+test_regressions.py:28: AssertionError
+_______ test_cancellation_behavior[explicitly_cancelled_shield-asyncio] ________
+
+case = 'explicitly_cancelled_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ex...ld on asyncio'
+E         - completed explicitly_cancelled_shield on asyncio
+
+test_regressions.py:28: AssertionError
+_________ test_cancellation_behavior[explicitly_cancelled_shield-trio] _________
+
+case = 'explicitly_cancelled_shield', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ex...hield on trio'
+E         - completed explicitly_cancelled_shield on trio
+
+test_regressions.py:28: AssertionError
+_____ test_cancellation_behavior[shielded_child_joins_before_exit-asyncio] _____
+
+case = 'shielded_child_joins_before_exit', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed sh...it on asyncio'
+E         - completed shielded_child_joins_before_exit on asyncio
+
+test_regressions.py:28: AssertionError
+______ test_cancellation_behavior[shielded_child_joins_before_exit-trio] _______
+
+case = 'shielded_child_joins_before_exit', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed sh..._exit on trio'
+E         - completed shielded_child_joins_before_exit on trio
+
+test_regressions.py:28: AssertionError
+__________ test_cancellation_behavior[child_error_propagates-asyncio] __________
+
+case = 'child_error_propagates', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ch...es on asyncio'
+E         - completed child_error_propagates on asyncio
+
+test_regressions.py:28: AssertionError
+___________ test_cancellation_behavior[child_error_propagates-trio] ____________
+
+case = 'child_error_propagates', backend = 'trio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+        assert result.returncode == 0, result.stdout + result.stderr
+>       assert result.stdout.strip() == f"completed {case} on {backend}"
+E       AssertionError: assert '' == 'completed ch...gates on trio'
+E         - completed child_error_propagates on trio
+
+test_regressions.py:28: AssertionError
+------ generated xml file: /tmp/anyio-grade-ungos8w7/reports/private.xml -------
+=========================== short test summary info ============================
+FAILED ../dev/::test_cancellation_behavior[host_shield-asyncio] - AssertionEr...
+FAILED ../dev/::test_cancellation_behavior[host_shield-trio] - AssertionError...
+FAILED ../dev/::test_cancellation_behavior[host_shield_nested-asyncio] - Asse...
+FAILED ../dev/::test_cancellation_behavior[host_shield_nested-trio] - Asserti...
+FAILED ../dev/::test_cancellation_behavior[independent_sibling_shield-asyncio]
+FAILED ../dev/::test_cancellation_behavior[independent_sibling_shield-trio]
+FAILED ../dev/::test_cancellation_behavior[repeated_sibling_cancellation-asyncio]
+FAILED ../dev/::test_cancellation_behavior[repeated_sibling_cancellation-trio]
+FAILED ../dev/::test_cancellation_behavior[nested_groups-asyncio] - Assertion...
+FAILED ../dev/::test_cancellation_behavior[nested_groups-trio] - AssertionErr...
+FAILED ../dev/::test_cancellation_behavior[restart_after_inner_shield-asyncio]
+FAILED ../dev/::test_cancellation_behavior[restart_after_inner_shield-trio]
+FAILED ../dev/::test_cancellation_behavior[restart_after_shield_toggle-asyncio]
+FAILED ../dev/::test_cancellation_behavior[restart_after_shield_toggle-trio]
+FAILED ../dev/::test_cancellation_behavior[explicitly_cancelled_shield-asyncio]
+FAILED ../dev/::test_cancellation_behavior[explicitly_cancelled_shield-trio]
+FAILED ../dev/::test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]
+FAILED ../dev/::test_cancellation_behavior[shielded_child_joins_before_exit-trio]
+FAILED ../dev/::test_cancellation_behavior[child_error_propagates-asyncio] - ...
+FAILED ../dev/::test_cancellation_behavior[child_error_propagates-trio] - Ass...
+20 failed in 0.27s

@@ -1,0 +1,15 @@
+{
+  "reason": "Name the report being compared explicitly; native results and corrected results are distinct. This changes metadata keys only, not scores, source or executions.",
+  "updated": [
+    "evidence/replays/anyio-cancel-scope-standard/replay.json",
+    "evidence/replays/anyio-cancel-scope-extended/replay.json",
+    "evidence/replays/better-auth-indexes-extended/replay.json",
+    "evidence/replays/werkzeug-multipart-standard/replay.json",
+    "evidence/replays/better-auth-indexes-standard/replay.json",
+    "evidence/replays/werkzeug-multipart-extended/replay.json",
+    "evidence/pre-formatting-replays/better-auth-indexes-extended/replay.json",
+    "evidence/pre-formatting-replays/better-auth-indexes-standard/replay.json",
+    "evidence/rescored/better-auth-indexes-extended/replay.json",
+    "evidence/rescored/better-auth-indexes-standard/replay.json"
+  ]
+}

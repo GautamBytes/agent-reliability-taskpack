@@ -1,0 +1,42 @@
+{
+  "local-reference": {
+    "reward": 1,
+    "tests_run": 65,
+    "passed": 65,
+    "failed": 0,
+    "skipped": 0,
+    "local_privilege_boundary": false
+  },
+  "local-upstream-3089-only": {
+    "reward": 0,
+    "tests_run": 65,
+    "passed": 48,
+    "failed": 17,
+    "skipped": 0,
+    "local_privilege_boundary": false
+  },
+  "local-baseline": {
+    "reward": 0,
+    "tests_run": 65,
+    "passed": 49,
+    "failed": 16,
+    "skipped": 0,
+    "local_privilege_boundary": false
+  },
+  "local-strip-payload-newlines": {
+    "reward": 0,
+    "tests_run": 65,
+    "passed": 39,
+    "failed": 26,
+    "skipped": 0,
+    "local_privilege_boundary": false
+  },
+  "local-upstream-3081-only": {
+    "reward": 0,
+    "tests_run": 65,
+    "passed": 44,
+    "failed": 21,
+    "skipped": 0,
+    "local_privilege_boundary": false
+  }
+}

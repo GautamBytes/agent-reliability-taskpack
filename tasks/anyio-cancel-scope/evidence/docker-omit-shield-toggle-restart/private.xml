@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="20" time="4.904" timestamp="2026-10-30T09:36:09.634243" hostname="80187d1130cf"><testcase classname="" name="test_cancellation_behavior[host_shield-asyncio]" time="0.255" /><testcase classname="" name="test_cancellation_behavior[host_shield-trio]" time="0.243" /><testcase classname="" name="test_cancellation_behavior[host_shield_nested-asyncio]" time="0.234" /><testcase classname="" name="test_cancellation_behavior[host_shield_nested-trio]" time="0.253" /><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-asyncio]" time="0.210" /><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-trio]" time="0.222" /><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-asyncio]" time="0.226" /><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-trio]" time="0.231" /><testcase classname="" name="test_cancellation_behavior[nested_groups-asyncio]" time="0.242" /><testcase classname="" name="test_cancellation_behavior[nested_groups-trio]" time="0.311" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-asyncio]" time="0.256" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-trio]" time="0.265" /><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-asyncio]" time="0.250"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 235, in &lt;module&gt;&#10;      anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])&#10;    File &quot;/app/repo/src/anyio/_core/_eventloop.py&quot;, line 66, in run&#10;      return async_backend.run(func, args, {}, backend_options)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1974, in run&#10;      return runner.run(wrapper())&#10;             ^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/runners.py&quot;, line 118, in run&#10;      return self._loop.run_until_complete(task)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/base_events.py&quot;, line 691, in run_until_complete&#10;      return future.result()&#10;             ^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1962, in wrapper&#10;      return await func(*args)&#10;             ^^^^^^^^^^^^^^^^^&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 165, in restart_after_shield_toggle&#10;      assert outer.cancelled_caught&#10;             ^^^^^^^^^^^^^^^^^^^^^^&#10;  AssertionError&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'restart_after_shield_toggle', 'async...n restart_after_shield_toggle\n    assert outer.cancelled_caught\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode">case = 'restart_after_shield_toggle', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+&gt;       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/verify/cancellation_cases.py", line 235, in &lt;module&gt;
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/app/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1974, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1962, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/verify/cancellation_cases.py", line 165, in restart_after_shield_toggle
+E             assert outer.cancelled_caught
+E                    ^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'restart_after_shield_toggle', 'async...n restart_after_shield_toggle\n    assert outer.cancelled_caught\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+/verify/test_regressions.py:27: AssertionError</failure></testcase><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-trio]" time="0.257" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-asyncio]" time="0.250" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-trio]" time="0.250" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]" time="0.254" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-trio]" time="0.252" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-asyncio]" time="0.213" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-trio]" time="0.205" /></testsuite></testsuites>

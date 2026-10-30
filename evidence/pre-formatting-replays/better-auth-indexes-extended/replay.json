@@ -1,0 +1,11 @@
+{
+  "trial": "better-auth-indexes-extended",
+  "patch_sha256": "427c34d2dd18ab84cf875b8591ac43561ac05455bbdcf1fdef6905e2dd71f9a1",
+  "reward": "1",
+  "checks": 83,
+  "source_hashes_verified": true,
+  "comparison_report": "corrected-results.json",
+  "expected_reward": 1.0,
+  "matches_expected_reward": true,
+  "matches_all_expected_case_statuses": true
+}

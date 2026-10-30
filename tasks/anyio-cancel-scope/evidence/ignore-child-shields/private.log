@@ -1,0 +1,165 @@
+F.F.F...............                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_cancellation_behavior[host_shield-asyncio] ________________
+
+case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 235, in <module>
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 36, in host_shield
+E             assert host_finished, "the host lost its shield"
+E                    ^^^^^^^^^^^^^
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/task...ssert host_finished, "the host lost its shield"\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode
+
+../../oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/test_regressions.py:27: AssertionError
+____________ test_cancellation_behavior[host_shield_nested-asyncio] ____________
+
+case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 235, in <module>
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 40, in host_shield_nested
+E             await host_shield(3)
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 36, in host_shield
+E             assert host_finished, "the host lost its shield"
+E                    ^^^^^^^^^^^^^
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/task...ssert host_finished, "the host lost its shield"\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode
+
+../../oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/test_regressions.py:27: AssertionError
+________ test_cancellation_behavior[independent_sibling_shield-asyncio] ________
+
+case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 80, in independent_sibling_shield
+E             assert not protected_cancelled.is_set()
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E         During handling of the above exception, another exception occurred:
+E         
+E           + Exception Group Traceback (most recent call last):
+E           |   File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 235, in <module>
+E           |     anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           |   File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_core/_eventloop.py", line 66, in run
+E           |     return async_backend.run(func, args, {}, backend_options)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1976, in run
+E           |     return runner.run(wrapper())
+E           |            ^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+E           |     return self._loop.run_until_complete(task)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E           |     return future.result()
+E           |            ^^^^^^^^^^^^^^^
+E           |   File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E           |     return await func(*args)
+E           |            ^^^^^^^^^^^^^^^^^
+E           |   File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 72, in independent_sibling_shield
+E           |     async with anyio.create_task_group() as group:
+E           |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/private/tmp/anyio-v2-work/ignore-child-shields/src/anyio/_backends/_asyncio.py", line 669, in __aexit__
+E           |     raise BaseExceptionGroup(
+E           | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+E           +-+---------------- 1 ----------------
+E             | Traceback (most recent call last):
+E             |   File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 80, in independent_sibling_shield
+E             |     assert not protected_cancelled.is_set()
+E             |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             | AssertionError
+E             +------------------------------------
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/task...n    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    | AssertionError\n    +------------------------------------\n').returncode
+
+../../oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/test_regressions.py:27: AssertionError
+- generated xml file: /private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/evidence/ignore-child-shields/private.xml -
+=========================== short test summary info ============================
+FAILED ../../../../dev/::test_cancellation_behavior[host_shield-asyncio] - As...
+FAILED ../../../../dev/::test_cancellation_behavior[host_shield_nested-asyncio]
+FAILED ../../../../dev/::test_cancellation_behavior[independent_sibling_shield-asyncio]
+3 failed, 17 passed in 2.00s

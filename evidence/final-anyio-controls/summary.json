@@ -1,0 +1,50 @@
+{
+  "all_expected_outcomes": true,
+  "variants": [
+    {
+      "variant": "baseline",
+      "reward": 0,
+      "expected_reward": 0,
+      "tests_run": 169,
+      "passed": 160,
+      "failed": 5,
+      "skipped": 4
+    },
+    {
+      "variant": "reference",
+      "reward": 1,
+      "expected_reward": 1,
+      "tests_run": 169,
+      "passed": 165,
+      "failed": 0,
+      "skipped": 4
+    },
+    {
+      "variant": "ignore-child-shields",
+      "reward": 0,
+      "expected_reward": 0,
+      "tests_run": 169,
+      "passed": 159,
+      "failed": 6,
+      "skipped": 4
+    },
+    {
+      "variant": "immediate-parent",
+      "reward": 0,
+      "expected_reward": 0,
+      "tests_run": 169,
+      "passed": 162,
+      "failed": 3,
+      "skipped": 4
+    },
+    {
+      "variant": "omit-shield-toggle-restart",
+      "reward": 0,
+      "expected_reward": 0,
+      "tests_run": 169,
+      "passed": 163,
+      "failed": 2,
+      "skipped": 4
+    }
+  ]
+}

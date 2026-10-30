@@ -1,0 +1,40 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [stage-1  1/16] FROM docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#1 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c done
+#1 DONE 0.0s
+
+#2 [node 1/1] FROM docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57
+#2 resolve docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57 done
+#2 DONE 0.0s
+
+#3 [internal] load build definition from Dockerfile
+#3 transferring dockerfile: 1.65kB done
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57
+#5 DONE 0.0s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 29.44MB 0.3s done
+#7 DONE 0.3s
+
+#8 [stage-1 16/16] RUN python3 -c "from pathlib import Path; root=Path('/opt/baseline/node_modules'); dependency=next(root.glob('.pnpm/drizzle-orm@0.45.2*/node_modules/drizzle-orm')); (root/'drizzle-orm').symlink_to(dependency, target_is_directory=True)"
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers 0.0s done
+#9 exporting manifest sha256:760a3682a13b9b57a270f4984697f2dcba4bfa27651b2dcb1c6378fdc2aff577 done
+#9 exporting config sha256:83ff0daf02f3ae7ff6d362eeb11c46bb4bfa2ed2a1486d3592e84257ca685dc6 done
+#9 exporting attestation manifest sha256:92b9b027f96e0e1f807ac1f4cadce18bf3a34e88a2954eeb640bfe165d70d6bc 0.0s done
+#9 exporting manifest list sha256:08e8b29806f8f6cad35270a7a13e3d91fb668edcc0677757317e3665a7c9a7f0 done
+#9 naming to docker.io/library/oss-replay-better-auth-indexes:local done
+#9 unpacking to docker.io/library/oss-replay-better-auth-indexes:local 0.0s done
+#9 DONE 0.1s

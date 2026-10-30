@@ -1,0 +1,16 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.9 [39m[90m/tmp/better-auth-grade-2r9l7wzl/repo[39m
+
+ [32m✓[39m _task_tests/holdout.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 484[2mms[22m[39m
+ [32m✓[39m _task_tests/preservation-migrations.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+[90mstdout[2m | packages/better-auth/src/plugins/device-authorization/device-authorization.test.ts[2m > [22m[2mdevice authorization ownership gate[2m > [22m[2mdoes not overwrite a device code claimed after verify reads it
+[22m[39m2026-10-30T10:32:58.159Z DEBUG [Better Auth]: [Memory Adapter] - Using provided transaction implementation.
+
+ [32m✓[39m packages/better-auth/src/plugins/device-authorization/device-authorization.test.ts [2m([22m[2m44 tests[22m[2m)[22m[33m 2419[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m82 passed[39m[22m[90m (82)[39m
+[2m   Start at [22m 10:32:54
+[2m   Duration [22m 4.21s[2m (transform 1.68s, setup 0ms, import 3.38s, tests 2.92s, environment 0ms)[22m
+
+JSON report written to /tmp/better-auth-grade-2r9l7wzl/repo/vitest-results.json

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="21" skipped="0" tests="34" time="0.144" timestamp="2026-10-30T15:10:21.843221+05:30" hostname="Gautams-MacBook-Air.local"><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[empty]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...in', b'\r\n')] == [('upload', 'data.bin', b'')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n') != ('upload', 'data.bin', b'')&#10;  Use -v to get more diff">payload = b''
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...in', b'\r\n')] == [('upload', 'data.bin', b'')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n') != ('upload', 'data.bin', b'')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[cr]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...', b'\r\n\r')] == [('upload', '....bin', b'\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\r') != ('upload', 'data.bin', b'\r')&#10;  Use -v to get more diff">payload = b'\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...', b'\r\n\r')] == [('upload', '....bin', b'\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\r') != ('upload', 'data.bin', b'\r')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...', b'\r\n\n')] == [('upload', '....bin', b'\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\n') != ('upload', 'data.bin', b'\n')&#10;  Use -v to get more diff">payload = b'\n'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...', b'\r\n\n')] == [('upload', '....bin', b'\n')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\n') != ('upload', 'data.bin', b'\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[crlf]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '... b'\r\n\r\n')] == [('upload', '...in', b'\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\r\n') != ('upload', 'data.bin', b'\r\n')&#10;  Use -v to get more diff">payload = b'\r\n'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '... b'\r\n\r\n')] == [('upload', '...in', b'\r\n')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\r\n') != ('upload', 'data.bin', b'\r\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[double-cr]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '... b'\r\n\r\r')] == [('upload', '...in', b'\r\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\r\r') != ('upload', 'data.bin', b'\r\r')&#10;  Use -v to get more diff">payload = b'\r\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '... b'\r\n\r\r')] == [('upload', '...in', b'\r\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\r\r') != ('upload', 'data.bin', b'\r\r')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf-cr]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '... b'\r\n\n\r')] == [('upload', '...in', b'\n\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\n\r') != ('upload', 'data.bin', b'\n\r')&#10;  Use -v to get more diff">payload = b'\n\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '... b'\r\n\n\r')] == [('upload', '...in', b'\n\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\n\r') != ('upload', 'data.bin', b'\n\r')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-cr]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '..., b'\r\na\r')] == [('upload', '...bin', b'a\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\na\r') != ('upload', 'data.bin', b'a\r')&#10;  Use -v to get more diff">payload = b'a\r'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '..., b'\r\na\r')] == [('upload', '...bin', b'a\r')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\na\r') != ('upload', 'data.bin', b'a\r')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-crlf]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...b'\r\na\r\n')] == [('upload', '...n', b'a\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\na\r\n') != ('upload', 'data.bin', b'a\r\n')&#10;  Use -v to get more diff">payload = b'a\r\n'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...b'\r\na\r\n')] == [('upload', '...n', b'a\r\n')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\na\r\n') != ('upload', 'data.bin', b'a\r\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[binary-newlines]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...x00\xff\r\n')] == [('upload', '...x00\xff\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\r\nbinary\x00\xff\r\n') != ('upload', 'data.bin', b'\r\nbinary\x00\xff\r\n')&#10;  Use -v to get more diff">payload = b'\r\nbinary\x00\xff\r\n'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...x00\xff\r\n')] == [('upload', '...x00\xff\r\n')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\r\nbinary\x00\xff\r\n') != ('upload', 'data.bin', b'\r\nbinary\x00\xff\r\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[all-bytes]" time="0.002"><failure message="AssertionError: 126&#10;assert [('upload', '...xfd\xfe\xff')] == [('upload', '...xfd\xfe\xff')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !&quot;#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xc...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">payload = b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x...e2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff'
+
+    @pytest.mark.parametrize("payload", PAYLOADS, ids=["empty", "cr", "lf", "crlf", "double-cr", "lf-cr", "tail-cr", "tail-crlf", "binary-newlines", "all-bytes"])
+    def test_regression_every_single_split_preserves_file_bytes(payload):
+        boundary = b"boundary.A+1"
+        expected = [("upload", "data.bin", payload)]
+        body = message(boundary, expected)
+        for split in range(1, len(body)):
+&gt;           assert decoded(boundary, [body[:split], body[split:]]) == expected, split
+E           AssertionError: 126
+E           assert [('upload', '...xfd\xfe\xff')] == [('upload', '...xfd\xfe\xff')]
+E             
+E             At index 0 diff: ('upload', 'data.bin', b'\r\n\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&amp;\'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xc...
+E             
+E             ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[1]" time="0.001"><failure message="AssertionError: assert [('metadata',...e, b'\r\n\r')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 1
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...e, b'\r\n\r')] == [('metadata',...', None, b'')]
+E         
+E         At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E         Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[2]" time="0.000"><failure message="AssertionError: assert [('metadata',...one, b'\n\r')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 2
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...one, b'\n\r')] == [('metadata',...', None, b'')]
+E         
+E         At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E         Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[3]" time="0.000"><failure message="AssertionError: assert [('metadata',... None, b'\n')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 3
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',... None, b'\n')] == [('metadata',...', None, b'')]
+E         
+E         At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E         Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[7]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 7
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E         Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[13]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 13
+
+    @pytest.mark.parametrize("size", [1, 2, 3, 7, 13, 64])
+    def test_regression_fixed_fragment_sizes_preserve_mixed_parts(size):
+        boundary = b"long-boundary-1423"
+        expected = [("metadata", None, "हैलो\r\n".encode()), ("file", "binary.bin", b"\r\n\0\xff\r\n--long-boundary-1423X\r"), ("empty", None, b"")]
+        body = message(boundary, expected)
+&gt;       assert decoded(boundary, [body[i:i+size] for i in range(0, len(body), size)]) == expected
+E       AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E         
+E         At index 0 diff: ('metadata', None, b'\r\n\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E         Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[64]" time="0.000" /><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[173]" time="0.000"><failure message="AssertionError: assert [('file', 'f....'\r\ntail\r')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 1 diff: ('meta', None, b'\r\ntail\r') != ('meta', None, b'tail\r')&#10;  Use -v to get more diff">seed = 173
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....'\r\ntail\r')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 1 diff: ('meta', None, b'\r\ntail\r') != ('meta', None, b'tail\r')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[691]" time="0.000"><failure message="AssertionError: assert [('file', 'f....e, b'tail\r')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 0 diff: ('file', 'f.bin', b'\r\n\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')&#10;  Use -v to get more diff">seed = 691
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....e, b'tail\r')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 0 diff: ('file', 'f.bin', b'\r\n\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[1187]" time="0.000"><failure message="AssertionError: assert [('file', 'f....e, b'tail\r')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 0 diff: ('file', 'f.bin', b'\r\n\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')&#10;  Use -v to get more diff">seed = 1187
+
+    @pytest.mark.parametrize("seed", [173, 691, 1187])
+    def test_regression_seeded_partitions_preserve_boundary_lookalikes(seed):
+        boundary = b"test-boundary"
+        payload = b"\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n"
+        expected = [("file", "f.bin", payload), ("meta", None, b"tail\r")]
+        body = message(boundary, expected)
+        rng = random.Random(seed)
+        for _ in range(25):
+            chunks = []
+            position = 0
+            while position &lt; len(body):
+                size = rng.randint(1, 23)
+                chunks.append(body[position:position+size])
+                position += size
+&gt;           assert decoded(boundary, chunks) == expected
+E           AssertionError: assert [('file', 'f....e, b'tail\r')] == [('file', 'f....e, b'tail\r')]
+E             
+E             At index 0 diff: ('file', 'f.bin', b'\r\n\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')
+E             Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r]" time="0.001" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\r]" time="0.001" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n]" time="0.000" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\n\r]" time="0.000" /><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n]" time="0.000" /><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[1]" time="0.001"><failure message="AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'&#10;  &#10;  + &#10;    first&#10;    last">maximum = 1
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+        stream = ShortReads(body, maximum)
+        with Request.from_values(input_stream=stream, content_length=len(body), content_type="multipart/form-data; boundary=separate-stream", method="POST") as request:
+&gt;           assert request.form["title"] == "first\r\nlast"
+E           AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'
+E             
+E             + 
+E               first
+E               last
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:112: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[2]" time="0.001"><failure message="AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'&#10;  &#10;  + &#10;    first&#10;    last">maximum = 2
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+        stream = ShortReads(body, maximum)
+        with Request.from_values(input_stream=stream, content_length=len(body), content_type="multipart/form-data; boundary=separate-stream", method="POST") as request:
+&gt;           assert request.form["title"] == "first\r\nlast"
+E           AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'
+E             
+E             + 
+E               first
+E               last
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:112: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[11]" time="0.000"><failure message="AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'&#10;  &#10;  + &#10;    first&#10;    last">maximum = 11
+
+    @pytest.mark.parametrize("maximum", [1, 2, 11, 65536])
+    def test_regression_wsgi_short_reads_preserve_fields_and_files(maximum):
+        boundary = b"separate-stream"
+        payload = b"\r\n\0\xff\r\n" * 9
+        parts = [("title", None, b"first\r\nlast"), ("upload", "f.bin", payload)]
+        body = message(boundary, parts)
+        stream = ShortReads(body, maximum)
+        with Request.from_values(input_stream=stream, content_length=len(body), content_type="multipart/form-data; boundary=separate-stream", method="POST") as request:
+&gt;           assert request.form["title"] == "first\r\nlast"
+E           AssertionError: assert '\r\nfirst\r\nlast' == 'first\r\nlast'
+E             
+E             + 
+E               first
+E               last
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:112: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[65536]" time="0.000" /><testcase classname="" name="test_preservation_part_limit_is_enforced" time="0.000" /><testcase classname="" name="test_preservation_memory_limit_is_enforced" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r\n--b]" time="0.000" /><testcase classname="" name="test_preservation_streaming_produces_data_before_eof" time="0.000" /></testsuite></testsuites>

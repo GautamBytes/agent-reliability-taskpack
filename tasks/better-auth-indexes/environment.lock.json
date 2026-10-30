@@ -1,0 +1,13 @@
+{
+  "package_manager": "pnpm@11.1.1",
+  "pnpm_lock_sha256": "421dbf98f2462fb5ddab54b5e8ba451f26d80c8024391a6a40498c1c6768a879",
+  "workspace_selection": [
+    "better-auth...",
+    "@better-auth/root"
+  ],
+  "install_command": "pnpm --filter 'better-auth...' --filter @better-auth/root install --frozen-lockfile --ignore-scripts",
+  "node_runtime": "24.11.1 in Docker; 24.19.0 for author-local checks",
+  "typescript": "6.0.3",
+  "vitest": "4.1.9",
+  "alias_setup": "Only workspace package exports resolve to dev-source; published packages resolve to their distributed builds."
+}

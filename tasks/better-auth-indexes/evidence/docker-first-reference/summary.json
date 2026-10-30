@@ -1,0 +1,17 @@
+{
+  "runtime": "Docker Python3.12.12 Node24.11.1",
+  "all_expected_outcomes": true,
+  "runs": [
+    {
+      "tests_run": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "variant": "reference",
+      "reward": "1",
+      "expected_reward": "1",
+      "valid": true,
+      "patch_sha256": "14139a10af51acfc1e0b5dfcc22550e4190f58616b84aa594527d237d9e134fc"
+    }
+  ]
+}

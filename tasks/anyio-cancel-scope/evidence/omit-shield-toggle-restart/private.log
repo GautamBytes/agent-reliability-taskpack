@@ -1,0 +1,52 @@
+............F.......                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_cancellation_behavior[restart_after_shield_toggle-asyncio] ________
+
+case = 'restart_after_shield_toggle', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 235, in <module>
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/private/tmp/anyio-v2-work/omit-shield-toggle-restart/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/omit-shield-toggle-restart/src/anyio/_backends/_asyncio.py", line 1974, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/private/tmp/anyio-v2-work/omit-shield-toggle-restart/src/anyio/_backends/_asyncio.py", line 1962, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/cancellation_cases.py", line 165, in restart_after_shield_toggle
+E             assert outer.cancelled_caught
+E                    ^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/private/tmp/anyio-v2-work/venv/bin/python', '/private/tmp/oss-agent-taskpack-v2-20261030/task...n restart_after_shield_toggle\n    assert outer.cancelled_caught\n           ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+../../oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/tests/test_regressions.py:27: AssertionError
+- generated xml file: /private/tmp/oss-agent-taskpack-v2-20261030/tasks/anyio-cancel-scope/evidence/omit-shield-toggle-restart/private.xml -
+=========================== short test summary info ============================
+FAILED ../../../../dev/::test_cancellation_behavior[restart_after_shield_toggle-asyncio]
+1 failed, 19 passed in 1.65s

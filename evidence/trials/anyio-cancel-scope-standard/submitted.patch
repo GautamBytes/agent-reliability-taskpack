@@ -1,0 +1,130 @@
+--- a/src/anyio/_backends/_asyncio.py
++++ b/src/anyio/_backends/_asyncio.py
+@@ -343,6 +343,7 @@
+         self._deadline = deadline
+         self._shield = shield
+         self._parent_scope: CancelScope | None = None
++        self._child_scopes: set[CancelScope] = set()
+         self._cancel_called = False
+         self._cancelled_caught = False
+         self._active = False
+@@ -368,6 +369,8 @@
+             _task_states[host_task] = task_state
+         else:
+             self._parent_scope = task_state.cancel_scope
++            if self._parent_scope is not None:
++                self._parent_scope._child_scopes.add(self)
+             task_state.cancel_scope = self
+ 
+         self._timeout()
+@@ -411,6 +414,7 @@
+         self._tasks.remove(self._host_task)
+ 
+         host_task_state.cancel_scope = self._parent_scope
++        self._prune_scope_tree()
+ 
+         # Restart the cancellation effort in the farthest directly cancelled parent
+         # scope if this one was shielded
+@@ -451,47 +455,66 @@
+             else:
+                 self._timeout_handle = loop.call_at(self._deadline, self._timeout)
+ 
+-    def _deliver_cancellation(self) -> None:
++    def _prune_scope_tree(self) -> None:
++        # A task group exits its scope before waiting for its children. Keep the
++        # scope linked until all its tasks and descendant scopes have finished.
++        scope = self
++        while (
++            scope._parent_scope is not None
++            and not scope._tasks
++            and not scope._child_scopes
++        ):
++            scope._parent_scope._child_scopes.discard(scope)
++            scope = scope._parent_scope
++
++    def _deliver_cancellation(self, origin: CancelScope | None = None) -> bool:
+         """
+         Deliver cancellation to directly contained tasks and nested cancel scopes.
+ 
+         Schedule another run at the end if we still have tasks eligible for
+         cancellation.
+         """
++        if origin is None:
++            origin = self
++
+         should_retry = False
+         current = current_task()
+         for task in self._tasks:
++            # Tasks also remain registered in their task group's scope while they
++            # enter nested scopes. Deliver only from their current scope so that
++            # shielding one task cannot hide its unshielded siblings.
++            if task.done() or _task_states[task].cancel_scope is not self:
++                continue
++
++            should_retry = True
+             if task._must_cancel:  # type: ignore[attr-defined]
+                 continue
+ 
+-            # The task is eligible for cancellation if it has started and is not in a
+-            # cancel scope shielded from this one
+-            cancel_scope = _task_states[task].cancel_scope
+-            while cancel_scope is not self:
+-                if cancel_scope is None or cancel_scope._shield:
+-                    break
+-                else:
+-                    cancel_scope = cancel_scope._parent_scope
++            if task is not current and (task is self._host_task or _task_started(task)):
++                waiter = task._fut_waiter  # type: ignore[attr-defined]
++                if not isinstance(waiter, asyncio.Future) or not waiter.done():
++                    # Scope exit only undoes cancellation of its own host task.
++                    if task is origin._host_task:
++                        origin._cancel_calls += 1
++                    if sys.version_info >= (3, 9):
++                        task.cancel(f"Cancelled by cancel scope {id(origin):x}")
++                    else:
++                        task.cancel()
++
++        for scope in self._child_scopes:
++            if not scope._shield:
++                should_retry = scope._deliver_cancellation(origin) or should_retry
++
++        # Only the originating scope owns the retry callback.
++        if origin is self:
++            if should_retry:
++                self._cancel_handle = get_running_loop().call_soon(
++                    self._deliver_cancellation
++                )
+             else:
+-                should_retry = True
+-                if task is not current and (
+-                    task is self._host_task or _task_started(task)
+-                ):
+-                    waiter = task._fut_waiter  # type: ignore[attr-defined]
+-                    if not isinstance(waiter, asyncio.Future) or not waiter.done():
+-                        self._cancel_calls += 1
+-                        if sys.version_info >= (3, 9):
+-                            task.cancel(f"Cancelled by cancel scope {id(self):x}")
+-                        else:
+-                            task.cancel()
+-
+-        # Schedule another callback if there are still tasks left
+-        if should_retry:
+-            self._cancel_handle = get_running_loop().call_soon(
+-                self._deliver_cancellation
+-            )
+-        else:
+-            self._cancel_handle = None
++                self._cancel_handle = None
++
++        return should_retry
+ 
+     def _deliver_cancellation_to_parent(self) -> None:
+         """Start cancellation effort in the farthest directly cancelled parent scope"""
+@@ -678,6 +701,7 @@
+         def task_done(_task: asyncio.Task) -> None:
+             assert _task in self.cancel_scope._tasks
+             self.cancel_scope._tasks.remove(_task)
++            self.cancel_scope._prune_scope_tree()
+             del _task_states[_task]
+ 
+             try:

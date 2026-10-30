@@ -1,0 +1,143 @@
+{
+  "results": {
+    "tool": {
+      "name": "anyio-oss-verifier"
+    },
+    "summary": {
+      "tests": 21,
+      "passed": 0,
+      "failed": 21,
+      "skipped": 0,
+      "pending": 0,
+      "other": 0
+    },
+    "tests": [
+      {
+        "name": "public:runner.bounded_run",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 0.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[host_shield-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 13.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[host_shield-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[host_shield_nested-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[host_shield_nested-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[independent_sibling_shield-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 13.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[independent_sibling_shield-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[repeated_sibling_cancellation-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[repeated_sibling_cancellation-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[nested_groups-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 13.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[nested_groups-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 13.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[restart_after_inner_shield-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 14.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[restart_after_inner_shield-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[restart_after_shield_toggle-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[restart_after_shield_toggle-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[explicitly_cancelled_shield-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[explicitly_cancelled_shield-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 13.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[shielded_child_joins_before_exit-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 11.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[child_error_propagates-asyncio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      },
+      {
+        "name": "private:.test_cancellation_behavior[child_error_propagates-trio]",
+        "status": "failed",
+        "skip_type": "",
+        "duration": 12.0
+      }
+    ]
+  }
+}

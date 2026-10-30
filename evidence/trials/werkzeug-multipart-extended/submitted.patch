@@ -1,0 +1,144 @@
+--- a/src/werkzeug/sansio/multipart.py
++++ b/src/werkzeug/sansio/multipart.py
+@@ -121,6 +121,12 @@
+             % (LINE_BREAK, re.escape(boundary), LINE_BREAK, LINE_BREAK),
+             re.MULTILINE,
+         )
++        # A boundary followed by transport padding may be longer than
++        # the fixed suffix retained while waiting for more data.
++        self._partial_boundary_re = re.compile(
++            rb"%s--%s[^\S\n\r]*\Z" % (LINE_BREAK, re.escape(boundary)),
++            re.MULTILINE,
++        )
+         self._search_position = 0
+         self._parts_decoded = 0
+ 
+@@ -154,6 +160,12 @@
+ 
+         if self.state == State.PREAMBLE:
+             match = self.preamble_re.search(self.buffer, self._search_position)
++            if match is not None and self._require_more_data(match):
++                self._search_position = match.start()
++                # Keep searching from the incomplete delimiter, including
++                # any transport padding, when the next chunk arrives.
++                return event
++
+             if match is not None:
+                 if match.group(1).startswith(b"--"):
+                     self.state = State.EPILOGUE
+@@ -175,9 +187,8 @@
+             match = BLANK_LINE_RE.search(self.buffer, self._search_position)
+             if match is not None:
+                 headers = self._parse_headers(self.buffer[: match.start()])
+-                # The final header ends with a single CRLF, however a
+-                # blank line indicates the start of the
+-                # body. Therefore the end is after the first CRLF.
++                # Keep the final line break: for an empty part it may
++                # also be the line break introducing the next boundary.
+                 headers_end = (match.start() + match.end()) // 2
+                 del self.buffer[:headers_end]
+ 
+@@ -215,9 +226,10 @@
+         elif self.state == State.DATA_START:
+             data, del_index, more_data = self._parse_data(self.buffer, start=True)
+             del self.buffer[:del_index]
+-            event = Data(data=data, more_data=more_data)
+-            if more_data:
+-                self.state = State.DATA
++            if del_index or not more_data:
++                event = Data(data=data, more_data=more_data)
++                if more_data:
++                    self.state = State.DATA
+ 
+         elif self.state == State.DATA:
+             data, del_index, more_data = self._parse_data(self.buffer, start=False)
+@@ -248,50 +260,55 @@
+                 headers.append((name.strip(), value.strip()))
+         return Headers(headers)
+ 
++    def _require_more_data(self, match: t.Match[bytes]) -> bool:
++        # A terminal CR may be the first half of CRLF. A closing boundary
++        # can match without a line break, but its line break may still be
++        # on the way. Wait to consume either until it is unambiguous.
++        return (
++            not self.complete
++            and match.end() == len(self.buffer)
++            and not match.group().endswith(b"\n")
++        )
++
+     def _parse_data(
+         self, data: bytes | bytearray, *, start: bool
+     ) -> tuple[bytes, int, bool]:
+-        # Body parts must start with CRLF (or CR or LF)
+         if start:
++            # Do not consume half of a CRLF header separator.
++            if data == b"\r" and not self.complete:
++                return b"", 0, True
++
+             match = LINE_BREAK_RE.match(data)
+             data_start = t.cast(t.Match[bytes], match).end()
+         else:
+             data_start = 0
+ 
+-        boundary = b"--" + self.boundary
+-
+-        if self.buffer.find(boundary) == -1:
+-            # No complete boundary in the buffer, but there may be
+-            # a partial boundary at the end. As the boundary
+-            # starts with either a nl or cr find the earliest and
+-            # return up to that as data.
+-            data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            # If amount of data after last newline is far from
+-            # possible length of partial boundary, we should
+-            # assume that there is no partial boundary in the buffer
+-            # and return all pending data.
+-            if (len(data) - data_end) > len(b"\n" + boundary):
+-                data_end = del_index = len(data)
+-            more_data = True
+-        else:
+-            match = self.boundary_re.search(data)
+-            if match is not None:
+-                if match.group(1).startswith(b"--"):
+-                    self.state = State.EPILOGUE
+-                else:
+-                    self.state = State.PART
+-                data_end = match.start()
+-                del_index = match.end()
++        match = self.boundary_re.search(data)
++
++        if match is not None:
++            if self._require_more_data(match):
++                # Emit the payload, retaining the incomplete delimiter.
++                return bytes(data[data_start : match.start()]), match.start(), True
++
++            if match.group(1).startswith(b"--"):
++                self.state = State.EPILOGUE
+             else:
+-                data_end = del_index = self.last_newline(data[data_start:]) + data_start
+-            more_data = match is None
+-
+-        # Keep \r\n sequence intact rather than splitting across chunks.
+-        if data_end > data_start and data[data_end - 1] == 0x0D:
+-            data_end -= 1
+-            del_index -= 1
+-
+-        return bytes(data[data_start:data_end]), del_index, more_data
++                self.state = State.PART
++
++            return bytes(data[data_start : match.start()]), match.end(), False
++
++        # Keep enough bytes for a delimiter split anywhere, including its
++        # leading CRLF and closing dashes. Everything before this suffix
++        # is payload, even if it contains CR, LF, or boundary lookalikes.
++        data_end = max(0, len(data) - len(self.boundary) - SEARCH_EXTRA_LENGTH)
++        partial = self._partial_boundary_re.search(data)
++        if partial is not None:
++            data_end = min(data_end, partial.start())
++
++        if data_end < data_start:
++            data_end = 0
++
++        return bytes(data[data_start:data_end]), data_end, True
+ 
+ 
+ class MultipartEncoder:

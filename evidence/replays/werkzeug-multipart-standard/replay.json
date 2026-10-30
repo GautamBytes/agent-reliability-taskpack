@@ -1,0 +1,11 @@
+{
+  "trial": "werkzeug-multipart-standard",
+  "patch_sha256": "ce9a4fd9278349f2790faace6e8e1e90de3395d518ef4d85eda4e6ed5213776a",
+  "reward": "1",
+  "checks": 65,
+  "source_hashes_verified": true,
+  "comparison_report": "results.json",
+  "expected_reward": 1.0,
+  "matches_expected_reward": true,
+  "matches_all_expected_case_statuses": true
+}

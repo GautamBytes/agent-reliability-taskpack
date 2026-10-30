@@ -1,0 +1,149 @@
+--- a/src/anyio/_backends/_asyncio.py
++++ b/src/anyio/_backends/_asyncio.py
+@@ -343,6 +343,7 @@
+         self._deadline = deadline
+         self._shield = shield
+         self._parent_scope: CancelScope | None = None
++        self._child_scopes: set[CancelScope] = set()
+         self._cancel_called = False
+         self._cancelled_caught = False
+         self._active = False
+@@ -369,6 +370,8 @@
+         else:
+             self._parent_scope = task_state.cancel_scope
+             task_state.cancel_scope = self
++            if self._parent_scope is not None:
++                self._parent_scope._child_scopes.add(self)
+ 
+         self._timeout()
+         self._active = True
+@@ -409,13 +412,14 @@
+             self._timeout_handle = None
+ 
+         self._tasks.remove(self._host_task)
++        self._remove_from_parent()
+ 
+         host_task_state.cancel_scope = self._parent_scope
+ 
+         # Restart the cancellation effort in the farthest directly cancelled parent
+         # scope if this one was shielded
+-        if self._shield:
+-            self._deliver_cancellation_to_parent()
++        if self._shield and self._parent_scope is not None:
++            self._parent_scope._restart_cancellation()
+ 
+         if self._cancel_called and exc_val is not None:
+             for exc in iterate_exceptions(exc_val):
+@@ -451,13 +455,25 @@
+             else:
+                 self._timeout_handle = loop.call_at(self._deadline, self._timeout)
+ 
+-    def _deliver_cancellation(self) -> None:
++    def _remove_from_parent(self) -> None:
++        # Task group scopes can still contain tasks after their host has exited.
++        # Keep them in the scope tree until all their descendants have finished.
++        if not self._active and not self._tasks and not self._child_scopes:
++            if self._parent_scope is not None:
++                self._parent_scope._child_scopes.discard(self)
++                self._parent_scope._remove_from_parent()
++
++    def _deliver_cancellation(self, origin: CancelScope | None = None) -> bool:
+         """
+         Deliver cancellation to directly contained tasks and nested cancel scopes.
+ 
+         Schedule another run at the end if we still have tasks eligible for
+-        cancellation.
++        cancellation. Only the originating scope schedules retries, using the return
++        value to track eligible tasks throughout its unshielded descendants.
+         """
++        if origin is None:
++            origin = self
++
+         should_retry = False
+         current = current_task()
+         for task in self._tasks:
+@@ -479,23 +495,32 @@
+                 ):
+                     waiter = task._fut_waiter  # type: ignore[attr-defined]
+                     if not isinstance(waiter, asyncio.Future) or not waiter.done():
+-                        self._cancel_calls += 1
++                        if task is origin._host_task:
++                            origin._cancel_calls += 1
+                         if sys.version_info >= (3, 9):
+-                            task.cancel(f"Cancelled by cancel scope {id(self):x}")
++                            task.cancel(f"Cancelled by cancel scope {id(origin):x}")
+                         else:
+                             task.cancel()
+ 
++        # A shield in a scope's host task does not shield the scope's other tasks.
++        for scope in self._child_scopes:
++            if not scope._shield:
++                should_retry = scope._deliver_cancellation(origin) or should_retry
++
+         # Schedule another callback if there are still tasks left
+-        if should_retry:
+-            self._cancel_handle = get_running_loop().call_soon(
+-                self._deliver_cancellation
+-            )
+-        else:
+-            self._cancel_handle = None
+-
+-    def _deliver_cancellation_to_parent(self) -> None:
+-        """Start cancellation effort in the farthest directly cancelled parent scope"""
+-        scope = self._parent_scope
++        if origin is self:
++            if should_retry:
++                self._cancel_handle = get_running_loop().call_soon(
++                    self._deliver_cancellation
++                )
++            else:
++                self._cancel_handle = None
++
++        return should_retry
++
++    def _restart_cancellation(self) -> None:
++        """Restart cancellation in the farthest directly cancelled, visible scope."""
++        scope: CancelScope | None = self
+         scope_to_cancel: CancelScope | None = None
+         while scope is not None:
+             if scope._cancel_called and scope._cancel_handle is None:
+@@ -562,7 +587,7 @@
+         if self._shield != value:
+             self._shield = value
+             if not value:
+-                self._deliver_cancellation_to_parent()
++                self._restart_cancellation()
+ 
+ 
+ #
+@@ -678,6 +703,7 @@
+         def task_done(_task: asyncio.Task) -> None:
+             assert _task in self.cancel_scope._tasks
+             self.cancel_scope._tasks.remove(_task)
++            self.cancel_scope._remove_from_parent()
+             del _task_states[_task]
+ 
+             try:
+@@ -732,6 +758,7 @@
+             parent_id=parent_id, cancel_scope=self.cancel_scope
+         )
+         self.cancel_scope._tasks.add(task)
++        self.cancel_scope._restart_cancellation()
+         return task
+ 
+     def start_soon(
+@@ -2125,12 +2152,14 @@
+             task = cast(asyncio.Task, current_task())
+             _task_states[task] = TaskState(None, scope)
+             scope._tasks.add(task)
++            scope._restart_cancellation()
+             try:
+                 return await func(*args)
+             except CancelledError as exc:
+                 raise concurrent.futures.CancelledError(str(exc)) from None
+             finally:
+                 scope._tasks.discard(task)
++                scope._remove_from_parent()
+ 
+         loop = cast(AbstractEventLoop, token)
+         context = copy_context()

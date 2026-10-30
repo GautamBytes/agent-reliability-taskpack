@@ -1,0 +1,5 @@
+tasks/**/environment/repo/** linguist-vendored
+tasks/**/tests/baseline/** linguist-vendored
+*.png binary
+*.tar.gz binary
+*.jpg binary

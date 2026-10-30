@@ -1,0 +1,226 @@
+{
+  "baseline": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 15,
+      "failing_cases": [
+        "test_cancellation_behavior[host_shield-asyncio]",
+        "test_cancellation_behavior[host_shield_nested-asyncio]",
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]",
+        "test_cancellation_behavior[repeated_sibling_cancellation-asyncio]",
+        "test_cancellation_behavior[nested_groups-asyncio]"
+      ]
+    }
+  },
+  "reference": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 20,
+      "failing_cases": []
+    }
+  },
+  "immediate-parent": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 17,
+      "failing_cases": [
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]",
+        "test_cancellation_behavior[restart_after_inner_shield-asyncio]",
+        "test_cancellation_behavior[restart_after_shield_toggle-asyncio]"
+      ]
+    }
+  },
+  "ignore-child-shields": {
+    "public": {
+      "tests": 149,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 142,
+      "failing_cases": [
+        "test_shielding[asyncio]",
+        "test_shielding_mutate[asyncio]",
+        "test_nested_shield[asyncio]"
+      ]
+    },
+    "private": {
+      "tests": 20,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 17,
+      "failing_cases": [
+        "test_cancellation_behavior[host_shield-asyncio]",
+        "test_cancellation_behavior[host_shield_nested-asyncio]",
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]"
+      ]
+    }
+  },
+  "omit-shield-toggle-restart": {
+    "public": {
+      "tests": 149,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 144,
+      "failing_cases": [
+        "test_shielding_mutate[asyncio]"
+      ]
+    },
+    "private": {
+      "tests": 20,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 19,
+      "failing_cases": [
+        "test_cancellation_behavior[restart_after_shield_toggle-asyncio]"
+      ]
+    }
+  },
+  "docker-baseline": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 15,
+      "failing_cases": [
+        "test_cancellation_behavior[host_shield-asyncio]",
+        "test_cancellation_behavior[host_shield_nested-asyncio]",
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]",
+        "test_cancellation_behavior[repeated_sibling_cancellation-asyncio]",
+        "test_cancellation_behavior[nested_groups-asyncio]"
+      ]
+    }
+  },
+  "docker-reference": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 20,
+      "failing_cases": []
+    }
+  },
+  "docker-immediate-parent": {
+    "public": {
+      "tests": 149,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 145,
+      "failing_cases": []
+    },
+    "private": {
+      "tests": 20,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 17,
+      "failing_cases": [
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]",
+        "test_cancellation_behavior[restart_after_inner_shield-asyncio]",
+        "test_cancellation_behavior[restart_after_shield_toggle-asyncio]"
+      ]
+    }
+  },
+  "docker-ignore-child-shields": {
+    "public": {
+      "tests": 149,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 142,
+      "failing_cases": [
+        "test_shielding[asyncio]",
+        "test_shielding_mutate[asyncio]",
+        "test_nested_shield[asyncio]"
+      ]
+    },
+    "private": {
+      "tests": 20,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 17,
+      "failing_cases": [
+        "test_cancellation_behavior[host_shield-asyncio]",
+        "test_cancellation_behavior[host_shield_nested-asyncio]",
+        "test_cancellation_behavior[independent_sibling_shield-asyncio]"
+      ]
+    }
+  },
+  "docker-omit-shield-toggle-restart": {
+    "public": {
+      "tests": 149,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 144,
+      "failing_cases": [
+        "test_shielding_mutate[asyncio]"
+      ]
+    },
+    "private": {
+      "tests": 20,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 19,
+      "failing_cases": [
+        "test_cancellation_behavior[restart_after_shield_toggle-asyncio]"
+      ]
+    }
+  }
+}

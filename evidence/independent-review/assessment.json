@@ -1,0 +1,25 @@
+{
+  "reviewer": "Fresh delegated agent, same available model family as coordinator",
+  "role": "Read-only source, fairness and evidence audit",
+  "limits": [
+    "Three historical public tasks",
+    "One model family at two budgets",
+    "No contamination-free or frontier-difficulty claim",
+    "Live database execution limited to SQLite",
+    "Other SQL and Prisma use representation checks",
+    "Documented malicious-report limitations",
+    "No external benchmark acceptance or human upstream review"
+  ],
+  "confirmed_baseline_files": {
+    "anyio": 92,
+    "better_auth": 2240,
+    "werkzeug": 290
+  },
+  "fairness_findings": [
+    "Initial MySQL variable-name and MSSQL bound assumptions corrected before native episodes",
+    "Drizzle spelling and quoted MSSQL OBJECT_ID corrected after all native episodes",
+    "Prisma formatting false negative independently reproduced, corrected and valid alternative formatter-checked offline"
+  ],
+  "conditions_satisfied_by": "evidence/release-audit.json",
+  "publication_note": "Subjective scores omitted. See PUBLISHING.md. The substantive findings and scope are retained."
+}

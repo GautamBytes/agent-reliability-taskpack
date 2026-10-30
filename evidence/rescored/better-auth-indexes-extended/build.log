@@ -1,0 +1,82 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.65kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [node 1/1] FROM docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57
+#5 resolve docker.io/library/node:24.11.1-bookworm-slim@sha256:48abc13a19400ca3985071e287bd405a1d99306770eb81d61202fb6b65cf0b57 done
+#5 DONE 0.0s
+
+#6 [stage-1  1/16] FROM docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#6 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 29.44MB 0.2s done
+#7 DONE 0.2s
+
+#8 [stage-1 10/16] RUN mkdir -p /opt/baseline /app/repo /logs/verifier && tar -xzf /tmp/baseline.tar.gz --strip-components=1 -C /opt/baseline && rm /tmp/baseline.tar.gz
+#8 CACHED
+
+#9 [stage-1 13/16] COPY . /tests/
+#9 CACHED
+
+#10 [stage-1  9/16] COPY baseline.tar.gz /tmp/baseline.tar.gz
+#10 CACHED
+
+#11 [stage-1  8/16] WORKDIR /app/repo
+#11 CACHED
+
+#12 [stage-1  3/16] COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+#12 CACHED
+
+#13 [stage-1 14/16] RUN chmod -R go-rwx /tests && chmod 700 /logs/verifier && (id -u agent >/dev/null 2>&1 || useradd --uid 1000 --create-home agent)
+#13 CACHED
+
+#14 [stage-1  5/16] RUN apt-get update && apt-get install -y --no-install-recommends curl git ca-certificates ripgrep build-essential && rm -rf /var/lib/apt/lists/*
+#14 CACHED
+
+#15 [stage-1  7/16] RUN useradd --uid 1000 --create-home agent && mkdir -p /app/repo && chown -R agent:agent /app
+#15 CACHED
+
+#16 [stage-1  2/16] COPY --from=node /usr/local/bin/node /usr/local/bin/node
+#16 CACHED
+
+#17 [stage-1  6/16] RUN npm install --global @openai/codex@0.166.0 pnpm@11.1.1
+#17 CACHED
+
+#18 [stage-1 15/16] WORKDIR /app/repo
+#18 CACHED
+
+#19 [stage-1 12/16] RUN pnpm --filter 'better-auth...' --filter @better-auth/root install --frozen-lockfile --ignore-scripts && chmod -R a+rX /opt/baseline
+#19 CACHED
+
+#20 [stage-1  4/16] RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && ln -s ../lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+#20 CACHED
+
+#21 [stage-1 11/16] WORKDIR /opt/baseline
+#21 CACHED
+
+#22 [stage-1 16/16] RUN python3 -c "from pathlib import Path; root=Path('/opt/baseline/node_modules'); dependency=next(root.glob('.pnpm/drizzle-orm@0.45.2*/node_modules/drizzle-orm')); (root/'drizzle-orm').symlink_to(dependency, target_is_directory=True)"
+#22 CACHED
+
+#23 exporting to image
+#23 exporting layers done
+#23 exporting manifest sha256:760a3682a13b9b57a270f4984697f2dcba4bfa27651b2dcb1c6378fdc2aff577 done
+#23 exporting config sha256:83ff0daf02f3ae7ff6d362eeb11c46bb4bfa2ed2a1486d3592e84257ca685dc6 done
+#23 exporting attestation manifest sha256:f653ce569480b37c03438f15189bf5965ce0c0c2a217466e6edd6006f8aa1762 done
+#23 exporting manifest list sha256:6209b9963f2a413f869c6dd736cf3f74cc7c65183b183006986c7086d3eeb641 done
+#23 naming to docker.io/library/oss-replay-better-auth-indexes:local done
+#23 unpacking to docker.io/library/oss-replay-better-auth-indexes:local done
+#23 DONE 0.0s

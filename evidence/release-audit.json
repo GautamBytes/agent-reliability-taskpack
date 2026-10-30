@@ -1,0 +1,87 @@
+{
+  "audited_at": "2026-10-30T10:47:35.893761+00:00",
+  "all_gates_passed": true,
+  "tasks": {
+    "anyio-cancel-scope": {
+      "checks": 169,
+      "required": 165,
+      "nonpasses": 4,
+      "preservation": 145,
+      "holdout": 20
+    },
+    "better-auth-indexes": {
+      "checks": 83,
+      "required": 83,
+      "nonpasses": 0,
+      "preservation": 50,
+      "holdout": 32
+    },
+    "werkzeug-multipart": {
+      "checks": 65,
+      "required": 65,
+      "nonpasses": 0,
+      "preservation": 31,
+      "holdout": 34
+    }
+  },
+  "reference_results": {
+    "anyio-cancel-scope": {
+      "tests_run": 169,
+      "passed": 165,
+      "failed": 0,
+      "skipped": 4
+    },
+    "better-auth-indexes": {
+      "tests_run": 83,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0
+    },
+    "werkzeug-multipart": {
+      "tests_run": 65,
+      "passed": 65,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "baseline_results": {
+    "anyio-cancel-scope": {
+      "tests_run": 169,
+      "passed": 160,
+      "failed": 5,
+      "skipped": 4
+    },
+    "better-auth-indexes": {
+      "tests_run": 83,
+      "passed": 51,
+      "failed": 32,
+      "skipped": 0
+    },
+    "werkzeug-multipart": {
+      "tests_run": 65,
+      "passed": 49,
+      "failed": 16,
+      "skipped": 0
+    }
+  },
+  "reported_checks": 317,
+  "required_passes": 313,
+  "known_upstream_nonpasses": 4,
+  "required_upstream_preservation": 226,
+  "authored_behavioral_holdouts": 86,
+  "focused_compile_checks": 1,
+  "rejected_partial_fixes": 10,
+  "accepted_alternative_fixes": 3,
+  "native_coding_attempts": 6,
+  "normally_finished_passes": 5,
+  "deadline_exhaustions": 1,
+  "passing_saved_patches": 6,
+  "source_patch_replays": 6,
+  "infrastructure_exceptions": 0,
+  "fairness_revision": "betterauth-semantic-fairness-1",
+  "byte_verified_baseline_files": {
+    "anyio-cancel-scope": 92,
+    "better-auth-indexes": 2240,
+    "werkzeug-multipart": 290
+  }
+}

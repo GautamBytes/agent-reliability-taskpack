@@ -1,0 +1,48 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.9 [39m[90m/tmp/better-auth-grade-mvchl_9t/repo[39m
+
+ [31m❯[39m _task_tests/holdout.test.ts [2m([22m[2m32 tests[22m[2m | [22m[31m29 failed[39m[2m)[22m[33m 409[2mms[22m[39m
+     [32m✓[39m creates non-unique lookup indexes through the real plugin migration[32m 17[2mms[22m[39m
+[31m     [31m×[31m emits exactly two non-unique indexes in sqlite[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m emits exactly two non-unique indexes in postgresql[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m emits exactly two non-unique indexes in mysql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits exactly two non-unique indexes in mssql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits non-unique indexes in alter mode for sqlite[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits non-unique indexes in alter mode for postgresql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits non-unique indexes in alter mode for mysql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits non-unique indexes in alter mode for mssql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m executes generated SQLite DDL twice and still permits repeated indexed values[39m[32m 1[2mms[22m[39m
+     [32m✓[39m upgrades existing populated SQLite device storage and has no second migration[32m 4[2mms[22m[39m
+[31m     [31m×[31m keeps filtered fields out of the generated index set[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m uses bounded string columns in mysql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m uses bounded string columns in mssql[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m guards MySQL index creation with table and index existence predicates[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m guards SQL Server index creation for the target object[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Prisma mysql output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Prisma postgresql output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Prisma sqlite output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Drizzle mysql output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Drizzle pg output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m preserves index semantics in Drizzle sqlite output[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps long name family tabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletabletable portable and distinct[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps long name family 数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库数据库 portable and distinct[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m keeps long name family 🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋🦋 portable and distinct[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m rejects oversized configured deviceCodeLength[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m rejects oversized configured userCodeLength[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m rejects oversized custom device code before persistence[39m[32m 99[2mms[22m[39m
+[31m     [31m×[31m rejects oversized custom user code before persistence[39m[32m 97[2mms[22m[39m
+[31m     [31m×[31m rejects non-string custom device code before persistence[39m[32m 56[2mms[22m[39m
+[31m     [31m×[31m rejects non-string custom user code before persistence[39m[32m 68[2mms[22m[39m
+     [32m✓[39m accepts exactly 191 Unicode code points rather than counting UTF-16 units[32m 54[2mms[22m[39m
+ [32m✓[39m _task_tests/preservation-migrations.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+[90mstdout[2m | packages/better-auth/src/plugins/device-authorization/device-authorization.test.ts[2m > [22m[2mdevice authorization ownership gate[2m > [22m[2mdoes not overwrite a device code claimed after verify reads it
+[22m[39m2026-10-30T09:52:47.424Z DEBUG [Better Auth]: [Memory Adapter] - Using provided transaction implementation.
+
+ [32m✓[39m packages/better-auth/src/plugins/device-authorization/device-authorization.test.ts [2m([22m[2m44 tests[22m[2m)[22m[33m 2389[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m29 failed[39m[22m[2m | [22m[1m[32m53 passed[39m[22m[90m (82)[39m
+[2m   Start at [22m 09:52:44
+[2m   Duration [22m 3.87s[2m (transform 1.95s, setup 0ms, import 2.84s, tests 2.81s, environment 0ms)[22m
+
+JSON report written to /tmp/better-auth-grade-mvchl_9t/repo/vitest-results.json

@@ -1,0 +1,66 @@
+{
+  "task": "better-auth-portable-indexes",
+  "repository": "https://github.com/better-auth/better-auth",
+  "issue": "https://github.com/better-auth/better-auth/issues/10025",
+  "upstream_pull_request": "https://github.com/better-auth/better-auth/pull/10059",
+  "baseline_commit": "cc708e51bcb1d4c367d2bc6182e6fd7fd722ece8",
+  "fixed_commit": "49b5cf650e1264ecc4c917ca193ea05c3b58a3b9",
+  "baseline_archive_url": "https://codeload.github.com/better-auth/better-auth/tar.gz/cc708e51bcb1d4c367d2bc6182e6fd7fd722ece8",
+  "baseline_archive_sha256": "3579332858328a6bdacf74c3755b4e02ce1cde573700740fe38a0b31efee702e",
+  "selected_production_patch_sha256": "14139a10af51acfc1e0b5dfcc22550e4190f58616b84aa594527d237d9e134fc",
+  "selected_production_files": [
+    "docs/lib/copy-schema/adapter/drizzle.ts",
+    "docs/lib/copy-schema/adapter/prisma.ts",
+    "docs/lib/copy-schema/dialects/mssql.ts",
+    "docs/lib/copy-schema/dialects/mysql.ts",
+    "docs/lib/copy-schema/dialects/postgresql.ts",
+    "docs/lib/copy-schema/dialects/sqlite.ts",
+    "docs/lib/copy-schema/types.ts",
+    "docs/lib/copy-schema/utils.ts",
+    "packages/better-auth/src/plugins/device-authorization/index.ts",
+    "packages/better-auth/src/plugins/device-authorization/routes.ts",
+    "packages/better-auth/src/plugins/device-authorization/schema.ts"
+  ],
+  "original_merged_pr_file_count": 20,
+  "license": "MIT",
+  "license_file": "environment/repo/LICENSE.md",
+  "credit": {
+    "upstream_fix": "Collective accepted fix coauthored by Gautam Manchandani and Gustavo Valverde.",
+    "Gautam_authored_commits": [
+      "fdfdaf3ae5d9a7015845fefac6529f84d311c421",
+      "ac0714e1743f8e1fbd07cccd9ea54028c3558162",
+      "c537ea0e897568553ba30af879f8512c60fccbce"
+    ],
+    "evaluation_task": "Gautam Manchandani with Codex assistance. This benchmark packaging is not an accepted upstream contribution."
+  },
+  "allowed_candidate_source_trees": [
+    "packages/better-auth/src",
+    "packages/core/src",
+    "docs/lib/copy-schema"
+  ],
+  "verification": {
+    "upstream_preservation_cases": 50,
+    "authored_holdout_cases": 32,
+    "focused_typescript_compile_checks": 1,
+    "expected_checks": 83,
+    "actual_database_engine": "Node built-in SQLite",
+    "representation_checks_only": [
+      "MySQL",
+      "SQL Server",
+      "PostgreSQL",
+      "Prisma",
+      "Drizzle"
+    ],
+    "excluded_upstream_cases": {
+      "PostgreSQL_schema_detection": {
+        "count": 9,
+        "reason": "Requires external PostgreSQL server. Explicitly outside this task selection; not counted as passing or hidden skips."
+      }
+    }
+  },
+  "limitations": [
+    "Historical public fix may exist in model pretraining. Trial container isolation and network restrictions do not establish training-data non-contamination.",
+    "Focused typecheck does not claim a full-monorepo typecheck.",
+    "Live MySQL, SQL Server and PostgreSQL engines are not executed."
+  ]
+}

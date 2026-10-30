@@ -1,0 +1,16 @@
+{
+    "job_name": "final-references",
+    "jobs_dir": "evidence/native-controls",
+    "n_concurrent_trials": 1,
+    "environment": {
+        "type": "docker",
+        "kwargs": {
+            "auto_mounting": false
+        }
+    },
+    "datasets": [
+        {
+            "path": "tasks"
+        }
+    ]
+}

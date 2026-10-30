@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="26" skipped="0" tests="34" time="0.114" timestamp="2026-10-30T09:42:45.877672+00:00" hostname="10b27f60960b"><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[empty]" time="0.002" /><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r')&#10;  Use -v to get more diff">payload = b'\r'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\r')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\n')&#10;  Use -v to get more diff">payload = b'\n'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'')] == [('upload', '....bin', b'\n')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[crlf]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r\n')&#10;  Use -v to get more diff">payload = b'\r\n'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\r\n')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[double-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\r\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r\r')&#10;  Use -v to get more diff">payload = b'\r\r'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\r\r')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\r\r')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[lf-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\n\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\n\r')&#10;  Use -v to get more diff">payload = b'\n\r'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'')] == [('upload', '...in', b'\n\r')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'') != ('upload', 'data.bin', b'\n\r')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-cr]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'a')] == [('upload', '...bin', b'a\r')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r')&#10;  Use -v to get more diff">payload = b'a\r'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'a')] == [('upload', '...bin', b'a\r')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[tail-crlf]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', 'data.bin', b'a')] == [('upload', '...n', b'a\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r\n')&#10;  Use -v to get more diff">payload = b'a\r\n'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', 'data.bin', b'a')] == [('upload', '...n', b'a\r\n')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'a') != ('upload', 'data.bin', b'a\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[binary-newlines]" time="0.000"><failure message="AssertionError: 1&#10;assert [('upload', '...ary\x00\xff')] == [('upload', '...x00\xff\r\n')]&#10;  &#10;  At index 0 diff: ('upload', 'data.bin', b'\r\nbinary\x00\xff') != ('upload', 'data.bin', b'\r\nbinary\x00\xff\r\n')&#10;  Use -v to get more diff">payload = b'\r\nbinary\x00\xff\r\n'
+
+&gt;   ???
+E   AssertionError: 1
+E   assert [('upload', '...ary\x00\xff')] == [('upload', '...x00\xff\r\n')]
+E     
+E     At index 0 diff: ('upload', 'data.bin', b'\r\nbinary\x00\xff') != ('upload', 'data.bin', b'\r\nbinary\x00\xff\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:57: AssertionError</failure></testcase><testcase classname="" name="test_regression_every_single_split_preserves_file_bytes[all-bytes]" time="0.006" /><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[1]" time="0.001"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 1
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[2]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 2
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[3]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 3
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[7]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 7
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[13]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 13
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_fixed_fragment_sizes_preserve_mixed_parts[64]" time="0.000"><failure message="AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]&#10;  &#10;  At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')&#10;  Use -v to get more diff">size = 64
+
+&gt;   ???
+E   AssertionError: assert [('metadata',...', None, b'')] == [('metadata',...', None, b'')]
+E     
+E     At index 0 diff: ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b') != ('metadata', None, b'\xe0\xa4\xb9\xe0\xa5\x88\xe0\xa4\xb2\xe0\xa5\x8b\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:65: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[173]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')&#10;  Use -v to get more diff">seed = 173
+
+&gt;   ???
+E   AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E     
+E     At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[691]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')&#10;  Use -v to get more diff">seed = 691
+
+&gt;   ???
+E   AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E     
+E     At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_seeded_partitions_preserve_boundary_lookalikes[1187]" time="0.000"><failure message="AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]&#10;  &#10;  At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')&#10;  Use -v to get more diff">seed = 1187
+
+&gt;   ???
+E   AssertionError: assert [('file', 'f....one, b'tail')] == [('file', 'f....e, b'tail\r')]
+E     
+E     At index 0 diff: ('file', 'f.bin', b'\r\n--test-boundarX\r\n--test-boundary!\r\nabc') != ('file', 'f.bin', b'\r\n--test-boundarX\n\r\n--test-boundary!\r\nabc\r\n')
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:82: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r]" time="0.002"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r'
+
+&gt;   ???
+E   AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...x00\x00\x00\r'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:89: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\r]" time="0.002"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\r\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\r\r'
+
+&gt;   ???
+E   AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\r\r'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:89: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n]" time="0.002"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\r\n'&#10;  &#10;  Use -v to get more diff">trailing = b'\r\n'
+
+&gt;   ???
+E   AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\r\n'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:89: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\n\r]" time="0.002"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\n\r'&#10;  &#10;  Use -v to get more diff">trailing = b'\n\r'
+
+&gt;   ???
+E   AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\n\r'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:89: AssertionError</failure></testcase><testcase classname="" name="test_regression_real_request_64k_boundary_keeps_payload[\r\n\r\n]" time="0.002"><failure message="AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\r\n\r\n'&#10;  &#10;  Use -v to get more diff">trailing = b'\r\n\r\n'
+
+&gt;   ???
+E   AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\r\n\r\n'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:89: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[1]" time="0.001"><failure message="AssertionError: assert 'first\nlast' == 'first\r\nlast'&#10;  &#10;  - first&#10;  ?      -&#10;  + first&#10;    last">maximum = 1
+
+&gt;   ???
+E   AssertionError: assert 'first\nlast' == 'first\r\nlast'
+E     
+E     - first
+E     ?      -
+E     + first
+E       last
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:112: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[2]" time="0.001"><failure message="AssertionError: assert b'\r\n\x00\xf...f\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'&#10;  &#10;  At index 6 diff: b'\x00' != b'\r'&#10;  Use -v to get more diff">maximum = 2
+
+&gt;   ???
+E   AssertionError: assert b'\r\n\x00\xf...f\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'
+E     
+E     At index 6 diff: b'\x00' != b'\r'
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:113: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[11]" time="0.000"><failure message="AssertionError: assert b'\r\n\x00\xf...f\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'&#10;  &#10;  At index 4 diff: b'\n' != b'\r'&#10;  Use -v to get more diff">maximum = 11
+
+&gt;   ???
+E   AssertionError: assert b'\r\n\x00\xf...f\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'
+E     
+E     At index 4 diff: b'\n' != b'\r'
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:113: AssertionError</failure></testcase><testcase classname="" name="test_regression_wsgi_short_reads_preserve_fields_and_files[65536]" time="0.000"><failure message="AssertionError: assert b'\r\n\x00\xf...n\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'&#10;  &#10;  Use -v to get more diff">maximum = 65536
+
+&gt;   ???
+E   AssertionError: assert b'\r\n\x00\xf...n\r\n\x00\xff' == b'\r\n\x00\xf...n\x00\xff\r\n'
+E     
+E     Use -v to get more diff
+
+/private/tmp/oss-agent-taskpack-v2-20261030/tasks/werkzeug-multipart/tests/test_holdout.py:113: AssertionError</failure></testcase><testcase classname="" name="test_preservation_part_limit_is_enforced" time="0.001" /><testcase classname="" name="test_preservation_memory_limit_is_enforced" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r]" time="0.000" /><testcase classname="" name="test_preservation_truncated_input_is_rejected[\r\n--b]" time="0.000" /><testcase classname="" name="test_preservation_streaming_produces_data_before_eof" time="0.000" /></testsuite></testsuites>

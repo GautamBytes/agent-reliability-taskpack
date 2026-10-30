@@ -1,0 +1,180 @@
+...................................................................xx... [ 48%]
+.....F..........F...................F...........ss...................... [ 96%]
+.....                                                                    [100%]
+=================================== FAILURES ===================================
+___________________________ test_shielding[asyncio] ____________________________
+tests/test_taskgroups.py:598: in test_shielding
+    assert inner_sleep_completed
+E   assert False
+________________________ test_shielding_mutate[asyncio] ________________________
+tests/test_taskgroups.py:708: in test_shielding_mutate
+    assert completed
+E   assert False
+_________________________ test_nested_shield[asyncio] __________________________
+tests/test_taskgroups.py:835: in test_nested_shield
+    with pytest.raises(ExceptionGroup) as exc:
+E   Failed: DID NOT RAISE <class 'ExceptionGroup'>
+--- generated xml file: /tmp/anyio-grade-0u4jjrb5/public-results/public.xml ----
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_taskgroups.py:944: Generator based coroutines have been removed in Python 3.11
+SKIPPED [1] tests/test_taskgroups.py:965: Generator based coroutines have been removed in Python 3.11
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[asyncio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[trio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+3 failed, 142 passed, 2 skipped, 66 deselected, 2 xfailed in 5.59s
+F.F.F...............                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_cancellation_behavior[host_shield-asyncio] ________________
+
+case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/tests/private_case_runner.py", line 30, in <module>
+E           File "/tests/private_case_runner.py", line 26, in main
+E           File "/tests/cancellation_cases.py", line 235, in <module>
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/tests/cancellation_cases.py", line 36, in host_shield
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python3', '-I', '/tests/private_case_runner.py', '/tmp/anyio-grade-0u4jjrb5/rep...^^^^^^^^^\n  File "/tests/cancellation_cases.py", line 36, in host_shield\nAssertionError: the host lost its shield\n').returncode
+
+test_regressions.py:27: AssertionError
+____________ test_cancellation_behavior[host_shield_nested-asyncio] ____________
+
+case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/tests/private_case_runner.py", line 30, in <module>
+E           File "/tests/private_case_runner.py", line 26, in main
+E           File "/tests/cancellation_cases.py", line 235, in <module>
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/tests/cancellation_cases.py", line 40, in host_shield_nested
+E           File "/tests/cancellation_cases.py", line 36, in host_shield
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python3', '-I', '/tests/private_case_runner.py', '/tmp/anyio-grade-0u4jjrb5/rep...ld_nested\n  File "/tests/cancellation_cases.py", line 36, in host_shield\nAssertionError: the host lost its shield\n').returncode
+
+test_regressions.py:27: AssertionError
+________ test_cancellation_behavior[independent_sibling_shield-asyncio] ________
+
+case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASE_NAMES)
+    def test_cancellation_behavior(case: str, backend: str) -> None:
+        script = Path(__file__).with_name("private_case_runner.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, "-I", str(script), os.environ["PRIVATE_CASE_REPOSITORY"], case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/tests/cancellation_cases.py", line 80, in independent_sibling_shield
+E         AssertionError
+E         
+E         During handling of the above exception, another exception occurred:
+E         
+E           + Exception Group Traceback (most recent call last):
+E           |   File "/tests/private_case_runner.py", line 30, in <module>
+E           |   File "/tests/private_case_runner.py", line 26, in main
+E           |   File "/tests/cancellation_cases.py", line 235, in <module>
+E           |   File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E           |     return async_backend.run(func, args, {}, backend_options)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E           |     return runner.run(wrapper())
+E           |            ^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E           |     return self._loop.run_until_complete(task)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E           |     return future.result()
+E           |            ^^^^^^^^^^^^^^^
+E           |   File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E           |     return await func(*args)
+E           |            ^^^^^^^^^^^^^^^^^
+E           |   File "/tests/cancellation_cases.py", line 72, in independent_sibling_shield
+E           |   File "/tmp/anyio-grade-0u4jjrb5/repo/src/anyio/_backends/_asyncio.py", line 669, in __aexit__
+E           |     raise BaseExceptionGroup(
+E           | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+E           +-+---------------- 1 ----------------
+E             | Traceback (most recent call last):
+E             |   File "/tests/cancellation_cases.py", line 80, in independent_sibling_shield
+E             | AssertionError
+E             +------------------------------------
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python3', '-I', '/tests/private_case_runner.py', '/tmp/anyio-grade-0u4jjrb5/rep..._cases.py", line 80, in independent_sibling_shield\n    | AssertionError\n    +------------------------------------\n').returncode
+
+test_regressions.py:27: AssertionError
+------ generated xml file: /tmp/anyio-grade-0u4jjrb5/reports/private.xml -------
+=========================== short test summary info ============================
+FAILED ../dev/::test_cancellation_behavior[host_shield-asyncio] - AssertionEr...
+FAILED ../dev/::test_cancellation_behavior[host_shield_nested-asyncio] - Asse...
+FAILED ../dev/::test_cancellation_behavior[independent_sibling_shield-asyncio]
+3 failed, 17 passed in 3.98s

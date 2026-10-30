@@ -1,0 +1,15 @@
+{
+    "task": {
+        "path": "tasks/werkzeug-multipart",
+        "source": "tasks"
+    },
+    "trial_name": "werkzeug-multipart__ddBYh7F",
+    "trials_dir": "evidence/native-controls/final-references",
+    "environment": {
+        "type": "docker",
+        "kwargs": {
+            "auto_mounting": false
+        }
+    },
+    "job_id": "f17283b5-39b7-4bf6-a329-495ca428bb8b"
+}

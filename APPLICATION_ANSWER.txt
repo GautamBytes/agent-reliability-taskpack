@@ -1,0 +1,11 @@
+Yes. I recently built a personal project called Agent Reliability Task Pack, with AI help. It has three coding tasks based on real issues in AnyIO, Better Auth and Werkzeug. One builds on a merged Better Auth PR I contributed to. I credit the original fixes and other authors in the repo.
+
+Each task gives the agent a real codebase and a clear problem to fix. It includes a pinned starting version, a Docker setup, a reference fix and a separate verifier. The tests were hidden from the agents during the runs. They are public now so people can review the work.
+
+I ran the tasks locally with Harbor and Docker. There are 86 extra behaviour checks, 226 checks from the original projects and one TypeScript compile check. They cover async cancellation, database indexes and migrations, and keeping uploaded file bytes correct when data arrives in small chunks. All three reference fixes pass. All three buggy starting versions fail. The tests also reject ten incomplete fixes and accept three valid alternatives.
+
+I tested the pack with six fresh Codex runs at two time budgets, using one model family. Five finished normally. One ran out of time, but its saved code passed the final checks. I checked all six saved patches again in clean containers. I also fixed tests that were too strict and kept both the original and corrected results.
+
+This was my own project, not work for a company. The repo has screenshots, result tables, logs, code changes and source credits, so you can review it without running anything. It has not been accepted into an external benchmark.
+
+https://github.com/GautamBytes/agent-reliability-taskpack

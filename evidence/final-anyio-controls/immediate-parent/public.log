@@ -1,0 +1,10 @@
+...................................................................xx... [ 48%]
+................................................ss...................... [ 96%]
+.....                                                                    [100%]
+--- generated xml file: /tmp/anyio-grade-gt4jrnoy/public-results/public.xml ----
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_taskgroups.py:944: Generator based coroutines have been removed in Python 3.11
+SKIPPED [1] tests/test_taskgroups.py:965: Generator based coroutines have been removed in Python 3.11
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[asyncio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+XFAIL tests/test_taskgroups.py::test_fail_after_scope_camcelled_before_timeout[trio] - There is currently no way to tell if cancellation happened due to timeout explicitly if the deadline has been exceeded
+145 passed, 2 skipped, 66 deselected, 2 xfailed in 5.92s

@@ -1,0 +1,18 @@
+--- a/packages/better-auth/src/plugins/device-authorization/schema.ts
++++ b/packages/better-auth/src/plugins/device-authorization/schema.ts
+@@ -1,5 +1,7 @@
+ import type { BetterAuthPluginDBSchema } from "@better-auth/core/db";
+ import * as z from "zod";
++
++export const DEVICE_AUTHORIZATION_CODE_MAX_LENGTH = 191;
+ 
+ export const schema = {
+ 	deviceCode: {
+@@ -41,6 +43,7 @@
+ 				required: false,
+ 			},
+ 		},
++		indexes: [{ fields: ["deviceCode"] }, { fields: ["userCode"] }],
+ 	},
+ } satisfies BetterAuthPluginDBSchema;
+ 

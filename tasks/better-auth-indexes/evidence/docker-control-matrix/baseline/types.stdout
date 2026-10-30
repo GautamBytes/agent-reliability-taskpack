@@ -1,0 +1,1 @@
+_task_tests/type-contract.ts(5,94): error TS2353: Object literal may only specify known properties, and 'index' does not exist in type 'DBFieldAttribute & { condition?: string | undefined; }'.

@@ -1,0 +1,80 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 449B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/oss-agent-base:20261030
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 2.34MB 0.1s done
+#4 DONE 0.1s
+
+#5 [1/8] FROM docker.io/library/oss-agent-base:20261030@sha256:7604ff32dea367c4c72a06393cc63fd848381737f2b804da44ff5ffe05509817
+#5 resolve docker.io/library/oss-agent-base:20261030@sha256:7604ff32dea367c4c72a06393cc63fd848381737f2b804da44ff5ffe05509817 done
+#5 CACHED
+
+#6 [2/8] COPY requirements.lock /tmp/requirements.lock
+#6 DONE 0.0s
+
+#7 [3/8] RUN pip install --no-cache-dir -r /tmp/requirements.lock
+#7 0.890 Collecting pytest==9.0.2 (from -r /tmp/requirements.lock (line 1))
+#7 1.056   Downloading pytest-9.0.2-py3-none-any.whl.metadata (7.6 kB)
+#7 1.123 Collecting MarkupSafe==3.0.3 (from -r /tmp/requirements.lock (line 2))
+#7 1.430   Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+#7 1.456 Collecting ephemeral-port-reserve==1.1.4 (from -r /tmp/requirements.lock (line 3))
+#7 1.475   Downloading ephemeral_port_reserve-1.1.4-py2.py3-none-any.whl.metadata (2.6 kB)
+#7 1.501 Collecting pytest-timeout==2.4.0 (from -r /tmp/requirements.lock (line 4))
+#7 1.520   Downloading pytest_timeout-2.4.0-py3-none-any.whl.metadata (20 kB)
+#7 1.549 Collecting iniconfig==2.3.1 (from -r /tmp/requirements.lock (line 5))
+#7 1.569   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#7 1.600 Collecting packaging==26.3 (from -r /tmp/requirements.lock (line 6))
+#7 1.617   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#7 1.644 Collecting pluggy==1.7.0 (from -r /tmp/requirements.lock (line 7))
+#7 1.660   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#7 1.686 Collecting Pygments==2.21.0 (from -r /tmp/requirements.lock (line 8))
+#7 1.699   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#7 1.732 Downloading pytest-9.0.2-py3-none-any.whl (374 kB)
+#7 1.785 Downloading markupsafe-3.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (24 kB)
+#7 1.803 Downloading ephemeral_port_reserve-1.1.4-py2.py3-none-any.whl (4.4 kB)
+#7 1.820 Downloading pytest_timeout-2.4.0-py3-none-any.whl (14 kB)
+#7 1.839 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#7 1.857 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#7 1.876 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#7 1.894 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#7 1.935    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 28.6 MB/s eta 0:00:00
+#7 1.960 Installing collected packages: Pygments, pluggy, packaging, MarkupSafe, iniconfig, ephemeral-port-reserve, pytest, pytest-timeout
+#7 2.433 Successfully installed MarkupSafe-3.0.3 Pygments-2.21.0 ephemeral-port-reserve-1.1.4 iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 pytest-9.0.2 pytest-timeout-2.4.0
+#7 2.434 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#7 DONE 2.5s
+
+#8 [4/8] RUN id agent >/dev/null 2>&1 || useradd --uid 1000 --create-home agent
+#8 DONE 0.1s
+
+#9 [5/8] COPY baseline/ /opt/baseline/
+#9 DONE 0.0s
+
+#10 [6/8] COPY . /tests/
+#10 DONE 0.0s
+
+#11 [7/8] RUN mkdir -p /app/repo /logs/verifier && chmod 700 /logs/verifier && chmod -R a+rX /tests /opt/baseline
+#11 DONE 0.6s
+
+#12 [8/8] WORKDIR /app/repo
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.3s done
+#13 exporting manifest sha256:b9e5a95c33223fc44642859d8979b4c3c270877aa581969cebd51604e47dc881 done
+#13 exporting config sha256:123c8fd0ecde5c1ce10448b7f43de5647a5eb4edcf9151c21ac549f7b325b0c9 done
+#13 exporting attestation manifest sha256:e418ba7d1526582a4c10fefb1af10028b56750a7d7a437fd1e63aca32b01b7e5 done
+#13 exporting manifest list sha256:d3b624f45687b30a3514a81d1a9c2d2fd12ff52900778d63df6cad9fca6571c4 done
+#13 naming to docker.io/library/oss-werkzeug-v2-verifier:author done
+#13 unpacking to docker.io/library/oss-werkzeug-v2-verifier:author 0.1s done
+#13 DONE 0.5s

@@ -1,0 +1,50 @@
+{
+  "id": "anyio-cancel-scope-extended",
+  "task": "anyio-cancel-scope",
+  "profile": "extended",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "agent_timeout_seconds": 600,
+  "reward": 1.0,
+  "status": "PASS",
+  "exception": null,
+  "task_unchanged_during_trial": true,
+  "budget_exhausted": false,
+  "cutoff_artifact_passed": true,
+  "checks": {
+    "tests_run": 169,
+    "passed": 165,
+    "failed": 0,
+    "skipped": 4
+  },
+  "allowed_network_hosts": [
+    "ab.chatgpt.com",
+    "chatgpt.com"
+  ],
+  "denied_network_hosts": [
+    "github.com",
+    "sdmntprbrazilsouth.oaiusercontent.com",
+    "sdmntprcentralus.oaiusercontent.com",
+    "sdmntprnortheu.oaiusercontent.com",
+    "sdmntprsouthcentralus.oaiusercontent.com"
+  ],
+  "network_boundary": {
+    "github_proxy_denied": true,
+    "direct_internet_blocked": true
+  },
+  "changed_production_files": [
+    "src/anyio/_backends/_asyncio.py"
+  ],
+  "patch_sha256": "79d8352aa41c2023d40287627b7aed82eb34a9a641277cb1e0499cb1c0362a7d",
+  "source_files": 38,
+  "public_instruction_matches_trial": true,
+  "verifier_fairness_revision": null,
+  "original_reward": 1.0,
+  "original_checks": {
+    "tests_run": 169,
+    "passed": 165,
+    "failed": 0,
+    "skipped": 4
+  },
+  "fairness_rescored": false
+}

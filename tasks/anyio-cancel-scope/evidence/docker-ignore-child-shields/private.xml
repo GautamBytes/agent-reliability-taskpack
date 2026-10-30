@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="20" time="5.479" timestamp="2026-10-30T09:36:08.117926" hostname="6cd88b9a8419"><testcase classname="" name="test_cancellation_behavior[host_shield-asyncio]" time="0.346"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 235, in &lt;module&gt;&#10;      anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])&#10;    File &quot;/app/repo/src/anyio/_core/_eventloop.py&quot;, line 66, in run&#10;      return async_backend.run(func, args, {}, backend_options)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1976, in run&#10;      return runner.run(wrapper())&#10;             ^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/runners.py&quot;, line 118, in run&#10;      return self._loop.run_until_complete(task)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/base_events.py&quot;, line 691, in run_until_complete&#10;      return future.result()&#10;             ^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1964, in wrapper&#10;      return await func(*args)&#10;             ^^^^^^^^^^^^^^^^^&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 36, in host_shield&#10;      assert host_finished, &quot;the host lost its shield&quot;&#10;             ^^^^^^^^^^^^^&#10;  AssertionError: the host lost its shield&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'host_shield', 'asyncio'], returncode...ssert host_finished, &quot;the host lost its shield&quot;\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode">case = 'host_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+&gt;       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/verify/cancellation_cases.py", line 235, in &lt;module&gt;
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/app/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/verify/cancellation_cases.py", line 36, in host_shield
+E             assert host_finished, "the host lost its shield"
+E                    ^^^^^^^^^^^^^
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'host_shield', 'asyncio'], returncode...ssert host_finished, "the host lost its shield"\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode
+
+/verify/test_regressions.py:27: AssertionError</failure></testcase><testcase classname="" name="test_cancellation_behavior[host_shield-trio]" time="0.402" /><testcase classname="" name="test_cancellation_behavior[host_shield_nested-asyncio]" time="0.454"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 235, in &lt;module&gt;&#10;      anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])&#10;    File &quot;/app/repo/src/anyio/_core/_eventloop.py&quot;, line 66, in run&#10;      return async_backend.run(func, args, {}, backend_options)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1976, in run&#10;      return runner.run(wrapper())&#10;             ^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/runners.py&quot;, line 118, in run&#10;      return self._loop.run_until_complete(task)&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    File &quot;/usr/local/lib/python3.12/asyncio/base_events.py&quot;, line 691, in run_until_complete&#10;      return future.result()&#10;             ^^^^^^^^^^^^^^^&#10;    File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1964, in wrapper&#10;      return await func(*args)&#10;             ^^^^^^^^^^^^^^^^^&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 40, in host_shield_nested&#10;      await host_shield(3)&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 36, in host_shield&#10;      assert host_finished, &quot;the host lost its shield&quot;&#10;             ^^^^^^^^^^^^^&#10;  AssertionError: the host lost its shield&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'host_shield_nested', 'asyncio'], ret...ssert host_finished, &quot;the host lost its shield&quot;\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode">case = 'host_shield_nested', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+&gt;       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/verify/cancellation_cases.py", line 235, in &lt;module&gt;
+E             anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           File "/app/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E             return async_backend.run(func, args, {}, backend_options)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E             return runner.run(wrapper())
+E                    ^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E             return self._loop.run_until_complete(task)
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E             return future.result()
+E                    ^^^^^^^^^^^^^^^
+E           File "/app/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E             return await func(*args)
+E                    ^^^^^^^^^^^^^^^^^
+E           File "/verify/cancellation_cases.py", line 40, in host_shield_nested
+E             await host_shield(3)
+E           File "/verify/cancellation_cases.py", line 36, in host_shield
+E             assert host_finished, "the host lost its shield"
+E                    ^^^^^^^^^^^^^
+E         AssertionError: the host lost its shield
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'host_shield_nested', 'asyncio'], ret...ssert host_finished, "the host lost its shield"\n           ^^^^^^^^^^^^^\nAssertionError: the host lost its shield\n').returncode
+
+/verify/test_regressions.py:27: AssertionError</failure></testcase><testcase classname="" name="test_cancellation_behavior[host_shield_nested-trio]" time="0.296" /><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-asyncio]" time="0.281"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;/verify/cancellation_cases.py&quot;, line 80, in independent_sibling_shield&#10;      assert not protected_cancelled.is_set()&#10;             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;  AssertionError&#10;  &#10;  During handling of the above exception, another exception occurred:&#10;  &#10;    + Exception Group Traceback (most recent call last):&#10;    |   File &quot;/verify/cancellation_cases.py&quot;, line 235, in &lt;module&gt;&#10;    |     anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])&#10;    |   File &quot;/app/repo/src/anyio/_core/_eventloop.py&quot;, line 66, in run&#10;    |     return async_backend.run(func, args, {}, backend_options)&#10;    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    |   File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1976, in run&#10;    |     return runner.run(wrapper())&#10;    |            ^^^^^^^^^^^^^^^^^^^^^&#10;    |   File &quot;/usr/local/lib/python3.12/asyncio/runners.py&quot;, line 118, in run&#10;    |     return self._loop.run_until_complete(task)&#10;    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    |   File &quot;/usr/local/lib/python3.12/asyncio/base_events.py&quot;, line 691, in run_until_complete&#10;    |     return future.result()&#10;    |            ^^^^^^^^^^^^^^^&#10;    |   File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 1964, in wrapper&#10;    |     return await func(*args)&#10;    |            ^^^^^^^^^^^^^^^^^&#10;    |   File &quot;/verify/cancellation_cases.py&quot;, line 72, in independent_sibling_shield&#10;    |     async with anyio.create_task_group() as group:&#10;    |                ^^^^^^^^^^^^^^^^^^^^^^^^^&#10;    |   File &quot;/app/repo/src/anyio/_backends/_asyncio.py&quot;, line 669, in __aexit__&#10;    |     raise BaseExceptionGroup(&#10;    | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)&#10;    +-+---------------- 1 ----------------&#10;      | Traceback (most recent call last):&#10;      |   File &quot;/verify/cancellation_cases.py&quot;, line 80, in independent_sibling_shield&#10;      |     assert not protected_cancelled.is_set()&#10;      |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^&#10;      | AssertionError&#10;      +------------------------------------&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'independent_sibling_shield', 'asynci...n    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    | AssertionError\n    +------------------------------------\n').returncode">case = 'independent_sibling_shield', backend = 'asyncio'
+
+    @pytest.mark.parametrize("backend", ["asyncio", "trio"])
+    @pytest.mark.parametrize("case", CASES)
+    def test_cancellation_behavior(case: str, backend: str) -&gt; None:
+        script = Path(__file__).with_name("cancellation_cases.py")
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), case, backend],
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired as exc:
+            pytest.fail(f"{case} on {backend} did not complete within 5 seconds: {exc}")
+&gt;       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/verify/cancellation_cases.py", line 80, in independent_sibling_shield
+E             assert not protected_cancelled.is_set()
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E         During handling of the above exception, another exception occurred:
+E         
+E           + Exception Group Traceback (most recent call last):
+E           |   File "/verify/cancellation_cases.py", line 235, in &lt;module&gt;
+E           |     anyio.run(CASES[sys.argv[1]], backend=sys.argv[2])
+E           |   File "/app/repo/src/anyio/_core/_eventloop.py", line 66, in run
+E           |     return async_backend.run(func, args, {}, backend_options)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 1976, in run
+E           |     return runner.run(wrapper())
+E           |            ^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/usr/local/lib/python3.12/asyncio/runners.py", line 118, in run
+E           |     return self._loop.run_until_complete(task)
+E           |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/usr/local/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+E           |     return future.result()
+E           |            ^^^^^^^^^^^^^^^
+E           |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 1964, in wrapper
+E           |     return await func(*args)
+E           |            ^^^^^^^^^^^^^^^^^
+E           |   File "/verify/cancellation_cases.py", line 72, in independent_sibling_shield
+E           |     async with anyio.create_task_group() as group:
+E           |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           |   File "/app/repo/src/anyio/_backends/_asyncio.py", line 669, in __aexit__
+E           |     raise BaseExceptionGroup(
+E           | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+E           +-+---------------- 1 ----------------
+E             | Traceback (most recent call last):
+E             |   File "/verify/cancellation_cases.py", line 80, in independent_sibling_shield
+E             |     assert not protected_cancelled.is_set()
+E             |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             | AssertionError
+E             +------------------------------------
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '/verify/cancellation_cases.py', 'independent_sibling_shield', 'asynci...n    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    | AssertionError\n    +------------------------------------\n').returncode
+
+/verify/test_regressions.py:27: AssertionError</failure></testcase><testcase classname="" name="test_cancellation_behavior[independent_sibling_shield-trio]" time="0.251" /><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-asyncio]" time="0.234" /><testcase classname="" name="test_cancellation_behavior[repeated_sibling_cancellation-trio]" time="0.247" /><testcase classname="" name="test_cancellation_behavior[nested_groups-asyncio]" time="0.211" /><testcase classname="" name="test_cancellation_behavior[nested_groups-trio]" time="0.219" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-asyncio]" time="0.219" /><testcase classname="" name="test_cancellation_behavior[restart_after_inner_shield-trio]" time="0.224" /><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-asyncio]" time="0.255" /><testcase classname="" name="test_cancellation_behavior[restart_after_shield_toggle-trio]" time="0.299" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-asyncio]" time="0.253" /><testcase classname="" name="test_cancellation_behavior[explicitly_cancelled_shield-trio]" time="0.261" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-asyncio]" time="0.237" /><testcase classname="" name="test_cancellation_behavior[shielded_child_joins_before_exit-trio]" time="0.245" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-asyncio]" time="0.260" /><testcase classname="" name="test_cancellation_behavior[child_error_propagates-trio]" time="0.256" /></testsuite></testsuites>

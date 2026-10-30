@@ -1,0 +1,29 @@
+{
+  "id": "betterauth-semantic-fairness-1",
+  "created_at": "2026-10-30T10:28:59.193985+00:00",
+  "applied_after_all_native_attempts_finished": true,
+  "public_contract_unchanged": true,
+  "private_case_names_and_counts_unchanged": true,
+  "reason": "Replace Drizzle spelling checks with execution and actual table metadata; accept valid bracket-quoted SQL Server OBJECT_ID syntax. Also accept documented named fields and whitespace in Prisma index attributes.",
+  "changes": [
+    {
+      "path": "tests/holdout.test.ts",
+      "original_sha256": "4315bb5b4c8205f528cf80ba7d1715a0adad668cf657dcdf3171e5ccd89df1ec",
+      "corrected_sha256": "282d7787ec547adcf93066e824c9fe21c77cd43b447cd1fc3886937821b1c3a0"
+    },
+    {
+      "path": "tests/Dockerfile",
+      "original_sha256": "99fe95ec27cc4f981310a33014c1b30bbbde8d62b5448db9d4b776d594e41ab7",
+      "corrected_sha256": "838f3eeee422943df8f908bfe78ec7967272602500b86db70fdfbb2b411de77c"
+    }
+  ],
+  "validation": "tasks/better-auth-indexes/evidence/release-semantic-matrix/summary.json",
+  "agent_feedback": "No private results or reference source provided to either agent. Rescore original submitted patches; do not rerun coding agents to erase outcomes.",
+  "expanded_at": "2026-10-30T10:41:07.615150+00:00",
+  "intermediate_semantic_grader": {
+    "path": "tasks/better-auth-indexes/evidence/fairness-revision/semantic-v1-holdout.test.ts",
+    "sha256": "e930234f7ebbc1abab23cf4c732b15671d34d03ae9c5262a64306bef10afd5c9"
+  },
+  "additional_valid_control": "tasks/better-auth-indexes/alternatives/equivalent-prisma-format.patch",
+  "prisma_syntax_source": "https://www.prisma.io/docs/orm/v6/reference/prisma-schema-reference#index"
+}

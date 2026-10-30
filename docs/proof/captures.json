@@ -1,0 +1,22 @@
+{
+  "captured_at": "2026-10-30T11:11:01.304249+00:00",
+  "method": "Real Chrome browser screenshots through the computer-use screenshot API. No image generation or pixel editing.",
+  "meaning": "Views of recorded local results, not new live test runs.",
+  "images": [
+    {
+      "file": "docs/proof/controls.jpg",
+      "sha256": "8e504549db3646602b9d26d55fedbb99cf2d40d64d9123eb8f8c98872e8f4987",
+      "viewer": "docs/proof/controls.html"
+    },
+    {
+      "file": "docs/proof/trials.jpg",
+      "sha256": "b5f87e4336da1f7b7e59233e3f4a0f83fc151e2beb8d5b5bad8c84ed559a1115",
+      "viewer": "docs/proof/trials.html"
+    },
+    {
+      "file": "docs/proof/audit.jpg",
+      "sha256": "181467a20148eb53eeff9ce61e229137036d92bb9ebce65780c5453e453e6919",
+      "viewer": "docs/proof/audit.html"
+    }
+  ]
+}

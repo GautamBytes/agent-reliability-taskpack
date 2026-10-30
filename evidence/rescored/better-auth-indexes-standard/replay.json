@@ -1,0 +1,30 @@
+{
+  "trial": "better-auth-indexes-standard",
+  "patch_sha256": "3528e79fbb86def696489a48e8b5ef8beda3b2d40171bb4daa9b786e7dd84559",
+  "reward": "1",
+  "checks": 83,
+  "source_hashes_verified": true,
+  "fairness_revision": "betterauth-semantic-fairness-1",
+  "public_contract_unchanged": true,
+  "changed_case_statuses": [
+    {
+      "name": "holdout portable lookup indexes preserves index semantics in Drizzle mysql output",
+      "original": "failed",
+      "corrected": "passed"
+    },
+    {
+      "name": "holdout portable lookup indexes preserves index semantics in Drizzle pg output",
+      "original": "failed",
+      "corrected": "passed"
+    },
+    {
+      "name": "holdout portable lookup indexes preserves index semantics in Drizzle sqlite output",
+      "original": "failed",
+      "corrected": "passed"
+    }
+  ],
+  "comparison_report": "results.json",
+  "expected_reward": 0.0,
+  "matches_expected_reward": false,
+  "matches_all_expected_case_statuses": false
+}
