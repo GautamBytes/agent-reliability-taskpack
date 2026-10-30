@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="330" viewBox="0 0 1100 330" role="img" aria-labelledby="title desc">
+<title id="title">Upload file ownership and failure cleanup</title>
+<desc id="desc">The caller lends an input stream. The parser owns created file sinks, checks actual byte quotas and completes short writes. Success transfers open files to the caller. Failure closes all parser-owned sinks while preserving the original exception.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10" fill="#63788d"/></marker></defs>
+<rect width="1100" height="330" rx="12" fill="#f6f8fb"/>
+<g font-family="system-ui,sans-serif" font-size="17" fill="#182838">
+<rect x="24" y="90" width="210" height="140" rx="9" fill="white" stroke="#c6d3df"/>
+<text x="44" y="123" font-weight="650">Borrowed input</text><text x="44" y="155">One-byte reads valid.</text><text x="44" y="183">Never close input.</text>
+<path d="M234 160H292" stroke="#63788d" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="302" y="70" width="350" height="180" rx="9" fill="white" stroke="#c6d3df"/>
+<text x="324" y="105" font-weight="650">Parser owns created file sinks</text>
+<text x="324" y="140">Check actual payload byte quotas.</text><text x="324" y="171">Complete short writes.</text><text x="324" y="202">Keep ownership until full success.</text>
+<path d="M652 120H714V78H753" fill="none" stroke="#63788d" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M652 201H714V242H753" fill="none" stroke="#63788d" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="763" y="24" width="313" height="116" rx="9" fill="#eaf5ef" stroke="#b5d6c2"/>
+<text x="784" y="57" font-weight="650">Success transfers ownership</text><text x="784" y="87">Return open FileStorage streams.</text><text x="784" y="116">Caller later closes all files.</text>
+<rect x="763" y="178" width="313" height="130" rx="9" fill="#fff1e7" stroke="#e6c4a9"/>
+<text x="784" y="211" font-weight="650">Failure rolls ownership back</text><text x="784" y="241">Close every unique owned sink.</text><text x="784" y="270">Preserve the original exception.</text>
+</g></svg>

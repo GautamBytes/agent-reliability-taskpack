@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-10-30T13:30:15.009625+00:00",
+  "scope": "Snapshot of currently running main containers; completed containers are already removed",
+  "rows": [
+    {
+      "container_name": "after__ptprlxl__env-main-1",
+      "cpus": 2.0,
+      "memory_bytes": 1073741824,
+      "running": true
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "attempt": "before-06",
+  "submitted_version": "before",
+  "verifier_version": "before",
+  "cross_grade": false,
+  "source_hashes_verified": true,
+  "patch_sha256": "0a86b2b09f991f4cbbdeca37199183fbedcf76ceaf02e3d8d79de8ec9d4335bc",
+  "reward": 1.0,
+  "checks": {
+    "tests_run": 100,
+    "passed": 100,
+    "failed": 0,
+    "skipped": 0
+  },
+  "matches_native_reward": true,
+  "matches_native_case_statuses": true
+}

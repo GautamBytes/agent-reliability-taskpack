@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-30T13:33:01.891907+00:00",
+  "scope": "Running main containers during fourth paired round",
+  "rows": [
+    {
+      "container_name": "before__ulb4zrz__env-main-1",
+      "condition": "before",
+      "cpus": 2.0,
+      "memory_bytes": 1073741824,
+      "running": true
+    },
+    {
+      "container_name": "after__t3gm8ue__env-main-1",
+      "condition": "after",
+      "cpus": 2.0,
+      "memory_bytes": 1073741824,
+      "running": true
+    }
+  ]
+}

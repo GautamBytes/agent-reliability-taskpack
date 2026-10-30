@@ -1,0 +1,13 @@
+{
+  "reviewed_at": "2026-10-30T14:02:04.992020+00:00",
+  "scope": "Separate read-only same-model-family review, not external validation",
+  "all16_native_trials_and_replays_verified": true,
+  "each_trial_production_files_verified": 59,
+  "all12_control_sources_reconstructed": true,
+  "frozen_protocol_and_public_github_bytes_match": true,
+  "source_correctness": "8/8 before to8/8 after,100%to100%",
+  "normal_completion_plus_passing": "8/8 before to7/8 after,100%to87.5%",
+  "timeout_classification": "after-01 timed out with passing171-casecollectedsource, notanincorrectrepair",
+  "material_correctness_blockers": [],
+  "remaining_publication_check": "Fresh Linux GitHub Actions replay and control execution must succeed separately."
+}

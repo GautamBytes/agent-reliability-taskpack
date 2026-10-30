@@ -1,0 +1,246 @@
+{
+  "reviewed_attempts": 16,
+  "all_planned_attempts_retained": true,
+  "records": [
+    {
+      "attempt": "after-01",
+      "native_outcome": "TIMEOUT",
+      "exception_type": "AgentTimeoutError",
+      "agent_phase_seconds": 300.238255,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Deadline reached with passing collected source; not an incorrect-repair result"
+    },
+    {
+      "attempt": "after-02",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 208.367641,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-03",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 268.847731,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-04",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 272.679697,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-05",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 188.725768,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-06",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 210.277245,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-07",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 266.355898,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "after-08",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 283.091575,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 171,
+        "passed": 171,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-01",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 176.424231,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-02",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 189.565681,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-03",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 184.804113,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-04",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 197.972545,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-05",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 212.613547,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-06",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 227.200629,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-07",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 219.651723,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    },
+    {
+      "attempt": "before-08",
+      "native_outcome": "PASS",
+      "exception_type": null,
+      "agent_phase_seconds": 164.309725,
+      "collected_source_reward": 1.0,
+      "checks": {
+        "tests_run": 100,
+        "passed": 100,
+        "failed": 0,
+        "skipped": 0
+      },
+      "failed_case_names": [],
+      "interpretation": "Normal completion with passing collected source"
+    }
+  ]
+}

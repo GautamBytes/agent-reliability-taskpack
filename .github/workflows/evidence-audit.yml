@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   verify-saved-evidence:
-    name: Verify saved evidence, not new agent runs
+    name: Verify evidence and replay saved patches without model calls
     runs-on: ubuntu-latest
     steps:
       - name: Check out the published files
@@ -25,3 +25,39 @@ jobs:
         run: python3 tools/report.py
       - name: Audit the frozen multipart hardening study
         run: python3 experiments/multipart-hardening/verify_study.py
+      - name: Audit the public upload ownership study and all saved replays
+        run: python3 experiments/multipart-ownership/verify_study.py
+      - name: Replay all sixteen ownership patches in fresh offline verifiers
+        run: python3 experiments/multipart-ownership/replay_study.py all --output /tmp/ownership-ci-replays
+      - name: Execute all twelve reference and incomplete-fix controls
+        run: |
+          python3 experiments/multipart-ownership/evidence/verifier-author/run_controls.py \
+            --output /tmp/ownership-ci-controls --version after \
+            --variant reference --variant alternative-exitstack --variant early-collections \
+            --variant baseline --variant prior-hard-reference --variant quota-only \
+            --variant close-current-only --variant one-write --variant trust-content-length \
+            --variant exception-only-cleanup --variant omit-request-forwarding --variant close-first-duplicate
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          output = Path('/tmp/ownership-ci-controls')
+          rows = json.loads((output / 'summary.json').read_text())['rows']
+          expected = json.loads(Path('experiments/multipart-ownership/versions/after/tests/expected-cases.json').read_text())
+          positive = {'reference', 'alternative-exitstack', 'early-collections'}
+          assert len(rows) == 12
+          for row in rows:
+              assert row['reward'] == int(row['variant'] in positive)
+              assert row['tests_run'] == 171 and row['skipped'] == 0 and row['source_hashes_verified']
+              metrics = json.loads((output / row['variant'] / 'results.json').read_text())
+              assert sorted(case['name'] for case in metrics['cases']) == sorted(expected)
+          print('All three valid implementations accepted; all nine negative controls rejected.')
+          PY
+      - name: Upload fresh offline replay and control logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ownership-offline-replays-and-controls
+          path: |
+            /tmp/ownership-ci-replays
+            /tmp/ownership-ci-controls
+          retention-days: 14

@@ -1,0 +1,11 @@
+{
+  "attempt": "after-01",
+  "native_outcome": "TIMEOUT",
+  "correctness_outcome": "Harbor-collected source passes171/171",
+  "classification": "Deadline reached with passing collected source, not a demonstrated incorrect repair",
+  "source_timing_limit": "Harbor collection is not proved to be an atomic exact300-second snapshot",
+  "original_exception": "AgentTimeoutError",
+  "native_agent_execution_seconds": 300.238255,
+  "case_failures": [],
+  "no_replacement_or_rerun_counted": true
+}

@@ -1,0 +1,11 @@
+{
+  "observed_at": "2026-10-30T13:16:31.857249+00:00",
+  "repository": "https://github.com/GautamBytes/agent-reliability-taskpack",
+  "commit_sha": "22de992c543029309fdd6e2e7df560dcf205a85f",
+  "commit_url": "https://github.com/GautamBytes/agent-reliability-taskpack/commit/22de992c543029309fdd6e2e7df560dcf205a85f",
+  "github_commit_created_at": "2026-10-30T13:15:57Z",
+  "protocol_sha256": "999d31c09fbdf9a4b45bf25737e3991630f008dfdbf35c095629a4413719a46e",
+  "github_protocol_bytes_verified": true,
+  "counted_attempts_started": 0,
+  "interpretation": "The frozen setup was publicly committed and retrieved from GitHub before counted native attempts. This is a public timestamped setup, not external registration or validation."
+}

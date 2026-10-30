@@ -1,2 +1,4 @@
 ts	phase	decision	why	evidence	result
 2026-10-30	design	Select quota and resource-ownership extension over timing-based scanner gate	Cross-layer behaviour is deterministic and grounded in actual upstream cleanup work	CONTRACT.md;PLAN.md	No counted trials yet
+2026-10-30T14:02:04.992299+00:00	results	Report unchanged functional correctness and separate one timeout	All16collectedpatchespass; oneafterattemptdoesnotfinishnormally	runs/summary.json;FAILURE_REVIEW.md	Source100%to100%;normal100%to87.5%
+2026-10-30T14:02:04.992302+00:00	proof	Add fresh Linux Docker replay and full control matrix to GitHub Actions	Reviewers can inspect executed verification without running it locally	.github/workflows/evidence-audit.yml	16savedpatchesand12controls;nomodelcalls

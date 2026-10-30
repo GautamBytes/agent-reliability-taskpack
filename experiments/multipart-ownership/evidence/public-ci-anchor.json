@@ -1,0 +1,12 @@
+{
+  "conclusion": "success",
+  "created_at": "2026-10-30T13:16:04Z",
+  "head_sha": "22de992c543029309fdd6e2e7df560dcf205a85f",
+  "html_url": "https://github.com/GautamBytes/agent-reliability-taskpack/actions/runs/41061813289",
+  "id": 41061813289,
+  "run_started_at": "2026-10-30T13:16:04Z",
+  "updated_at": "2026-10-30T13:16:15Z",
+  "first_counted_episode_started_at": "2026-10-30T13:16:32.072349+00:00",
+  "github_run_created_before_first_attempt": true,
+  "interpretation": "GitHub server-recorded workflow creation anchors public source existence before the recorded native starts. Not external registration or human validation."
+}

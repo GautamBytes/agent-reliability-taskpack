@@ -1,0 +1,45 @@
+{
+  "id": "after-08",
+  "version": "after",
+  "status": "PASS",
+  "native_reward": 1.0,
+  "exception": null,
+  "completed_pass": true,
+  "saved_artifact_pass": true,
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "solve_deadline_seconds": 300,
+  "started_at": "2026-10-30T13:48:42.694146+00:00",
+  "finished_at": "2026-10-30T13:53:52.238322+00:00",
+  "task_unchanged": true,
+  "protocol_sha256": "999d31c09fbdf9a4b45bf25737e3991630f008dfdbf35c095629a4413719a46e",
+  "checks": {
+    "tests_run": 171,
+    "passed": 171,
+    "failed": 0,
+    "skipped": 0
+  },
+  "case_evidence_complete": true,
+  "patch_sha256": "86f46751d6cba3463b67c1ff209d4644a3f1eb964340939ee36e7d2f3eab2a70",
+  "changed_production_files": [
+    "src/werkzeug/formparser.py",
+    "src/werkzeug/sansio/multipart.py",
+    "src/werkzeug/wrappers/request.py"
+  ],
+  "source_files": 59,
+  "verifier_source_matches_artifact": true,
+  "actual_agent": {
+    "name": "codex",
+    "version": "0.166.0",
+    "model_name": "gpt-6.1-sol",
+    "extra": {
+      "originator": "codex_exec",
+      "cwd": "/app/repo",
+      "git": {
+        "commit_hash": "5762c6d6949207abbd38546dba920499bb002868",
+        "branch": "master"
+      }
+    }
+  },
+  "tool_call_steps": 21
+}

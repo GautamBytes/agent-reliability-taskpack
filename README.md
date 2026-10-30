@@ -105,6 +105,14 @@ The [multipart hardening study](experiments/multipart-hardening/README.md) adds 
 
 The study preserves its [frozen protocol](experiments/multipart-hardening/protocol.json), all ten patches and per-test results, clean offline replays, and a [review screenshot](experiments/multipart-hardening/proof/results.jpg). It makes no claim of broad model difficulty or external benchmark acceptance.
 
+### Transactional upload task and public pre-evaluation setup
+
+The next [upload ownership study](experiments/multipart-ownership/README.md) expands the streaming task from 100 to 171 required cases. It adds actual per-file and whole-form byte quotas, complete partial writes, cleanup on every failure path, ownership transfer and Request configuration across three production modules. The reference and two valid alternatives pass all 171 checks. Seven targeted incomplete fixes are rejected.
+
+The [setup was published before testing](https://github.com/GautamBytes/agent-reliability-taskpack/commit/22de992c543029309fdd6e2e7df560dcf205a85f). Sixteen fresh native attempts use the same model, source, reasoning, configured solve deadline and resource limits. **Collected-source correctness is 8/8 to 8/8, or 100% to 100%. Normal completion plus passing checks is 8/8 to 7/8, or 100% to 87.5%.** One harder attempt timed out with a passing collected patch. There is no demonstrated functional-correctness drop.
+
+All sixteen patches were replayed offline with matching case outcomes. The [recorded screenshot](experiments/multipart-ownership/proof/results.jpg), [outcome review](experiments/multipart-ownership/FAILURE_REVIEW.md) and individual native records retain the distinction between timeout and wrong repair. GitHub Actions also executes all sixteen saved patches and twelve control variants in Docker and uploads the new logs. It does not launch new coding agents.
+
 ## How this relates to established benchmarks
 
 This is a **Harbor-format task pack**. It uses the same problem, environment, reference-solution and verifier structure described in [Harbor's task guide](https://docs.harborframework.com/tutorials/create-a-task), including [separate verification](https://docs.harborframework.com/tasks/separate-verifier).
